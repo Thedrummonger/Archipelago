@@ -3,7 +3,7 @@
 After randomizing your Yarg seed in Archipelago, follow these steps to begin playing:
 
 1. **Download the Yarg Client**  
-   - Get the Yarg Client program from the provided link.
+   - Get the Yarg Client program from https://github.com/Thedrummonger/YargArchipelagoClient/releases.
    - If you don't have it already, install .NET 8 as it is required to run the client.
 
 2. **Launch and Connect**  

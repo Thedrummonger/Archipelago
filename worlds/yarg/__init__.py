@@ -182,6 +182,6 @@ class yargWorld(World):
         return {
             "starting_songs": self.startingSongs,
             "fame_points_for_goal": self.famePointsForGoal,
-            "victory_condition": self.options.victory_condition,
-            "death_link": self.options.death_link,
+            "victory_condition": self.options.victory_condition.value,
+            "death_link": self.options.death_link.value,
         }
