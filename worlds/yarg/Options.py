@@ -60,12 +60,60 @@ class StartingSongs(Range):
     default = 3
 
 # ------------------------------------------------------------------------------
+# Filler Option
+# ------------------------------------------------------------------------------
+class SwapSongRandom(Range):
+    """
+    Specifies the weight of the Swap Song (Random) filler item.
+    This item lets you swap one of your songs with your choice of a new one.
+
+    If all filler/trap items are set to a weight of zero, this value will be forced to 1
+    """
+    display_name = "Swap Song Random Filler Weight"
+    range_start = 0
+    range_end = 999
+    default = 5
+
+class SwapSongChoice(Range):
+    """
+    Specifies the weight of the Swap Song (Choice) filler item.
+    This item lets you swap one of your songs with a random new one.
+    """
+    display_name = "Swap Song Choice Filler Weight"
+    range_start = 0
+    range_end = 999
+    default = 3
+
+class LowerDifficulty(Range):
+    """
+    Specifies the weight of the Swap Song (Choice) filler item.
+    This item lets you lower either the instrument difficulty or score requirement for a song.
+    """
+    display_name = "Lower Difficulty Filler Weight"
+    range_start = 0
+    range_end = 999
+    default = 0
+
+class RestartTrap(Range):
+    """
+    Specifies the weight of the Restart Trap filler item.
+    Recieveing this while playing a song boots you out of the song.
+    """
+    display_name = "Restart Trap Filler Weight"
+    range_start = 0
+    range_end = 999
+    default = 1
+
+# ------------------------------------------------------------------------------
 # DeathLink Option
 # ------------------------------------------------------------------------------
 class YargDeathLink(DeathLink):
     """
     If enabled, failing a song will send a deathlink.
     Additionally, if a deathlink is sent to you, you immediately fail your current song.
+
+    Currently YARG does not support "failing" songs, however a death link will still
+    trigger if you fail to meet the given requirements for a song check after playing.
     """
 
 # ------------------------------------------------------------------------------
@@ -79,5 +127,9 @@ class YargOptions(PerGameCommonOptions):
     song_checks: SongCheckAmount
     song_check_extra: SongCheckExtra
     starting_songs: StartingSongs
+    swap_song_random: SwapSongRandom
+    swap_song_choice: SwapSongChoice
+    lower_difficulty: LowerDifficulty
+    restart_trap: RestartTrap
     death_link: YargDeathLink
     start_inventory_from_pool: StartInventoryPool

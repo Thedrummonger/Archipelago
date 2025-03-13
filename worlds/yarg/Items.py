@@ -3,7 +3,7 @@ from enum import Enum
 from random import Random
 from typing import Dict, NamedTuple, Optional, List
 from BaseClasses import Item, ItemClassification
-from .Options import maxSongs
+from .Options import LowerDifficulty, maxSongs
 
 # ------------------------------------------------------------------------------
 # Item Classes and Helpers
@@ -27,6 +27,7 @@ class StaticItems:
     FamePoint: str  = "Fame Point"
     SwapRandom: str = "Swap Song (Random)"
     SwapPick: str   = "Swap Song (Pick)"
+    LowerDifficulty: str = "Lower Difficulty"
     TrapRestart: str = "Restart Trap"
 
 # ------------------------------------------------------------------------------
@@ -54,10 +55,15 @@ item_data_table: Dict[str, YargItemData] = {
     StaticItems.SwapPick: YargItemData(
         code=5874530003,
         itemName=StaticItems.SwapPick,
+        classification=ItemClassification.filler
+    ),
+    StaticItems.LowerDifficulty: YargItemData(
+        code=5874530004,
+        itemName=StaticItems.LowerDifficulty,
         classification=ItemClassification.useful
     ),
     StaticItems.TrapRestart: YargItemData(
-        code=5874530004,
+        code=5874530005,
         itemName=StaticItems.TrapRestart,
         classification=ItemClassification.trap
     ),

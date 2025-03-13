@@ -39,13 +39,6 @@ class yargWorld(World):
     location_name_to_id = location_table
     item_name_to_id = item_table
     
-    #Todo: add an option for these weights
-    fillerItems = [
-        WeightedItem(StaticItems.SwapRandom, 6),
-        WeightedItem(StaticItems.SwapPick, 3),
-        WeightedItem(StaticItems.TrapRestart, 1),
-    ]
-    
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
 
@@ -58,6 +51,8 @@ class yargWorld(World):
         
         self.startingSongs: list[str] = []
         self.poolSongs: list[str] = []
+
+        self.fillerItems = []
 
     # --------------------------------------------------------------------------
     # Early Generation: Setup Locations and Items
@@ -104,6 +99,19 @@ class yargWorld(World):
         # Process standard songs: add to the item pool later.
         for location_key in songs_for_standard_pool:
             self.poolSongs.append(YargLocationHelpers.GetUnlockItem(location_key))
+
+        #Add filler items
+        if self.options.swap_song_random.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.SwapRandom, self.options.swap_song_random.value))
+        if self.options.swap_song_choice.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.SwapPick, self.options.swap_song_choice.value))
+        if self.options.lower_difficulty.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.LowerDifficulty, self.options.lower_difficulty.value))
+        if self.options.restart_trap.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.TrapRestart, self.options.restart_trap.value))
+        if self.fillerItems.__len__ == 0:
+            self.fillerItems.append(WeightedItem(StaticItems.SwapRandom, 1))
+
         
     # --------------------------------------------------------------------------
     # Item Creation
