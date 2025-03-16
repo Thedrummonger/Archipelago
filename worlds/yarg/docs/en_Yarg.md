@@ -17,7 +17,3 @@ It supports guitar (five fret), drums (plastic or e-kit), vocals, pro-guitar, an
 ## What Is the Goal of Yarg in Archipelago?
 - Your mission is to either complete every song in your setlist (World Tour mode) or collect enough fame points to unlock the Goal Song (Get Famous mode).
 - Finishing the Goal Song marks the completion of your seed.
-
-## What Is Required to Play the Game in Archipelago?
-- The base Yarg game.
-- The Yarg Client application.
