@@ -3,7 +3,7 @@ from typing import Any, Dict
 from BaseClasses import Region, Tutorial, MultiWorld
 from worlds.AutoWorld import WebWorld, World
 from .Options import YargOptions
-from .Locations import location_table, YargLocationType, YargLocationHelpers, location_data_table, YargLocation
+from .Locations import StaticLocations, location_table, YargLocationType, YargLocationHelpers, location_data_table, YargLocation
 from .Items import WeightedItem, item_table, item_data_table, StaticItems, pick_weighted_item, YargItem
 
 # ------------------------------------------------------------------------------
@@ -101,6 +101,8 @@ class yargWorld(World):
             self.poolSongs.append(YargLocationHelpers.GetUnlockItem(location_key))
 
         #Add filler items
+        if self.options.star_power.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.StarPower, self.options.star_power.value))
         if self.options.swap_song_random.value > 0:
             self.fillerItems.append(WeightedItem(StaticItems.SwapRandom, self.options.swap_song_random.value))
         if self.options.swap_song_choice.value > 0:
@@ -110,7 +112,7 @@ class yargWorld(World):
         if self.options.restart_trap.value > 0:
             self.fillerItems.append(WeightedItem(StaticItems.TrapRestart, self.options.restart_trap.value))
         if self.fillerItems.__len__ == 0:
-            self.fillerItems.append(WeightedItem(StaticItems.SwapRandom, 1))
+            self.fillerItems.append(WeightedItem(StaticItems.StarPower, 1))
 
         
     # --------------------------------------------------------------------------
@@ -153,14 +155,14 @@ class yargWorld(World):
             allLocations[location_key] = location_data_table[location_key].address
         for location_key in self.songFamePointsChecks:
             allLocations[location_key] = location_data_table[location_key].address
-        allLocations["Goal Song"] = location_data_table["Goal Song"].address
+        allLocations[StaticLocations.GoalSong] = location_data_table[StaticLocations.GoalSong].address
             
         menuRegion.add_locations(allLocations, YargLocation)
         
         # Place locked items for Fame Points and the Goal Song.
         for location_key in self.songFamePointsChecks:
             self.multiworld.get_location(location_key, self.player).place_locked_item(self.create_item(StaticItems.FamePoint))
-        self.multiworld.get_location("Goal Song", self.player).place_locked_item(self.create_item(StaticItems.Victory))
+        self.multiworld.get_location(StaticLocations.GoalSong, self.player).place_locked_item(self.create_item(StaticItems.Victory))
         
     # --------------------------------------------------------------------------
     # Rule Setting
@@ -186,7 +188,7 @@ class yargWorld(World):
     # Additional World Data
     # --------------------------------------------------------------------------
     def get_filler_item_name(self) -> str:
-        return StaticItems.SwapRandom
+        return StaticItems.StarPower
     
     def fill_slot_data(self) -> Dict[str, Any]:
         return {

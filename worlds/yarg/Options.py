@@ -62,12 +62,22 @@ class StartingSongs(Range):
 # ------------------------------------------------------------------------------
 # Filler Option
 # ------------------------------------------------------------------------------
+class StarPowerItem(Range):
+    """
+    Specifies the weight of the Star Power filler item.
+    This item adds a 1/4 bar of start power when recieved.
+
+    If all filler/trap items are set to a weight of zero, this value will be forced to 1
+    """
+    display_name = "Star Power Item Filler Weight"
+    range_start = 0
+    range_end = 999
+    default = 5
+
 class SwapSongRandom(Range):
     """
     Specifies the weight of the Swap Song (Random) filler item.
     This item lets you swap one of your songs with your choice of a new one.
-
-    If all filler/trap items are set to a weight of zero, this value will be forced to 1
     """
     display_name = "Swap Song Random Filler Weight"
     range_start = 0
@@ -103,6 +113,46 @@ class RestartTrap(Range):
     range_start = 0
     range_end = 999
     default = 1
+    
+class BrokenWhammyTrap(Range):
+    """
+    Specifies the weight of the Restart Trap filler item.
+    Makes the fret icons at the bottom of the board rise up and become unusable until the whammy bar is moved up and down to make the on screen whammy bar disappear.
+    """
+    display_name = "Broken Whammy Trap Filler Weight"
+    range_start = 0
+    range_end = 999
+    default = 1
+    
+class LeftyFlipTrap(Range):
+    """
+    Specifies the weight of the Restart Trap filler item.
+    Flips the note chart horizontally.
+    """
+    display_name = "Lefty Flip Trap Filler Weight"
+    range_start = 0
+    range_end = 999
+    default = 1
+    
+class AmpOverloadTrap(Range):
+    """
+    Specifies the weight of the Restart Trap filler item.
+    Makes the note gems flash, and the fret board shake making it harder to play.
+    """
+    display_name = "Amp Overload Trap Filler Weight"
+    range_start = 0
+    range_end = 999
+    default = 1
+    
+class BrokenStringTrap(Range):
+    """
+    Specifies the weight of the Restart Trap filler item.
+    Makes a certain fret icon rise up, you need to keep tapping the fret button until it works again.
+    """
+    display_name = "Broken String Trap Filler Weight"
+    range_start = 0
+    range_end = 999
+    default = 1
 
 # ------------------------------------------------------------------------------
 # DeathLink Option
@@ -127,6 +177,7 @@ class YargOptions(PerGameCommonOptions):
     song_checks: SongCheckAmount
     song_check_extra: SongCheckExtra
     starting_songs: StartingSongs
+    star_power: StarPowerItem
     swap_song_random: SwapSongRandom
     swap_song_choice: SwapSongChoice
     lower_difficulty: LowerDifficulty
