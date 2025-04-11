@@ -54,40 +54,45 @@ class YargLocationHelpers:
 # Global Location Data Initialization
 # ------------------------------------------------------------------------------
 
+class StaticLocations:
+    GoalSong: str    = "Goal Song"
+
 LocationIndex: int = 5874530000
 
+def get_next_location_code() -> int:
+    global LocationIndex
+    code = LocationIndex
+    LocationIndex += 1
+    return code
+
 location_data_table: Dict[str, YargLocationData] = {
-    "Goal Song": YargLocationData(address=5874530000, loc_type=YargLocationType.Goal, song_num=0),
+    StaticLocations.GoalSong: YargLocationData(address=get_next_location_code(), loc_type=YargLocationType.Goal, song_num=0),
 }
-LocationIndex += len(location_data_table)
 
 # For each song, create Standard, Extra, and Fame locations. Extra is created based on our options and Fame is created for world tour mode
 for x in range(1, maxSongs + 1):
     # Standard location
     standard_name = YargLocationHelpers.CreateSongLocationName(x, YargLocationType.Standard)
     location_data_table[standard_name] = YargLocationData(
-        address=LocationIndex, 
+        address=get_next_location_code(), 
         loc_type=YargLocationType.Standard, 
         song_num=x
     )
-    LocationIndex += 1
 
     # Extra location
     extra_name = YargLocationHelpers.CreateSongLocationName(x, YargLocationType.Extra)
     location_data_table[extra_name] = YargLocationData(
-        address=LocationIndex, 
+        address=get_next_location_code(), 
         loc_type=YargLocationType.Extra, 
         song_num=x
     )
-    LocationIndex += 1
 
     # Fame location
     fame_name = YargLocationHelpers.CreateSongLocationName(x, YargLocationType.Fame)
     location_data_table[fame_name] = YargLocationData(
-        address=LocationIndex, 
+        address=get_next_location_code(), 
         loc_type=YargLocationType.Fame, 
         song_num=x
     )
-    LocationIndex += 1
 
 location_table = {name: data.address for name, data in location_data_table.items() if data.address is not None}

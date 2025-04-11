@@ -1,9 +1,8 @@
-from random import Random
 from typing import Any, Dict
-from BaseClasses import Region, Tutorial
+from BaseClasses import Region, Tutorial, MultiWorld
 from worlds.AutoWorld import WebWorld, World
 from .Options import YargOptions
-from .Locations import location_table, YargLocationType, YargLocationHelpers, location_data_table, YargLocation
+from .Locations import StaticLocations, location_table, YargLocationType, YargLocationHelpers, location_data_table, YargLocation
 from .Items import WeightedItem, item_table, item_data_table, StaticItems, pick_weighted_item, YargItem
 
 # ------------------------------------------------------------------------------
@@ -38,25 +37,22 @@ class yargWorld(World):
     options: YargOptions
     location_name_to_id = location_table
     item_name_to_id = item_table
+    
+    def __init__(self, multiworld: MultiWorld, player: int):
+        super().__init__(multiworld, player)
 
-    # Lists to store location keys by check type.
-    songChecks: list[str] = []
-    songExtraChecks: list[str] = []
-    songFamePointsChecks: list[str] = []
-    
-    famePointsForGoal = 0
-    famePointsInPool = 0
-    
-    startingSongs: list[str] = []
-    poolSongs: list[str] = []
-    
-    #Todo: add an option for these weights
-    fillerItems = [
-        WeightedItem(StaticItems.SwapRandom, 6),
-        WeightedItem(StaticItems.SwapPick, 3),
-        WeightedItem(StaticItems.TrapRestart, 1),
-    ]
-    
+        self.songChecks: list[str] = []
+        self.songExtraChecks: list[str] = []
+        self.songFamePointsChecks: list[str] = []
+        
+        self.famePointsForGoal = 0
+        self.famePointsInPool = 0
+        
+        self.startingSongs: list[str] = []
+        self.poolSongs: list[str] = []
+
+        self.fillerItems = []
+
     # --------------------------------------------------------------------------
     # Early Generation: Setup Locations and Items
     # --------------------------------------------------------------------------
@@ -102,6 +98,21 @@ class yargWorld(World):
         # Process standard songs: add to the item pool later.
         for location_key in songs_for_standard_pool:
             self.poolSongs.append(YargLocationHelpers.GetUnlockItem(location_key))
+
+        #Add filler items
+        if self.options.star_power.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.StarPower, self.options.star_power.value))
+        if self.options.swap_song_random.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.SwapRandom, self.options.swap_song_random.value))
+        if self.options.swap_song_choice.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.SwapPick, self.options.swap_song_choice.value))
+        if self.options.lower_difficulty.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.LowerDifficulty, self.options.lower_difficulty.value))
+        if self.options.restart_trap.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.TrapRestart, self.options.restart_trap.value))
+        if self.fillerItems.__len__ == 0:
+            self.fillerItems.append(WeightedItem(StaticItems.StarPower, 1))
+
         
     # --------------------------------------------------------------------------
     # Item Creation
@@ -133,7 +144,7 @@ class yargWorld(World):
     def create_regions(self) -> None:
         # Create the menu region. Only one we need
         self.multiworld.regions.append(Region("Menu", self.player, self.multiworld))
-        menuRegion = self.get_region("Menu")
+        menuRegion = self.multiworld.get_region("Menu", self.player)
             
         # Create a Location Names to Address dictionary for all locations in the pool
         allLocations: Dict[str, int] = {}
@@ -143,14 +154,14 @@ class yargWorld(World):
             allLocations[location_key] = location_data_table[location_key].address
         for location_key in self.songFamePointsChecks:
             allLocations[location_key] = location_data_table[location_key].address
-        allLocations["Goal Song"] = location_data_table["Goal Song"].address
+        allLocations[StaticLocations.GoalSong] = location_data_table[StaticLocations.GoalSong].address
             
         menuRegion.add_locations(allLocations, YargLocation)
         
         # Place locked items for Fame Points and the Goal Song.
         for location_key in self.songFamePointsChecks:
-            self.get_location(location_key).place_locked_item(self.create_item(StaticItems.FamePoint))
-        self.get_location("Goal Song").place_locked_item(self.create_item(StaticItems.Victory))
+            self.multiworld.get_location(location_key, self.player).place_locked_item(self.create_item(StaticItems.FamePoint))
+        self.multiworld.get_location(StaticLocations.GoalSong, self.player).place_locked_item(self.create_item(StaticItems.Victory))
         
     # --------------------------------------------------------------------------
     # Rule Setting
@@ -159,29 +170,29 @@ class yargWorld(World):
         
         for location_key in self.songChecks:
             unlock = YargLocationHelpers.GetUnlockItem(location_key)
-            self.get_location(location_key).access_rule = lambda state, I=unlock: state.has(I, self.player)
+            self.multiworld.get_location(location_key, self.player).access_rule = lambda state, I=unlock: state.has(I, self.player)
             
         for location_key in self.songExtraChecks:
             unlock = YargLocationHelpers.GetUnlockItem(location_key)
-            self.get_location(location_key).access_rule = lambda state, I=unlock: state.has(I, self.player)
+            self.multiworld.get_location(location_key, self.player).access_rule = lambda state, I=unlock: state.has(I, self.player)
             
         for location_key in self.songFamePointsChecks:
             unlock = YargLocationHelpers.GetUnlockItem(location_key)
-            self.get_location(location_key).access_rule = lambda state, I=unlock: state.has(I, self.player)
+            self.multiworld.get_location(location_key, self.player).access_rule = lambda state, I=unlock: state.has(I, self.player)
         
-        self.get_location("Goal Song").access_rule = lambda state: state.has(StaticItems.FamePoint, self.player, self.famePointsForGoal)
+        self.multiworld.get_location("Goal Song", self.player).access_rule = lambda state: state.has(StaticItems.FamePoint, self.player, self.famePointsForGoal)
         self.multiworld.completion_condition[self.player] = lambda state: state.has(StaticItems.Victory, self.player)
             
     # --------------------------------------------------------------------------
     # Additional World Data
     # --------------------------------------------------------------------------
     def get_filler_item_name(self) -> str:
-        return StaticItems.SwapRandom
+        return pick_weighted_item(self.random, self.fillerItems).name
     
     def fill_slot_data(self) -> Dict[str, Any]:
         return {
             "starting_songs": self.startingSongs,
             "fame_points_for_goal": self.famePointsForGoal,
-            "victory_condition": self.options.victory_condition,
-            "death_link": self.options.death_link,
+            "victory_condition": self.options.victory_condition.value,
+            "death_link": self.options.death_link.value,
         }

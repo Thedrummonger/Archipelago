@@ -1,7 +1,6 @@
 from dataclasses import dataclass
-from enum import Enum
 from random import Random
-from typing import Dict, NamedTuple, Optional, List
+from typing import Dict, NamedTuple, List
 from BaseClasses import Item, ItemClassification
 from .Options import maxSongs
 
@@ -25,8 +24,10 @@ class YargItemHelpers:
 class StaticItems:
     Victory: str    = "Victory"
     FamePoint: str  = "Fame Point"
+    StarPower: str  = "Star Power"
     SwapRandom: str = "Swap Song (Random)"
     SwapPick: str   = "Swap Song (Pick)"
+    LowerDifficulty: str = "Lower Difficulty"
     TrapRestart: str = "Restart Trap"
 
 # ------------------------------------------------------------------------------
@@ -35,35 +36,49 @@ class StaticItems:
 
 ItemIndex: int = 5874530000
 
+def get_next_item_code() -> int:
+    global ItemIndex
+    code = ItemIndex
+    ItemIndex += 1
+    return code
+
 item_data_table: Dict[str, YargItemData] = {
     StaticItems.Victory: YargItemData(
-        code=5874530000,
+        code=get_next_item_code(),
         itemName=StaticItems.Victory,
         classification=ItemClassification.progression_skip_balancing
     ),
     StaticItems.FamePoint: YargItemData(
-        code=5874530001,
+        code=get_next_item_code(),
         itemName=StaticItems.FamePoint,
         classification=ItemClassification.progression_skip_balancing
     ),
+    StaticItems.StarPower: YargItemData(
+        code=get_next_item_code(),
+        itemName=StaticItems.StarPower,
+        classification=ItemClassification.filler
+    ),
     StaticItems.SwapRandom: YargItemData(
-        code=5874530002,
+        code=get_next_item_code(),
         itemName=StaticItems.SwapRandom,
         classification=ItemClassification.filler
     ),
     StaticItems.SwapPick: YargItemData(
-        code=5874530003,
+        code=get_next_item_code(),
         itemName=StaticItems.SwapPick,
         classification=ItemClassification.useful
     ),
+    StaticItems.LowerDifficulty: YargItemData(
+        code=get_next_item_code(),
+        itemName=StaticItems.LowerDifficulty,
+        classification=ItemClassification.useful
+    ),
     StaticItems.TrapRestart: YargItemData(
-        code=5874530004,
+        code=get_next_item_code(),
         itemName=StaticItems.TrapRestart,
         classification=ItemClassification.trap
     ),
 }
-
-ItemIndex += len(item_data_table)
 
 song_pool: List[str] = []
 
@@ -71,14 +86,12 @@ song_pool: List[str] = []
 for x in range(1, maxSongs + 1):
     song_name = YargItemHelpers.CreateSongItemName(x)
     item_data_table[song_name] = YargItemData(
-        code=ItemIndex,
+        code=get_next_item_code(),
         itemName=song_name,
         classification=ItemClassification.progression
     )
     song_pool.append(song_name)
-    ItemIndex += 1
 
-# I guess all APWorld require this
 item_table: Dict[str, int] = {
     name: data.code for name, data in item_data_table.items() if data.code is not None
 }
