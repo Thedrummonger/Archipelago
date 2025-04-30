@@ -50,11 +50,16 @@ class FamePointsAdded(Range):
     default = 50
     
 class FamePointsNeeded(Range):
-    """Sets the percentage of available Fame Points needed to unlock the goal song. Only applies in Get Famous mode."""
+    """
+    Sets the percentage of Fame Points required to unlock the goal song.
+    
+    - In World Tour mode: This determines what percentage of your setlist (Fame Checks) must be completed to unlock the goal song.
+    - In Get Famous mode: This determines the percentage of total Fame Points in the pool that need to be obtained to unlock the goal song.
+    """
     display_name = "Fame Point Percentage"
     range_start = 0
     range_end = 100
-    default = 50
+    default = 80
 
 # ------------------------------------------------------------------------------
 # Starting Songs Option

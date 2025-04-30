@@ -79,10 +79,11 @@ class yargWorld(World):
             self.famePointsInPool = 0  # Fame points are solely tied to Fame Checks.
             for location_key in self.songChecks:
                 self.songFamePointsChecks.append(YargLocationHelpers.GetLinkedCheck(location_key, YargLocationType.Fame))
-                self.famePointsForGoal += 1
+            # Calculate required fame points based on percent option
+            self.famePointsForGoal = max(1, round(len(self.songChecks) * (self.options.fame_point_needed.value / 100)))
         else:  # Get Famous mode.
             self.famePointsInPool = self.options.fame_point_amount.value
-            self.famePointsForGoal = round(self.famePointsInPool * self.options.fame_point_needed.value / 100)
+            self.famePointsForGoal = max(1, round(self.famePointsInPool * (self.options.fame_point_needed.value / 100)))
             
         # Divide song locations into starting songs and standard pool songs.
         starting_song_amount = self.options.starting_songs.value
