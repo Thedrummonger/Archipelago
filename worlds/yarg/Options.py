@@ -4,9 +4,7 @@ from Options import StartInventoryPool, DeathLink, Choice, Range, PerGameCommonO
 # Maximum number of songs available.
 maxSongs: int = 500
 
-# ------------------------------------------------------------------------------
 # Song Check Options
-# ------------------------------------------------------------------------------
 class SongCheckAmount(Range):
     """
     Specifies the number of base songs to add to the location pool.
@@ -28,9 +26,7 @@ class SongCheckExtra(Range):
     range_end = 100
     default = 50
 
-# ------------------------------------------------------------------------------
 # Victory and Fame Settings
-# ------------------------------------------------------------------------------
 class VictoryCondition(Choice):
     """
     Select the game's victory condition:
@@ -51,7 +47,7 @@ class FamePointsAdded(Range):
     
 class FamePointsNeeded(Range):
     """
-    Sets the percentage of Fame Points required to unlock the goal song.
+    Sets the percentage (rounded up) of Fame Points required to unlock the goal song.
     
     - In World Tour mode: This determines what percentage of your setlist (Fame Checks) must be completed to unlock the goal song.
     - In Get Famous mode: This determines the percentage of total Fame Points in the pool that need to be obtained to unlock the goal song.
@@ -61,19 +57,15 @@ class FamePointsNeeded(Range):
     range_end = 100
     default = 80
 
-# ------------------------------------------------------------------------------
 # Starting Songs Option
-# ------------------------------------------------------------------------------
 class StartingSongs(Range):
     """Sets the number of songs you start with in your setlist."""
     display_name = "Starting Songs"
-    range_start = 0
+    range_start = 1
     range_end = maxSongs
     default = 3
 
-# ------------------------------------------------------------------------------
 # Filler Option
-# ------------------------------------------------------------------------------
 class StarPowerItem(Range):
     """
     Specifies the weight of the Star Power filler item.
@@ -128,8 +120,10 @@ class RestartTrap(Range):
     
 class BrokenWhammyTrap(Range):
     """
-    Specifies the weight of the Restart Trap filler item.
+    Specifies the weight of the Broken Whammy Trap filler item.
     Makes the fret icons at the bottom of the board rise up and become unusable until the whammy bar is moved up and down to make the on screen whammy bar disappear.
+
+    NYI
     """
     display_name = "Broken Whammy Trap Filler Weight"
     range_start = 0
@@ -138,8 +132,10 @@ class BrokenWhammyTrap(Range):
     
 class LeftyFlipTrap(Range):
     """
-    Specifies the weight of the Restart Trap filler item.
+    Specifies the weight of the Lefty Flip Trap filler item.
     Flips the note chart horizontally.
+
+    NYI
     """
     display_name = "Lefty Flip Trap Filler Weight"
     range_start = 0
@@ -148,8 +144,10 @@ class LeftyFlipTrap(Range):
     
 class AmpOverloadTrap(Range):
     """
-    Specifies the weight of the Restart Trap filler item.
+    Specifies the weight of the Amp Overload Trap filler item.
     Makes the note gems flash, and the fret board shake making it harder to play.
+
+    NYI
     """
     display_name = "Amp Overload Trap Filler Weight"
     range_start = 0
@@ -158,23 +156,23 @@ class AmpOverloadTrap(Range):
     
 class BrokenStringTrap(Range):
     """
-    Specifies the weight of the Restart Trap filler item.
+    Specifies the weight of the Broken String Trap filler item.
     Makes a certain fret icon rise up, you need to keep tapping the fret button until it works again.
+
+    NYI
     """
     display_name = "Broken String Trap Filler Weight"
     range_start = 0
     range_end = 999
     default = 1
 
-# ------------------------------------------------------------------------------
 # DeathLink Option
-# ------------------------------------------------------------------------------
 class YargDeathLink(DeathLink):
     """
     Failing a song will send a DeathLink to others.
-    If you receive a DeathLink, you will instantly fail your current song.
+    If you receive a DeathLink, you will instantly fail your current song (boot you to the menu).
 
-    Currently YARG does not support "failing" songs, however a death link will still
+    YARG does not currently support "failing" songs, however a death link will still
     trigger if you fail to meet the given requirements for a song check after playing.
     """
 

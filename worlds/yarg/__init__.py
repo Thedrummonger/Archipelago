@@ -1,19 +1,17 @@
 from typing import Any, Dict
+from math import ceil
 from BaseClasses import Region, Tutorial, MultiWorld
 from worlds.AutoWorld import WebWorld, World
 from .Options import YargOptions
 from .Locations import StaticLocations, location_table, YargLocationType, YargLocationHelpers, location_data_table, YargLocation
 from .Items import WeightedItem, item_table, item_data_table, StaticItems, pick_weighted_item, YargItem
 
-# ------------------------------------------------------------------------------
-# Web World Definition
-# ------------------------------------------------------------------------------
 class yargWebWorld(WebWorld):
     theme = "partyTime"
     
     setup_en = Tutorial(
         tutorial_name="Start Guide",
-        description="A guide to playing Yarg/CloneHero.",
+        description="A guide to playing Yarg.",
         language="English",
         file_name="guide_en.md",
         link="guide/en",
@@ -22,16 +20,13 @@ class yargWebWorld(WebWorld):
     
     tutorials = [setup_en]
     
-# ------------------------------------------------------------------------------
-# Main Yarg World
-# ------------------------------------------------------------------------------
 class yargWorld(World):
     """
     YARG (a.k.a. Yet Another Rhythm Game) is a free, open-source, plastic guitar game still in development.
     It supports guitar (five fret), drums (plastic or e-kit), vocals, pro-guitar, and more!
     """
     game = "Yarg"
-    required_client_version = (0, 5, 1)
+    required_client_version = (0, 6, 1)
     web = yargWebWorld()
     options_dataclass = YargOptions
     options: YargOptions
@@ -53,9 +48,6 @@ class yargWorld(World):
 
         self.fillerItems = []
 
-    # --------------------------------------------------------------------------
-    # Early Generation: Setup Locations and Items
-    # --------------------------------------------------------------------------
     def generate_early(self) -> None:
         
         normal_check_amount = self.options.song_checks.value
@@ -76,18 +68,15 @@ class yargWorld(World):
             
         # Set up fame points based on the victory condition.
         if self.options.victory_condition.value == 0:  # World Tour mode.
+            self.songFamePointsChecks = [YargLocationHelpers.GetLinkedCheck(loc, YargLocationType.Fame) for loc in self.songChecks]  # add a fame check for each song
+            self.famePointsForGoal = ceil(len(self.songChecks) * (self.options.fame_point_needed.value / 100)) # Calculate required fame points based on the setting
             self.famePointsInPool = 0  # Fame points are solely tied to Fame Checks.
-            for location_key in self.songChecks:
-                self.songFamePointsChecks.append(YargLocationHelpers.GetLinkedCheck(location_key, YargLocationType.Fame))
-            # Calculate required fame points based on percent option
-            self.famePointsForGoal = max(1, round(len(self.songChecks) * (self.options.fame_point_needed.value / 100)))
         else:  # Get Famous mode.
             self.famePointsInPool = self.options.fame_point_amount.value
-            self.famePointsForGoal = max(1, round(self.famePointsInPool * (self.options.fame_point_needed.value / 100)))
+            self.famePointsForGoal = ceil(self.famePointsInPool * (self.options.fame_point_needed.value / 100))
             
-        # Divide song locations into starting songs and standard pool songs.
-        starting_song_amount = self.options.starting_songs.value
-        songs_for_starting_pool = self.random.sample(self.songChecks, starting_song_amount)
+        # Pull some songs out of the pool to make starting songs
+        songs_for_starting_pool = self.random.sample(self.songChecks, self.options.starting_songs.value)
         songs_for_standard_pool = [song for song in self.songChecks if song not in songs_for_starting_pool]
         
         # Process starting songs: add precollected items.
@@ -115,9 +104,6 @@ class yargWorld(World):
             self.fillerItems.append(WeightedItem(StaticItems.StarPower, 1))
 
         
-    # --------------------------------------------------------------------------
-    # Item Creation
-    # --------------------------------------------------------------------------
     def create_item(self, name: str) -> YargItem:
         data = item_data_table[name]
         return YargItem(name, data.classification, data.code, self.player)
@@ -135,13 +121,8 @@ class yargWorld(World):
         
         # Add filler items to balance the pool if needed.
         if items_to_add > 0:
-            for _ in range(items_to_add):
-                filler = pick_weighted_item(self.random, self.fillerItems).name
-                self.multiworld.itempool.append(self.create_item(filler))
+            self.multiworld.itempool += [self.create_item(self.get_filler_item_name()) for _ in range(items_to_add)]
                 
-    # --------------------------------------------------------------------------
-    # Region Creation
-    # --------------------------------------------------------------------------
     def create_regions(self) -> None:
         # Create the menu region. Only one we need
         self.multiworld.regions.append(Region("Menu", self.player, self.multiworld))
@@ -164,9 +145,6 @@ class yargWorld(World):
             self.multiworld.get_location(location_key, self.player).place_locked_item(self.create_item(StaticItems.FamePoint))
         self.multiworld.get_location(StaticLocations.GoalSong, self.player).place_locked_item(self.create_item(StaticItems.Victory))
         
-    # --------------------------------------------------------------------------
-    # Rule Setting
-    # --------------------------------------------------------------------------
     def set_rules(self) -> None:
         
         for location_key in self.songChecks:
@@ -184,9 +162,6 @@ class yargWorld(World):
         self.multiworld.get_location("Goal Song", self.player).access_rule = lambda state: state.has(StaticItems.FamePoint, self.player, self.famePointsForGoal)
         self.multiworld.completion_condition[self.player] = lambda state: state.has(StaticItems.Victory, self.player)
             
-    # --------------------------------------------------------------------------
-    # Additional World Data
-    # --------------------------------------------------------------------------
     def get_filler_item_name(self) -> str:
         return pick_weighted_item(self.random, self.fillerItems).name
     

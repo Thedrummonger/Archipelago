@@ -15,5 +15,5 @@ It supports guitar (five fret), drums (plastic or e-kit), vocals, pro-guitar, an
 - The Yarg client offers additional configuration options after seed generation, such as which instruments to include and what counts as "beating a song."
 
 ## What Is the Goal of Yarg in Archipelago?
-- Your mission is to either complete every song in your setlist (World Tour mode) or collect enough fame points to unlock the Goal Song (Get Famous mode).
+- Your mission is to either complete a set number of songs in your setlist (World Tour mode) or collect enough fame points to unlock the Goal Song (Get Famous mode).
 - Finishing the Goal Song marks the completion of your seed.
