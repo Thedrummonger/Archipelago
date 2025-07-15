@@ -30,8 +30,8 @@ class SongCheckExtra(Range):
 class VictoryCondition(Choice):
     """
     Select the game's victory condition:
-        -World Tour: Complete every song location, then finish your goal song.
-        -Get Famous: Earn a set number of fame points, then complete the goal song.
+        -World Tour: Complete a percentage of your song locations, then complete your goal song.
+        -Get Famous: Collect a set number of fame points scattered throughout the multiworld, then complete the goal song.
     """
     display_name = "Victory Condition"
     option_world_tour = 0
@@ -49,7 +49,7 @@ class FamePointsNeeded(Range):
     """
     Sets the percentage (rounded up) of Fame Points required to unlock the goal song.
     
-    - In World Tour mode: This determines what percentage of your setlist (Fame Checks) must be completed to unlock the goal song.
+    - In World Tour mode: This determines what percentage of your song locations must be completed to unlock the goal song.
     - In Get Famous mode: This determines the percentage of total Fame Points in the pool that need to be obtained to unlock the goal song.
     """
     display_name = "Fame Point Percentage"
@@ -100,7 +100,7 @@ class SwapSongChoice(Range):
 
 class LowerDifficulty(Range):
     """
-    Specifies the weight of the Swap Song (Choice) filler item.
+    Specifies the weight of the Lower Difficulty filler item.
     This item lets you Lower the instrument difficulty or score requirement for a song of your choice.
     """
     display_name = "Lower Difficulty Filler Weight"
@@ -111,7 +111,7 @@ class LowerDifficulty(Range):
 class RestartTrap(Range):
     """
     Specifies the weight of the Restart Trap filler item.
-    Getting this item during a song will immediately boot you out of it.
+    Recieving this item during a song will cause the song to immediately exit to the menu.
     """
     display_name = "Restart Trap Filler Weight"
     range_start = 0
