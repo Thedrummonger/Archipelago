@@ -169,11 +169,11 @@ class BrokenStringTrap(Range):
 # DeathLink Option
 class YargDeathLink(DeathLink):
     """
-    Failing a song sends a DeathLink to others.
-    Receiving a DeathLink instantly fails your current song, returning you to the menu.
+    Failing a song will send a DeathLink to others. 
+    If you receive a DeathLink, you will instantly fail your current song. 
 
-    DeathLinks trigger when you fail a song (YARG Nightly only) or when you don’t meet 
-    the song location requirements after finishing one.
+    Death link will trigger if you "fail" a song (Currently only supported in Yarg Nightly) 
+    or if you fail to meet the requirements for the song location check after completing it.
     """
 
 # ------------------------------------------------------------------------------
