@@ -24,7 +24,7 @@ class SongCheckExtra(Range):
     display_name = "Extra Check Percentage"
     range_start = 0
     range_end = 100
-    default = 50
+    default = 100
 
 # Victory and Fame Settings
 class VictoryCondition(Choice):
@@ -43,7 +43,7 @@ class FamePointsAdded(Range):
     display_name = "Fame Point Amount"
     range_start = 0
     range_end = maxSongs
-    default = 50
+    default = 30
     
 class FamePointsNeeded(Range):
     """
