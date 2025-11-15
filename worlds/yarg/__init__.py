@@ -100,10 +100,10 @@ class yargWorld(World):
             self.fillerItems.append(WeightedItem(StaticItems.LowerDifficulty, self.options.lower_difficulty.value))
         if self.options.restart_trap.value > 0:
             self.fillerItems.append(WeightedItem(StaticItems.TrapRestart, self.options.restart_trap.value))
-        if self.fillerItems.__len__ == 0:
+        if not self.fillerItems:
             self.fillerItems.append(WeightedItem(StaticItems.StarPower, 1))
 
-        
+
     def create_item(self, name: str) -> YargItem:
         data = item_data_table[name]
         return YargItem(name, data.classification, data.code, self.player)
@@ -163,6 +163,8 @@ class yargWorld(World):
         self.multiworld.completion_condition[self.player] = lambda state: state.has(StaticItems.Victory, self.player)
             
     def get_filler_item_name(self) -> str:
+        if not self.fillerItems:
+            return StaticItems.StarPower
         return pick_weighted_item(self.random, self.fillerItems).name
     
     def fill_slot_data(self) -> Dict[str, Any]:
