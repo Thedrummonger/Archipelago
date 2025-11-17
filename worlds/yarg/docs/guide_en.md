@@ -12,7 +12,7 @@
 - **[The YARG Archipelago Client](https://github.com/Thedrummonger/YargArchipelagoClient/releases/latest)**
 - **[The YARG APWorld](https://github.com/Thedrummonger/YargArchipelagoClient/releases/latest)**
 
-## Installation Procedures
+## Installation
 
 ### Setup
 
@@ -23,7 +23,7 @@
     - Download and install the [**YARC Launcher**](https://github.com/YARC-Official/YARC-Launcher/releases/latest) and use it to install **YARG**. You can also download a portable build directly from [YARG releases](https://github.com/YARC-Official/YARG/releases/latest).
     - Both the **nightly** and **stable** versions are supported, just be sure to use the corresponding plugin.
         - Note: the nightly updates frequently and requires reinstalling BepInEx and the AP plugin after each update.
-        - Currently, the only difference between nightly and Stable is that nightly supports "failing" a song which supports deathlink if enabled.
+        - Currently, the only difference between nightly and Stable is that nightly supports "failing" a song which triggers deathlink if enabled.
     - It’s recommended to create a separate installation of **YARG** specifically for **Archipelago** and use it only for that purpose which can be done through the YARC launcher, or by using a portable version of YARG.
 
 3. **Install BepInEx 5**
@@ -44,6 +44,30 @@
     - This must be done **after** the world is generated, and **after** you have scanned your songs in YARG.
 
 
+## Which Client do I need?
+### Windows
+- Download the `yarg-ap-client-windows-x64.zip` file.
+- Extract the files and launch the `YargArchipelagoClient.exe`.
+### Linux
+- Download the `yarg-ap-console-linux-x64.zip` file.
+- Extract the files and run the client using the `run_client.sh` script or by running the command:
+```bash
+./YargArchipelagoCLI
+```
+- You may need to give execute permissions to the client and script using:
+```bash
+chmod +x ./YargArchipelagoCLI
+```
+### Anything else (MacOS, ARM, x86 etc)
+- Download the `yarg-ap-console-dotnet8.zip` file.
+- If you haven't already, install the [.NET 8 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0). 
+- If you are on Windows, use the YargArchipelagoCLI.exe file.
+- If you are on anything else run it with:
+```bash
+dotnet ./YargArchipelagoCLI.dll
+```
+
+
 ## Create a Config (.yaml) File
 
 ### What is a config file and why do I need one?
@@ -52,16 +76,8 @@ See the guide on setting up a basic YAML at the Archipelago setup guide: [Basic 
 
 ### Where do I get a config file?
 
-The Player Options page on the website allows you to configure your personal
-options and export a config file from them.
-
-Alternatively, you can run `ArchipelagoLauncher.exe` and click on `Generate Template Options` to create a set of template YAMLs for each game in your Archipelago install.
+Run `ArchipelagoLauncher.exe` and click on `Generate Template Options` to create a set of template YAMLs for each game in your Archipelago install.
 These will be placed in your Players/Templates folder.
-
-### Verifying your config file
-
-If you would like to validate your config file to make sure it works, you may do so on the YAML Validator page. YAML
-validator page: [YAML Validation page](/mysterycheck)
 
 ## Difference between the YAML config and the YARG client config settings
 
