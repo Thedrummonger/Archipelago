@@ -25,7 +25,7 @@ class yargWorld(World):
     YARG (a.k.a. Yet Another Rhythm Game) is a free, open-source, plastic guitar game still in development.
     It supports guitar (five fret), drums (plastic or e-kit), vocals, pro-guitar, and more!
     """
-    game = "Yarg"
+    game = "Yarg2"
     required_client_version = (0, 6, 1)
     web = yargWebWorld()
     options_dataclass = YargOptions
