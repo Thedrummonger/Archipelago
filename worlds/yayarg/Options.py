@@ -167,14 +167,26 @@ class BrokenStringTrap(Range):
     default = 1
 
 # DeathLink Option
-class YargDeathLink(DeathLink):
+class YargDeathLink(Choice):
     """
     Failing a song will send a DeathLink to others. 
     If you receive a DeathLink, you will instantly fail your current song. 
 
     Death link will trigger if you "fail" a song (Currently only supported in Yarg Nightly) 
     or if you fail to meet the requirements for the song location check after completing it.
+
+    Modes:
+    Instant Fail: Recieving a DeathLink will cause you to instantly fail the song you are currently playing.
+    Rock Meter: Recieving a DeathLink will cause the Rock Meter to decrease low enough that missing a single note will cause you to fail.
+        -Rock Meter is not supported in Yarg Stable. If selected when using that version, Instant Fail will be used instead.
+
+    This setting can be modfied mid-game at any time in the client.
     """
+    display_name = "Death Link"
+    option_disabled = 0
+    option_rock_meter = 1
+    option_instant_fail = 2
+    default = 0
 
 # ------------------------------------------------------------------------------
 # Combined Game Options
