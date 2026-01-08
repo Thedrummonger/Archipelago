@@ -222,4 +222,5 @@ class YargOptions(PerGameCommonOptions):
     lower_difficulty: LowerDifficulty
     restart_trap: RestartTrap
     death_link: YargDeathLink
+    energy_link: YargEnergyLink
     start_inventory_from_pool: StartInventoryPool
