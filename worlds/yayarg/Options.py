@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from Options import StartInventoryPool, DeathLink, Choice, Range, PerGameCommonOptions
 
 # Maximum number of songs available.
-maxSongs: int = 500
+maxSongs: int = 1000
+maxStartingSongs: int = 200
 
 # Song Check Options
 class SongCheckAmount(Range):
@@ -14,7 +15,7 @@ class SongCheckAmount(Range):
     """
     display_name = "Base Song Pool Amount"
     range_start = 1
-    range_end = maxSongs
+    range_end = maxSongs - maxStartingSongs
     default = 50
     
 class SongCheckExtra(Range):
@@ -62,7 +63,7 @@ class StartingSongs(Range):
     """Sets the number of songs you start with in your setlist."""
     display_name = "Starting Songs"
     range_start = 1
-    range_end = maxSongs
+    range_end = maxStartingSongs
     default = 3
 
 # Filler Option
@@ -188,9 +189,25 @@ class YargDeathLink(Choice):
     option_instant_fail = 2
     default = 0
 
-# ------------------------------------------------------------------------------
-# Combined Game Options
-# ------------------------------------------------------------------------------
+
+# DeathLink Option
+class YargEnergyLink(Choice):
+    """
+    Completing songs adds energy to the Energy Link pool based on your total score.
+    The conversion rate scales from 1:20,000 (0% complete) to 1:1,000,000 (100% complete).
+
+    Modes:
+    - Check Song: Only songs that send item checks contribute energy and only once when the location is checked.
+    - Other Song: Only songs without item checks contribute energy.
+    - Any Song: All completed songs contribute energy.
+    """
+    display_name = "Energy Link"
+    option_disabled = 0
+    option_check_song = 1
+    option_other_song = 2
+    option_any_song = 3
+    default = 0
+
 @dataclass
 class YargOptions(PerGameCommonOptions):
     victory_condition: VictoryCondition

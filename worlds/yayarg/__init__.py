@@ -5,6 +5,7 @@ from worlds.AutoWorld import WebWorld, World
 from .Options import YargOptions
 from .Locations import StaticLocations, location_table, YargLocationType, YargLocationHelpers, location_data_table, YargLocation
 from .Items import WeightedItem, item_table, item_data_table, StaticItems, pick_weighted_item, YargItem
+from Options import OptionError
 
 class yargWebWorld(WebWorld):
     theme = "partyTime"
@@ -49,15 +50,31 @@ class yargWorld(World):
         self.fillerItems = []
 
     def generate_early(self) -> None:
-        
-        normal_check_amount = self.options.song_checks.value
-        starting_check_amount = self.options.starting_songs.value
-        total_check_amount = normal_check_amount + starting_check_amount
-        extra_check_percentage = self.options.song_check_extra.value
-        extra_check_amount = round(total_check_amount * extra_check_percentage / 100)
-        
+        # amount of unlockable song checks that will be in the pool
+        normal_song_amount = self.options.song_checks.value
+        # amount of starting songs that will be precollected
+        starting_song_amount = self.options.starting_songs.value
+        # Total amount of songs that will be added to the pool
+        total_song_amount = normal_song_amount + starting_song_amount
+        # The amount of songs that will recieve a second location check based on the percentage
+        extra_check_amount = round(total_song_amount * self.options.song_check_extra.value / 100)
+        # The amount of fame points to manually placed in the item pool
+        fame_points_in_pool = self.options.fame_point_amount.value if self.options.victory_condition.value == 1 else 0
+        # The total amount of locations in the pool that can contain items
+        total_item_locations_in_world =  total_song_amount + extra_check_amount 
+        # Total amount of remaining locations after each song item has been placed
+        total_item_locations_available_for_fame_points = total_item_locations_in_world - normal_song_amount
+
+        # Option Sanitizing for the Fuzzer
+        # Ensure there are enough locations to place the requested Fame Points, this will be 0 in World Tour mode.
+        if total_item_locations_available_for_fame_points < fame_points_in_pool:
+            raise OptionError(f"Not enough free locations (total: {total_item_locations_in_world} free: {total_item_locations_available_for_fame_points}) to place the requested Fame Points ({self.options.fame_point_amount.value}). Reduce the number of Fame Points or increase the number of song checks.")
+        # We only have a maximum of 500 songs locations we can assign, make sure we are not above that.
+        if total_song_amount > Options.maxSongs:
+            raise OptionError(f"Total song checks ({total_song_amount}) cannot exceed the total number of songs ({Options.maxSongs}). Reduce the number of song checks or starting songs.")
+
         # Build the pool of standard song locations.
-        self.songChecks = YargLocationHelpers.get_locations_by_type(YargLocationType.Standard)[:total_check_amount]
+        self.songChecks = YargLocationHelpers.get_locations_by_type(YargLocationType.Standard)[:total_song_amount]
     
         # Randomly select songs from the pool to receive extra checks.
         songs_to_add_extra_checks: list[str] = self.random.sample(self.songChecks, extra_check_amount)
@@ -72,11 +89,11 @@ class yargWorld(World):
             self.famePointsForGoal = ceil(len(self.songChecks) * (self.options.fame_point_needed.value / 100)) # Calculate required fame points based on the setting
             self.famePointsInPool = 0  # Fame points are solely tied to Fame Checks.
         else:  # Get Famous mode.
-            self.famePointsInPool = self.options.fame_point_amount.value
+            self.famePointsInPool = fame_points_in_pool
             self.famePointsForGoal = ceil(self.famePointsInPool * (self.options.fame_point_needed.value / 100))
             
         # Pull some songs out of the pool to make starting songs
-        songs_for_starting_pool = self.random.sample(self.songChecks, self.options.starting_songs.value)
+        songs_for_starting_pool = self.random.sample(self.songChecks, starting_song_amount)
         songs_for_standard_pool = [song for song in self.songChecks if song not in songs_for_starting_pool]
         
         # Process starting songs: add precollected items.

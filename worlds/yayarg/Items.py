@@ -29,6 +29,7 @@ class StaticItems:
     SwapPick: str   = "Swap Song (Pick)"
     LowerDifficulty: str = "Lower Difficulty"
     TrapRestart: str = "Restart Trap"
+    TrapRockMeter: str = "Rock Meter Trap"
 
 # ------------------------------------------------------------------------------
 # Global Item Data and Song Pool Initialization
@@ -76,6 +77,11 @@ item_data_table: Dict[str, YargItemData] = {
     StaticItems.TrapRestart: YargItemData(
         code=get_next_item_code(),
         itemName=StaticItems.TrapRestart,
+        classification=ItemClassification.trap
+    ),
+    StaticItems.TrapRockMeter: YargItemData(
+        code=get_next_item_code(),
+        itemName=StaticItems.TrapRockMeter,
         classification=ItemClassification.trap
     ),
 }
