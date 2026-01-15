@@ -201,7 +201,7 @@ class YargDeathLink(Choice):
     default = 0
 
 
-# DeathLink Option
+# EnergyLink Option
 class YargEnergyLink(Choice):
     """
     Completing songs adds energy to the Energy Link pool based on your total score.

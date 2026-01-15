@@ -2,7 +2,7 @@ from typing import Any, Dict
 from math import ceil
 from BaseClasses import Region, Tutorial, MultiWorld
 from worlds.AutoWorld import WebWorld, World
-from .Options import YargOptions
+from .Options import YargOptions, maxSongs
 from .Locations import StaticLocations, location_table, YargLocationType, YargLocationHelpers, location_data_table, YargLocation
 from .Items import WeightedItem, item_table, item_data_table, StaticItems, pick_weighted_item, YargItem
 from Options import OptionError
@@ -75,8 +75,8 @@ class yargWorld(World):
         if total_item_locations_available_for_fame_points < fame_points_in_pool:
             raise OptionError(f"Not enough free locations (total: {total_item_locations_in_world} free: {total_item_locations_available_for_fame_points}) to place the requested Fame Points ({self.options.fame_point_amount.value}). Reduce the number of Fame Points or increase the number of song checks.")
         # We only have a maximum of 500 songs locations we can assign, make sure we are not above that.
-        if total_song_amount > Options.maxSongs:
-            raise OptionError(f"Total song checks ({total_song_amount}) cannot exceed the total number of songs ({Options.maxSongs}). Reduce the number of song checks or starting songs.")
+        if total_song_amount > maxSongs:
+            raise OptionError(f"Total song checks ({total_song_amount}) cannot exceed the total number of songs ({maxSongs}). Reduce the number of song checks or starting songs.")
 
         # Build the pool of standard song locations.
         self.songChecks = YargLocationHelpers.get_locations_by_type(YargLocationType.Standard)[:total_song_amount]
