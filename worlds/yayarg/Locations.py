@@ -1,4 +1,5 @@
 from enum import Enum
+import math
 from typing import Dict, List, NamedTuple
 from BaseClasses import Location
 from .Options import maxSongs
@@ -40,6 +41,13 @@ class YargLocationHelpers:
     def GetUnlockItem(location: str) -> str:
         data = location_data_table[location]
         return YargItemHelpers.CreateSongItemName(data.song_num)
+    
+    @staticmethod
+    def GetUnlockPack(location: str, packAmount: int) -> str:
+        data = location_data_table[location]
+        pack_num = math.ceil(data.song_num / packAmount)
+        return YargItemHelpers.CreateSongPackName(pack_num)
+        
     
     @staticmethod
     def GetLinkedCheck(location: str, loc_type: YargLocationType) -> str:

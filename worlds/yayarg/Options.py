@@ -27,6 +27,17 @@ class SongCheckExtra(Range):
     range_end = 100
     default = 100
 
+class SongPackAmount(Range):
+    """
+    Determines how many songs an unlock item will unlock at once.
+    If this is set to 1, you will find individual songs in the pool.
+    Otherwise, you will find "Song Pack" items that unlock multiple songs at once.
+    """
+    display_name = "Song Pack Amount"
+    range_start = 1
+    range_end = maxSongs//2
+    default = 1
+
 # Victory and Fame Settings
 class VictoryCondition(Choice):
     """
@@ -215,6 +226,7 @@ class YargOptions(PerGameCommonOptions):
     fame_point_needed: FamePointsNeeded
     song_checks: SongCheckAmount
     song_check_extra: SongCheckExtra
+    song_pack_size: SongPackAmount
     starting_songs: StartingSongs
     star_power: StarPowerItem
     swap_song_random: SwapSongRandom

@@ -20,6 +20,9 @@ class YargItemHelpers:
     @staticmethod
     def CreateSongItemName(index: int) -> str:
         return f"Song {index}"
+    @staticmethod
+    def CreateSongPackName(index: int) -> str:
+        return f"Song Pack {index}"
 
 class StaticItems:
     Victory: str    = "Victory"
@@ -97,6 +100,17 @@ for x in range(1, maxSongs + 1):
         classification=ItemClassification.progression
     )
     song_pool.append(song_name)
+
+# Create all of our song pack unlock items
+for x in range(1, (maxSongs // 2) + 1):
+    song_name = YargItemHelpers.CreateSongPackName(x)
+    item_data_table[song_name] = YargItemData(
+        code=get_next_item_code(),
+        itemName=song_name,
+        classification=ItemClassification.progression
+    )
+    song_pool.append(song_name)
+
 
 item_table: Dict[str, int] = {
     name: data.code for name, data in item_data_table.items() if data.code is not None
