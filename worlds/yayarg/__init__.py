@@ -208,6 +208,7 @@ class yargWorld(World):
         return {
             "starting_songs": self.startingSongs,
             "fame_points_for_goal": self.famePointsForGoal,
+            "song_pack_size": self.options.song_pack_size.value,
             "victory_condition": self.options.victory_condition.value,
             "death_link": self.options.death_link.value,
             "energy_link": self.options.energy_link.value,
