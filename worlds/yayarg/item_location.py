@@ -4,7 +4,8 @@ from typing import Dict
 from .Options import VALID_INSTRUMENTS
 from worlds.yayarg.yaml_scanner import collect_all_option_values
 from worlds.yayarg.yarg_song_data_helper import deserialize_song_data, YargExportSongData
-from .Items import item_data_table
+from .Items import static_item_data
+from BaseClasses import ItemClassification
 
 class YargSongData:
     def __init__(self, Hash: str, Difficulties: Dict[str, int]):
@@ -12,7 +13,7 @@ class YargSongData:
         self.Difficulties: Dict[str, int] = Difficulties
         self.main_locations: Dict[str, str] = {} # instrument key -> location name
         self.extra_locations: Dict[str, str] = {}
-        self.fame_locations: Dict[str, str] = {}
+        self.completion_locations: Dict[str, str] = {}
         self.unlock_items: Dict[str, str] = {} # instrument key -> item name
 
 class YargAPImportData:
@@ -23,6 +24,7 @@ class YargAPImportData:
         self.location_name_to_id: Dict[str, int] = {}
         self.item_name_to_id: Dict[str, int] = {}
         self.song_pack_id_to_name: Dict[int, str] = {}
+        self.item_name_to_classification: Dict[str, ItemClassification] = {}
 
 def nice_name(name):
     return re.sub(r'(?<=[a-z0-9])(?=[A-Z])', ' ', name)
@@ -37,8 +39,8 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
 
     SongNum = 1
 
-    for songData in song_values:
-        song_dict = deserialize_song_data(songData)
+    for SerializedSongList in song_values:
+        song_dict = deserialize_song_data(SerializedSongList)
         if song_dict is None:
             raise ValueError("Failed to deserialize song data from YAML")
         
@@ -64,6 +66,7 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
         songpack = f"Song Pack {i+1}"
         import_data.song_pack_id_to_name[i+1] = songpack
         import_data.item_name_to_id[songpack] = APItemIDCounter
+        import_data.item_name_to_classification[songpack] = ItemClassification.progression
         APItemIDCounter += 1
 
     return import_data 
@@ -81,11 +84,12 @@ def register(
     itemName = f'Song {song_num}: {ExportData.Title}{instrument_display}'
     songData.unlock_items[instrument_key] = itemName
     ImportData.item_name_to_id[itemName] = current_item_id
+    ImportData.item_name_to_classification[itemName] = ItemClassification.progression
     
     locations = [
         (songData.main_locations, f'Song {song_num}: {ExportData.Title}{instrument_display} Reward 1'),
         (songData.extra_locations, f'Song {song_num}: {ExportData.Title}{instrument_display} Reward 2'),
-        (songData.fame_locations, f'Song {song_num}: {ExportData.Title}{instrument_display} Completion')
+        (songData.completion_locations, f'Song {song_num}: {ExportData.Title}{instrument_display} Completion')
     ]
     
     for i, (location_dict, location_name) in enumerate(locations):
@@ -102,7 +106,8 @@ def CreateStaticLocations(import_data: YargAPImportData):
 
 def CreateStaticItems(import_data: YargAPImportData):
     item_index = 0
-    for i in item_data_table:
-        import_data.item_name_to_id[i] = item_index
+    for name, data in static_item_data.items():
+        import_data.item_name_to_id[name] = item_index
+        import_data.item_name_to_classification[name] = data.classification
         item_index += 1
     return item_index

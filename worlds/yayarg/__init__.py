@@ -6,7 +6,9 @@ from .Options import YargOptions, maxSongs
 from .Locations import StaticLocations, location_table, YargLocationType, YargLocationHelpers, location_data_table, YargLocation
 from .Items import WeightedItem, item_table, item_data_table, StaticItems, pick_weighted_item, YargItem
 from Options import OptionError
-import math
+from .item_location import YargAPImportData, ImportAndCreateItemLocationData
+from .yarg_song_data_helper import deserialize_song_data, YargSongData
+from .song_distribution import distribute_songs_to_pools
 
 class yargWebWorld(WebWorld):
     theme = "partyTime"
@@ -21,6 +23,36 @@ class yargWebWorld(WebWorld):
     )
     
     tutorials = [setup_en]
+
+class AssignedSongData:
+    def __init__(self, hash: str, pool: str):
+        self.SongHash: str = hash
+        self.SongPool: str = pool
+        self.ExtraCheck: bool = False
+        self.CompletionCheck: bool = False
+        self.Starting: bool = False
+        self.SongPack: str = None
+
+    def GetData(self, item_location_data: YargAPImportData) -> YargSongData:
+        return item_location_data.hash_to_song_data[self.SongHash]
+    
+    def GetPool(self, Pools: dict[str, dict[str, Any]]) -> dict[str, Any]:
+        return Pools[self.SongPool]
+    
+    def GetInstrument(self, Pools: dict[str, dict[str, Any]]) -> str:
+        return self.GetPool(Pools)["instrument"]
+    
+    def GetStandardCheck(self, Pools: dict[str, dict[str, Any]], item_location_data: YargAPImportData) -> str:
+        return item_location_data.hash_to_song_data[self.SongHash].main_locations[self.GetInstrument(Pools)]
+    
+    def GetExtraCheck(self, Pools: dict[str, dict[str, Any]], item_location_data: YargAPImportData) -> str:
+        return item_location_data.hash_to_song_data[self.SongHash].extra_locations[self.GetInstrument(Pools)]
+    
+    def GetCompletionCheck(self, Pools: dict[str, dict[str, Any]], item_location_data: YargAPImportData) -> str:
+        return item_location_data.hash_to_song_data[self.SongHash].completion_locations[self.GetInstrument(Pools)]
+    
+    def GetUnlockSongItem(self, Pools: dict[str, dict[str, Any]], item_location_data: YargAPImportData) -> str:
+        return self.SongPack if self.SongPack else item_location_data.hash_to_song_data[self.SongHash].unlock_items[self.GetInstrument(Pools)]
     
 class yargWorld(World):
     """
@@ -32,172 +64,82 @@ class yargWorld(World):
     web = yargWebWorld()
     options_dataclass = YargOptions
     options: YargOptions
-    location_name_to_id = location_table
-    item_name_to_id = item_table
+
+    location_name_to_id = None
+    item_name_to_id = None
+    item_location_data: YargAPImportData = None
+
+    AssignedSongs: list[AssignedSongData]
+
+    fillerItems = []
     
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
 
-        self.songChecks: list[str] = []
-        self.songExtraChecks: list[str] = []
-        self.songFamePointsChecks: list[str] = []
+        self.AssignedSongs = []
         
-        self.famePointsForGoal = 0
-        self.famePointsInPool = 0
-        
-        self.startingSongs: list[str] = []
-        self.poolUnlockItems: list[str] = []
+        if self.item_location_data is None:
+            self.item_location_data = ImportAndCreateItemLocationData()
+            self.location_name_to_id = self.item_location_data.location_name_to_id
+            self.item_name_to_id = self.item_location_data.item_name_to_id
 
-        self.fillerItems = []
-
-    def generate_early(self) -> None:
-        SongPackSize = self.options.song_pack_size.value
-        useSongPacks = SongPackSize > 1
-        # amount of unlockable song checks that will be in the pool
-        normal_song_amount = self.options.song_checks.value
-        # amount of starting songs that will be precollected
-        starting_song_amount = self.options.starting_songs.value
-        # Total amount of songs that will be added to the pool
-        total_song_amount = normal_song_amount + starting_song_amount
-        # The amount of songs that will recieve a second location check based on the percentage
-        extra_check_amount = round(total_song_amount * self.options.song_check_extra.value / 100)
-        # The amount of fame points to manually placed in the item pool
-        fame_points_in_pool = self.options.fame_point_amount.value if self.options.victory_condition.value == 1 else 0
-        # The total amount of locations in the pool that can contain items
-        total_item_locations_in_world =  total_song_amount + extra_check_amount 
-        # The total amount of song unlock items that will be in the pool either as single songs or packs
-        total_song_unlock_items = math.ceil(normal_song_amount / SongPackSize) if useSongPacks else normal_song_amount
-        # Total amount of remaining locations after each song item has been placed
-        total_item_locations_available_for_fame_points = total_item_locations_in_world - total_song_unlock_items
-
-        # Option Sanitizing for the Fuzzer
-        # Ensure there are enough locations to place the requested Fame Points, this will be 0 in World Tour mode.
-        if total_item_locations_available_for_fame_points < fame_points_in_pool:
-            raise OptionError(f"Not enough free locations (total: {total_item_locations_in_world} free: {total_item_locations_available_for_fame_points}) to place the requested Fame Points ({self.options.fame_point_amount.value}). Reduce the number of Fame Points or increase the number of song checks.")
-        # We only have a maximum of 500 songs locations we can assign, make sure we are not above that.
-        if total_song_amount > maxSongs:
-            raise OptionError(f"Total song checks ({total_song_amount}) cannot exceed the total number of songs ({maxSongs}). Reduce the number of song checks or starting songs.")
-
-        # Build the pool of standard song locations.
-        self.songChecks = YargLocationHelpers.get_locations_by_type(YargLocationType.Standard)[:total_song_amount]
     
-        # Randomly select songs from the pool to receive extra checks.
-        songs_to_add_extra_checks: list[str] = self.random.sample(self.songChecks, extra_check_amount)
-        for location_key in self.songChecks: # Do it this way so the songs stay in their correct order
-            if not location_key in songs_to_add_extra_checks:
-                continue
-            self.songExtraChecks.append(YargLocationHelpers.GetLinkedCheck(location_key, YargLocationType.Extra))
-            
-        # Set up fame points based on the victory condition.
-        if self.options.victory_condition.value == 0:  # World Tour mode.
-            self.songFamePointsChecks = [YargLocationHelpers.GetLinkedCheck(loc, YargLocationType.Fame) for loc in self.songChecks]  # add a fame check for each song
-            self.famePointsForGoal = ceil(len(self.songChecks) * (self.options.fame_point_needed.value / 100)) # Calculate required fame points based on the setting
-            self.famePointsInPool = 0  # Fame points are solely tied to Fame Checks.
-        else:  # Get Famous mode.
-            self.famePointsInPool = fame_points_in_pool
-            self.famePointsForGoal = ceil(self.famePointsInPool * (self.options.fame_point_needed.value / 100))
-            
-        # Pull some songs out of the pool to make starting songs
-        if (useSongPacks):
-            # If we use song packs we need to take the last x songs so we aren't taking from the middle of packs
-            songs_for_starting_pool = self.songChecks[-starting_song_amount:]
-        else:
-            songs_for_starting_pool = self.random.sample(self.songChecks, starting_song_amount)
+    def generate_early(self) -> None:
+        SerializedSongList = self.options.songList.value
+        user_songs = deserialize_song_data(SerializedSongList)
 
-        songs_for_standard_pool = [song for song in self.songChecks if song not in songs_for_starting_pool]
+        for hash, data in user_songs.items():
+            if hash not in self.item_location_data.hash_to_song_data:
+                raise OptionError(f"Fatal Error, Player {self.player_name} song {data.Title} was not added to master data list. Ensure the SongList Hash is not a weighted option.")
+            
+        result = distribute_songs_to_pools(self.options.song_pools.value, user_songs)
+
+        if not result.success:
+            error_message = "Failed to Fill Song pools:\n\n".join(result.errors)
+            raise OptionError(error_message)
         
-        # Process starting songs: add precollected items.
-        for location_key in songs_for_starting_pool:
-            start_item_name: str = YargLocationHelpers.GetUnlockItem(location_key)
-            self.startingSongs.append(start_item_name)
-            self.multiworld.push_precollected(self.create_item(start_item_name))
+        for pool, assignedHashes in result.pool_assignments.items():
+            for hash in assignedHashes:
+                AssignmentData = AssignedSongData(hash, pool)
+                AssignmentData.CompletionCheck = self.options.setlist_needed.value > 0
+                self.AssignedSongs.append(AssignmentData)
+
+        startingSongs = self.random.sample(self.AssignedSongs, self.options.starting_songs.value)
+        for song in startingSongs:
+            song.Starting = True
             
-        # Process standard songs: add to the item pool later.
-        if useSongPacks:
-            unique_packs = set()
-            for location_key in songs_for_standard_pool:
-                unique_packs.add(YargLocationHelpers.GetUnlockPack(location_key, SongPackSize))
-            self.poolUnlockItems.extend(unique_packs)
-        else:
-            for location_key in songs_for_standard_pool:
-                self.poolUnlockItems.append(YargLocationHelpers.GetUnlockItem(location_key))
+        extra_check_amount = round(len(self.AssignedSongs) * self.options.song_check_extra.value / 100)
+        SongWithExtraChecks = self.random.sample(self.AssignedSongs, extra_check_amount)
+        for song in SongWithExtraChecks:
+            song.ExtraCheck = True
 
-        #Add filler items
-        if self.options.star_power.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.StarPower, self.options.star_power.value))
-        if self.options.swap_song_random.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.SwapRandom, self.options.swap_song_random.value))
-        if self.options.swap_song_choice.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.SwapPick, self.options.swap_song_choice.value))
-        if self.options.lower_difficulty.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.LowerDifficulty, self.options.lower_difficulty.value))
-        if self.options.restart_trap.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.TrapRestart, self.options.restart_trap.value))
-        if not self.fillerItems:
-            self.fillerItems.append(WeightedItem(StaticItems.StarPower, 1))
-
+        NonStartingSong = [song for song in self.AssignedSongs if not song.Starting]
+        songPackSize = self.options.song_pack_size.value
+        if self.options.song_pack_size.value > 1:
+            SongPacksNeeded = ceil(len(NonStartingSong) / songPackSize) 
+            SongPackItems = [self.item_location_data.song_pack_id_to_name[pack] for pack in range(SongPacksNeeded)]
+            pack_pool = [pack for pack in SongPackItems for _ in range(songPackSize)]
+            self.random.shuffle(pack_pool)
+            for i, song in enumerate(NonStartingSong):
+                song.SongPack = pack_pool[i]
+        
 
     def create_item(self, name: str) -> YargItem:
-        data = item_data_table[name]
-        return YargItem(name, data.classification, data.code, self.player)
+        classification = self.item_location_data.item_name_to_classification[name]
+        id = self.item_location_data.item_name_to_id[name]
+        return YargItem(name, classification, id, self.player)
     
     def create_items(self) -> None:
-        # Add song unlock items.
-        self.multiworld.itempool += [self.create_item(song) for song in self.poolUnlockItems]
-        
-        # Add Fame Point items.
-        self.multiworld.itempool += [self.create_item(StaticItems.FamePoint) for _ in range(self.famePointsInPool)]
-            
-        totalItemsInPool = len(self.poolUnlockItems) + self.famePointsInPool
-        totalChecksInPool = len(self.songChecks) + len(self.songExtraChecks)
-        items_to_add = totalChecksInPool - totalItemsInPool
-        
-        # Add filler items to balance the pool if needed.
-        if items_to_add > 0:
-            self.multiworld.itempool += [self.create_item(self.get_filler_item_name()) for _ in range(items_to_add)]
+        #Fill The item Pool
+        return
                 
     def create_regions(self) -> None:
         # Create the menu region. Only one we need
         self.multiworld.regions.append(Region("Menu", self.player, self.multiworld))
         menuRegion = self.multiworld.get_region("Menu", self.player)
-            
-        # Create a Location Names to Address dictionary for all locations in the pool
-        allLocations: Dict[str, int] = {}
-        for location_key in self.songChecks:
-            allLocations[location_key] = location_data_table[location_key].address
-        for location_key in self.songExtraChecks:
-            allLocations[location_key] = location_data_table[location_key].address
-        for location_key in self.songFamePointsChecks:
-            allLocations[location_key] = location_data_table[location_key].address
-        allLocations[StaticLocations.GoalSong] = location_data_table[StaticLocations.GoalSong].address
-            
-        menuRegion.add_locations(allLocations, YargLocation)
-        
-        # Place locked items for Fame Points and the Goal Song.
-        for location_key in self.songFamePointsChecks:
-            self.multiworld.get_location(location_key, self.player).place_locked_item(self.create_item(StaticItems.FamePoint))
-        self.multiworld.get_location(StaticLocations.GoalSong, self.player).place_locked_item(self.create_item(StaticItems.Victory))
         
     def set_rules(self) -> None:
-        SongPackSize = self.options.song_pack_size.value
-    
-        for location_key in self.songChecks:
-            unlockSong = YargLocationHelpers.GetUnlockItem(location_key)
-            unlockPack = YargLocationHelpers.GetUnlockPack(location_key, SongPackSize)
-            self.multiworld.get_location(location_key, self.player).access_rule = lambda state, I=unlockSong, P=unlockPack: state.has(I, self.player) or state.has(P, self.player)
-
-        for location_key in self.songExtraChecks:
-            unlockSong = YargLocationHelpers.GetUnlockItem(location_key)
-            unlockPack = YargLocationHelpers.GetUnlockPack(location_key, SongPackSize)
-            self.multiworld.get_location(location_key, self.player).access_rule = lambda state, I=unlockSong, P=unlockPack: state.has(I, self.player) or state.has(P, self.player)
-        
-        for location_key in self.songFamePointsChecks:
-            unlockSong = YargLocationHelpers.GetUnlockItem(location_key)
-            unlockPack = YargLocationHelpers.GetUnlockPack(location_key, SongPackSize)
-            self.multiworld.get_location(location_key, self.player).access_rule = lambda state, I=unlockSong, P=unlockPack: state.has(I, self.player) or state.has(P, self.player)
-    
-        self.multiworld.get_location("Goal Song", self.player).access_rule = lambda state: state.has(StaticItems.FamePoint, self.player, self.famePointsForGoal)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(StaticItems.Victory, self.player)
+        return
             
     def get_filler_item_name(self) -> str:
         if not self.fillerItems:
@@ -213,3 +155,20 @@ class yargWorld(World):
             "death_link": self.options.death_link.value,
             "energy_link": self.options.energy_link.value,
         }
+    
+    
+    def CreateFillerItems(self):
+        if self.options.star_power.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.StarPower, self.options.star_power.value))
+        if self.options.swap_song_random.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.SwapRandom, self.options.swap_song_random.value))
+        if self.options.swap_song_choice.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.SwapPick, self.options.swap_song_choice.value))
+        if self.options.lower_difficulty.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.LowerDifficulty, self.options.lower_difficulty.value))
+        if self.options.restart_trap.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.TrapRestart, self.options.restart_trap.value))
+        if self.options.rock_meter_trap.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.TrapRockMeter, self.options.rock_meter_trap.value))
+        if not self.fillerItems:
+            self.fillerItems.append(WeightedItem(StaticItems.StarPower, 1))
