@@ -71,7 +71,7 @@ static_item_data: Dict[str, YargItemData] = {
 }
 
 for inst in VALID_INSTRUMENTS:
-    static_item_data[inst] = YargItemData(
+    static_item_data[nice_name(inst)] = YargItemData(
         itemName=nice_name(inst),
         classification=ItemClassification.progression
     )

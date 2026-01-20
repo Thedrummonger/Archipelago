@@ -6,7 +6,7 @@ from .Options import YargOptions, maxSongs
 from .Locations import StaticLocations, location_table, YargLocationType, YargLocationHelpers, location_data_table, YargLocation
 from .Items import WeightedItem, item_table, item_data_table, StaticItems, pick_weighted_item, YargItem
 from Options import OptionError
-from .item_location import YargAPImportData, ImportAndCreateItemLocationData
+from .item_location import YargAPImportData, ImportAndCreateItemLocationData, nice_name
 from .yarg_song_data_helper import deserialize_song_data, YargSongData
 from .song_distribution import distribute_songs_to_pools
 
@@ -41,6 +41,9 @@ class AssignedSongData:
     
     def GetInstrument(self, Pools: dict[str, dict[str, Any]]) -> str:
         return self.GetPool(Pools)["instrument"]
+    
+    def GetInstrumentItemName(self, Pools: dict[str, dict[str, Any]]) -> str:
+        return nice_name(self.GetInstrument(Pools))
     
     def GetStandardCheck(self, Pools: dict[str, dict[str, Any]], item_location_data: YargAPImportData) -> str:
         return item_location_data.hash_to_song_data[self.SongHash].main_locations[self.GetInstrument(Pools)]
@@ -98,6 +101,7 @@ class yargWorld(World):
             error_message = "Failed to Fill Song pools:\n\n".join(result.errors)
             raise OptionError(error_message)
         
+        # A list of AssignedSongData, each entry represents a single song, containing it's location unlock items and song pool
         for pool, assignedHashes in result.pool_assignments.items():
             for hash in assignedHashes:
                 AssignmentData = AssignedSongData(hash, pool)
