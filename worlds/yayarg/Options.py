@@ -8,6 +8,29 @@ from typing import Any
 maxSongs: int = 1000
 maxStartingSongs: int = 200
 
+# Supported instrument names
+VALID_INSTRUMENTS = {
+    "FiveFretGuitar", "FiveFretBass", "Keys",
+    "SixFretGuitar", "SixFretBass",
+    "FourLaneDrums", "ProDrums", "FiveLaneDrums",
+    "ProKeys",
+    "Vocals", "Harmony"
+}
+
+# Completion requirement names (from CompletionReq enum)
+VALID_COMPLETION_REQS = {
+    "Clear", "OneStar", "TwoStar", "ThreeStar",
+    "FourStar", "FiveStar", "GoldStar", "FullCombo"
+}
+
+# Difficulty names (from SupportedDifficulty enum)
+VALID_DIFFICULTY_NAMES = {
+    "Easy",    # 1
+    "Medium",  # 2
+    "Hard",    # 3
+    "Expert"   # 4
+}
+
 # Song Check Options
 class SongList(FreeText):
     """
@@ -79,40 +102,17 @@ class SongPools(OptionDict):
         }
     }
     
-    # Supported instrument names
-    VALID_INSTRUMENTS = {
-        "FiveFretGuitar", "FiveFretBass", "Keys",
-        "SixFretGuitar", "SixFretBass",
-        "FourLaneDrums", "ProDrums", "FiveLaneDrums",
-        "ProKeys",
-        "Vocals", "Harmony"
-    }
-    
-    # Completion requirement names (from CompletionReq enum)
-    VALID_COMPLETION_REQS = {
-        "Clear", "OneStar", "TwoStar", "ThreeStar",
-        "FourStar", "FiveStar", "GoldStar", "FullCombo"
-    }
-    
-    # Difficulty names (from SupportedDifficulty enum)
-    VALID_DIFFICULTY_NAMES = {
-        "Easy",    # 1
-        "Medium",  # 2
-        "Hard",    # 3
-        "Expert"   # 4
-    }
-    
     schema = Schema({
         str: {  # Pool name (must be unique)
-            "instrument": And(str, lambda s: s in SongPools.VALID_INSTRUMENTS),
+            "instrument": And(str, lambda s: s in VALID_INSTRUMENTS),
             "amount_in_pool": And(int, lambda n: n >= 0),
             "min_difficulty": And(int, lambda n: n >= 0),
             "max_difficulty": And(int, lambda n: n >= 0),
             "completion_requirements": {
-                "reward1_req": And(str, lambda s: s in SongPools.VALID_COMPLETION_REQS),
-                "reward1_diff": And(str, lambda s: s in SongPools.VALID_DIFFICULTY_NAMES),
-                "reward2_req": And(str, lambda s: s in SongPools.VALID_COMPLETION_REQS),
-                "reward2_diff": And(str, lambda s: s in SongPools.VALID_DIFFICULTY_NAMES)
+                "reward1_req": And(str, lambda s: s in VALID_COMPLETION_REQS),
+                "reward1_diff": And(str, lambda s: s in VALID_DIFFICULTY_NAMES),
+                "reward2_req": And(str, lambda s: s in VALID_COMPLETION_REQS),
+                "reward2_diff": And(str, lambda s: s in VALID_DIFFICULTY_NAMES)
             }
         }
     })
