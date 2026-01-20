@@ -27,6 +27,7 @@ class YargItemHelpers:
 class StaticItems:
     Victory: str    = "Victory"
     FamePoint: str  = "Fame Point"
+    SongCompletion: str  = "Song Completion"
     StarPower: str  = "Star Power"
     SwapRandom: str = "Swap Song (Random)"
     SwapPick: str   = "Swap Song (Pick)"
@@ -55,6 +56,11 @@ item_data_table: Dict[str, YargItemData] = {
     StaticItems.FamePoint: YargItemData(
         code=get_next_item_code(),
         itemName=StaticItems.FamePoint,
+        classification=ItemClassification.progression_skip_balancing
+    ),
+    StaticItems.SongCompletion: YargItemData(
+        code=get_next_item_code(),
+        itemName=StaticItems.SongCompletion,
         classification=ItemClassification.progression_skip_balancing
     ),
     StaticItems.StarPower: YargItemData(
