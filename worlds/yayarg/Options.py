@@ -1,5 +1,8 @@
 from dataclasses import dataclass
-from Options import FreeText, StartInventoryPool, Choice, Range, PerGameCommonOptions
+from Options import FreeText, OptionDict, StartInventoryPool, Choice, Range, PerGameCommonOptions
+from Options import OptionDict, OptionError
+from schema import Schema, Optional, And, Or
+from typing import Any
 
 # Maximum number of songs available.
 maxSongs: int = 1000
@@ -14,6 +17,126 @@ class SongList(FreeText):
     """
     display_name = "Song List"
     default = None
+
+class SongPools(OptionDict):
+    """
+    Define custom song pools for the randomizer. Each pool specifies which songs are available based on 
+    instrument and difficulty requirements, and how many songs from that pool should be checkable locations.
+    
+    Each song pool must have a unique name and specify:
+    - instrument: The instrument this pool is for (see supported instruments below)
+    - amount_in_pool: Number of songs from this pool to include (0 = all available songs)
+    - min_difficulty: Minimum difficulty tier (0 or higher)
+    - max_difficulty: Maximum difficulty tier (0 or higher)
+    - completion_requirements: Settings for what counts as completing a song
+    
+    **Supported Instruments:**
+    - FiveFretGuitar: Standard 5-button guitar
+    - FiveFretBass: Standard 5-button bass
+    - Keys: Keyboard/keys
+    - SixFretGuitar: 6-button guitar (Guitar Hero Live style)
+    - SixFretBass: 6-button bass
+    - FourLaneDrums: 4-lane drums (Rock Band style)
+    - ProDrums: Pro drums with cymbals
+    - FiveLaneDrums: 5-lane drums (Guitar Hero style)
+    - ProKeys: Pro keys with multiple lanes
+    - Vocals: Lead vocals
+    - Harmony: Harmony vocals
+
+    **Completion Requirements:**
+    - reward1_req: Score requirement for the standard reward
+      - Clear: Just complete the song
+      - OneStar: Achieve 1 star
+      - TwoStar: Achieve 2 stars
+      - ThreeStar: Achieve 3 stars
+      - FourStar: Achieve 4 stars
+      - FiveStar: Achieve 5 stars
+      - GoldStar: Achieve gold star rating
+      - FullCombo: Complete without missing any notes or breaking combo
+    - reward1_diff: The difficulty you must complete the song at for the standard reward
+      - Easy
+      - Medium
+      - Hard
+      - Expert
+    - reward2_req: Requirement for the extra reward if one exists (same options as reward1_req)
+    - reward2_diff: Difficulty tier for the extra reward if one exists (same options as reward1_diff)
+    """
+    display_name = "Song Pools"
+    
+    # Default pool: Standard guitar with moderate difficulty
+    default = {
+        "Guitar": {
+            "instrument": "FiveFretGuitar",
+            "amount_in_pool": 40,
+            "min_difficulty": 3,
+            "max_difficulty": 5,
+            "completion_requirements": {
+                "reward1_req": "Clear",
+                "reward1_diff": "Expert",
+                "reward2_req": "ThreeStar",
+                "reward2_diff": "Expert"
+            }
+        }
+    }
+    
+    # Supported instrument names
+    VALID_INSTRUMENTS = {
+        "FiveFretGuitar", "FiveFretBass", "Keys",
+        "SixFretGuitar", "SixFretBass",
+        "FourLaneDrums", "ProDrums", "FiveLaneDrums",
+        "ProKeys",
+        "Vocals", "Harmony"
+    }
+    
+    # Completion requirement names (from CompletionReq enum)
+    VALID_COMPLETION_REQS = {
+        "Clear", "OneStar", "TwoStar", "ThreeStar",
+        "FourStar", "FiveStar", "GoldStar", "FullCombo"
+    }
+    
+    # Difficulty names (from SupportedDifficulty enum)
+    VALID_DIFFICULTY_NAMES = {
+        "Easy",    # 1
+        "Medium",  # 2
+        "Hard",    # 3
+        "Expert"   # 4
+    }
+    
+    schema = Schema({
+        str: {  # Pool name (must be unique)
+            "instrument": And(str, lambda s: s in SongPools.VALID_INSTRUMENTS),
+            "amount_in_pool": And(int, lambda n: n >= 0),
+            "min_difficulty": And(int, lambda n: n >= 0),
+            "max_difficulty": And(int, lambda n: n >= 0),
+            "completion_requirements": {
+                "reward1_req": And(str, lambda s: s in SongPools.VALID_COMPLETION_REQS),
+                "reward1_diff": And(str, lambda s: s in SongPools.VALID_DIFFICULTY_NAMES),
+                "reward2_req": And(str, lambda s: s in SongPools.VALID_COMPLETION_REQS),
+                "reward2_diff": And(str, lambda s: s in SongPools.VALID_DIFFICULTY_NAMES)
+            }
+        }
+    })
+    
+    def __init__(self, value: dict[str, Any]):
+        # Validate that min_difficulty <= max_difficulty for each pool
+        for pool_name, pool_data in value.items():
+            min_diff = pool_data.get("min_difficulty", 0)
+            max_diff = pool_data.get("max_difficulty", 999)
+            if min_diff > max_diff:
+                raise OptionError(
+                    f"Song pool '{pool_name}': min_difficulty ({min_diff}) cannot be greater than "
+                    f"max_difficulty ({max_diff})"
+                )
+        
+        self.value = value
+    
+    @classmethod
+    def from_any(cls, data: dict[str, Any]) -> "SongPools":
+        if type(data) == dict:
+            return cls(data)
+        else:
+            raise NotImplementedError(f"Cannot convert from non-dictionary, got {type(data)}")
+    
 
 class SongCheckAmount(Range):
     """
@@ -234,6 +357,7 @@ class YargOptions(PerGameCommonOptions):
     fame_point_amount: FamePointsAdded
     fame_point_needed: FamePointsNeeded
     songList: SongList
+    song_pools: SongPools
     song_checks: SongCheckAmount
     song_check_extra: SongCheckExtra
     song_pack_size: SongPackAmount
