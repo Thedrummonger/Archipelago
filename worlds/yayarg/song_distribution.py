@@ -28,7 +28,6 @@ class SongDistributor:
         self.pool_assignments: Dict[str, List[str]] = {}
         self.goal_placed = False
         
-        # Configuration (set via builder methods)
         self.available_songs: Dict[str, YargExportSongData] = {}
         self.song_pools: Dict[str, Dict] = {}
         self.reuse_songs_across_instruments = False
@@ -120,7 +119,7 @@ class SongDistributor:
         if self.goal_pool:
             target_pool = next((p for p in pools if p.name == self.goal_pool), None)
             if not target_pool:
-                return
+                raise OptionError(f"Goal pool '{self.goal_pool}' does not exist in song pools")
             
             if target_pool.instrument not in song_data.Difficulties:
                 raise OptionError(
