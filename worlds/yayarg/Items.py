@@ -3,7 +3,7 @@ from random import Random
 from typing import Dict, NamedTuple, List
 from BaseClasses import Item, ItemClassification
 from .Options import VALID_INSTRUMENTS
-from .item_location import nice_name
+from .data_register import nice_name
 
 # ------------------------------------------------------------------------------
 # Item Classes and Helpers

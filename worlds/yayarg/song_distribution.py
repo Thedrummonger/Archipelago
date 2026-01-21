@@ -299,19 +299,6 @@ def split_pools_by_instrument(song_pools: Dict[str, Dict]) -> Dict[str, Dict[str
     
     Returns:
         Dictionary mapping instrument name to pools dict for that instrument
-    
-    Example:
-        >>> pools = {
-        ...     "Guitar Easy": {"instrument": "FiveFretGuitar", ...},
-        ...     "Drums Hard": {"instrument": "FourLaneDrums", ...},
-        ...     "Guitar Hard": {"instrument": "FiveFretGuitar", ...}
-        ... }
-        >>> split = split_pools_by_instrument(pools)
-        >>> # Returns:
-        >>> # {
-        >>> #     "FiveFretGuitar": {"Guitar Easy": {...}, "Guitar Hard": {...}},
-        >>> #     "FourLaneDrums": {"Drums Hard": {...}}
-        >>> # }
     """
     pools_by_instrument = defaultdict(dict)
     
@@ -335,38 +322,6 @@ def distribute_songs_to_pools(
     
     Returns:
         SongDistributionResult containing assignments (pool_name -> list of song hashes), warnings, and errors
-    
-    Usage:
-        If instrument_shares_songs is True:
-            # Split pools by instrument and distribute separately
-            pools_by_instrument = split_pools_by_instrument(world.options.song_pools.value)
-            all_assignments = {}
-            for instrument, pools in pools_by_instrument.items():
-                result = distribute_songs_to_pools(pools, available_songs)
-                all_assignments.update(result.pool_assignments)
-        
-        If instrument_shares_songs is False:
-            # Distribute all pools together (songs can only be used once)
-            result = distribute_songs_to_pools(world.options.song_pools.value, available_songs)
-            all_assignments = result.pool_assignments
-    
-    Example:
-        >>> pools = {
-        ...     "Guitar Easy": {
-        ...         "instrument": "FiveFretGuitar",
-        ...         "amount_in_pool": 50,
-        ...         "min_difficulty": 1,
-        ...         "max_difficulty": 3,
-        ...         "completion_requirements": {...}
-        ...     }
-        ... }
-        >>> songs = {"hash123": YargExportSongData("Song 1", {"FiveFretGuitar": 2}), ...}
-        >>> result = distribute_songs_to_pools(pools, songs)
-        >>> if result.success:
-        ...     for pool_name, song_hashes in result.pool_assignments.items():
-        ...         print(f"{pool_name}: {len(song_hashes)} songs")
-        ...         for hash in song_hashes:
-        ...             print(f"  - {songs[hash].Title}")
     """
     distributor = SongDistributor(song_pools, available_songs)
     

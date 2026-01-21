@@ -1,7 +1,6 @@
 from dataclasses import dataclass
-from Options import FreeText, OptionDict, StartInventoryPool, Choice, Range, PerGameCommonOptions
-from Options import OptionDict, OptionError
-from schema import Schema, Optional, And, Or
+from Options import FreeText, OptionDict, StartInventoryPool, Choice, Range, PerGameCommonOptions, Toggle, OptionDict, OptionError
+from schema import Schema, And
 from typing import Any
 
 # Maximum number of songs available.
@@ -155,7 +154,28 @@ class SongPackAmount(Range):
     range_end = 999
     default = 1
 
+class ResuseSongsAcrossInstruments(Toggle):
+    """
+    If enabled, the same song can appear once for each instrument.
+    If disabled, each song can only appear once total across all pools.
+    """
+    display_name = "Reuse Songs Across Instruments"
+
+class InstrumentShuffle(Toggle):
+    """
+    You will need to collect an instruments item before you can play songs requiring that instrument.
+    You start with one random instrument unlocked.
+    Requires at least two song pools with different instruments.
+    """
+    display_name = "Instrument Shuffle"
+
 # Victory and Fame Settings
+
+class GoalSongNeedsItem(Toggle):
+    """
+    Does your goal songs song item need to be found before it can be completed
+    """
+    display_name = "Goal Song Needs Item"
 
 class SetlistCompletionNeeded(Range):
     """
@@ -300,7 +320,10 @@ class YargOptions(PerGameCommonOptions):
     song_pools: SongPools
     song_check_extra: SongCheckExtra
     song_pack_size: SongPackAmount
+    instrument_shuffle: InstrumentShuffle
+    reuse_songs: ResuseSongsAcrossInstruments
     starting_songs: StartingSongs
+    goal_song_item_needed: GoalSongNeedsItem
     setlist_needed: SetlistCompletionNeeded
     fame_point_needed: FamePointsNeeded
     fame_point_amount: FamePointsAdded
