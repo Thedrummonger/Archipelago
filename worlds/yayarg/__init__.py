@@ -68,38 +68,25 @@ class yargWorld(World):
     options_dataclass = YargOptions
     options: YargOptions
 
-    location_name_to_id = None
-    item_name_to_id = None
+    location_name_to_id = {}
+    item_name_to_id = {}
     item_location_data: YargAPImportData = None
-
-    AssignedSongs: list[AssignedSongData]
-
-    fillerItems = []
-
-    starting_instrument: str
-
-    startingSongs: list[AssignedSongData]
-    SongWithExtraChecks: list[AssignedSongData]
-    SongsWithUnlockItems: list[AssignedSongData]
-    SongsWithItemLocations: list[AssignedSongData]
-    GoalSong: AssignedSongData
-
-    famePointsNeeded: int
-    SongCompletionsNeeded: int
     
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
 
-        self.AssignedSongs = []
-        self.starting_instrument = None
-        self.startingSongs = []
-        self.SongWithExtraChecks = []
-        self.SongsWithUnlockItems = []
-        self.SongsWithItemLocations = []
-        self.GoalSong = None
+        self.AssignedSongs: list[AssignedSongData] = []
+        self.starting_instrument: str = None
+        self.startingSongs: list[AssignedSongData] = []
+        self.SongWithExtraChecks: list[AssignedSongData] = []
+        self.SongsWithUnlockItems: list[AssignedSongData] = []
+        self.SongsWithItemLocations: list[AssignedSongData] = []
+        self.GoalSong: AssignedSongData = None
 
-        self.famePointsNeeded = 0
-        self.SongCompletionsNeeded = 0
+        self.fillerItems = []
+
+        self.famePointsNeeded: int = 0
+        self.SongCompletionsNeeded: int = 0
         
         if self.item_location_data is None:
             self.item_location_data = ImportAndCreateItemLocationData()
@@ -234,7 +221,7 @@ class yargWorld(World):
             self.multiworld.itempool += [self.create_item(inst) for inst in instrumentItems]
         else: # We push all as precollected if we don't shuffle them
             for entry in VALID_INSTRUMENTS:
-                self.multiworld.push_precollected(self.create_item(entry))
+                self.multiworld.push_precollected(self.create_item(nice_name(entry)))
 
         goal_unlock = self.GoalSong.GetUnlockSongItem(self.options.song_pools.value, self.item_location_data)
         if self.options.goal_song_item_needed.value == 1:
@@ -264,16 +251,16 @@ class yargWorld(World):
         allLocations: Dict[str, int] = {}
         CompletionChecks: list[str] = []
         for entry in self.SongsWithItemLocations:
-            standardCheck = entry.GetStandardCheck(self.options.song_pools.value)
+            standardCheck = entry.GetStandardCheck(self.options.song_pools.value, self.item_location_data)
             allLocations[standardCheck] = self.location_name_to_id[standardCheck]
             if entry.ExtraCheck:
-                ExtraCheck = entry.GetExtraCheck(self.options.song_pools.value)
+                ExtraCheck = entry.GetExtraCheck(self.options.song_pools.value, self.item_location_data)
                 allLocations[ExtraCheck] = self.location_name_to_id[ExtraCheck]
             if self.options.setlist_needed.value > 0:
-                CompletionCheck = entry.GetCompletionCheck(self.options.song_pools.value)
+                CompletionCheck = entry.GetCompletionCheck(self.options.song_pools.value, self.item_location_data)
                 allLocations[CompletionCheck] = self.location_name_to_id[CompletionCheck]
                 CompletionChecks.append(CompletionCheck)
-        GoalSongLocation = self.GoalSong.GetStandardCheck(self.options.song_pools.value)
+        GoalSongLocation = self.GoalSong.GetStandardCheck(self.options.song_pools.value, self.item_location_data)
         allLocations[GoalSongLocation] = self.location_name_to_id[GoalSongLocation]
 
         menuRegion.add_locations(allLocations, YargLocation)
@@ -308,6 +295,7 @@ class yargWorld(World):
         GoalSongCheck = self.GoalSong.GetStandardCheck(self.options.song_pools.value, self.item_location_data)
         GoalSongLocation = self.multiworld.get_location(GoalSongCheck, self.player)
         GoalSongLocation.access_rule = lambda state, I=goal_instrument, P=goal_unlockitem: self.can_complete_goal(state, I, P)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(StaticItems.Victory, self.player)
 
     def can_complete_goal(self, state: CollectionState, instrument: str, unlockItem: str) -> bool:
         SongLocationUnlocked = state.has(instrument, self.player) and state.has(unlockItem, self.player)
@@ -322,7 +310,6 @@ class yargWorld(World):
     
     def fill_slot_data(self) -> Dict[str, Any]:
         return {
-            "starting_songs": self.startingSongs,
             "fame_points_for_goal": self.famePointsNeeded,
             "setlist_needed_for_goal": self.SongCompletionsNeeded,
             "death_link": self.options.death_link.value,

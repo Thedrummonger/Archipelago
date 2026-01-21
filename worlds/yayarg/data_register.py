@@ -4,7 +4,7 @@ from typing import Dict
 from .Options import VALID_INSTRUMENTS
 from worlds.yayarg.yaml_scanner import collect_all_option_values
 from worlds.yayarg.yarg_song_data_helper import deserialize_song_data, YargExportSongData
-from .Items import static_item_data
+from .Items import YargItemData, StaticItems
 from BaseClasses import ItemClassification
 
 class YargSongData:
@@ -56,7 +56,7 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
                 
                 for instrument in VALID_INSTRUMENTS:
                     inst = nice_name(instrument)
-                    locations_registered = register(import_data, data, song, inst, f' ({inst})', APLocIDCounter, APItemIDCounter, SongNum)
+                    locations_registered = register(import_data, data, song, instrument, f' ({inst})', APLocIDCounter, APItemIDCounter, SongNum)
                     APLocIDCounter += locations_registered
                     APItemIDCounter += 1
                 
@@ -105,9 +105,55 @@ def CreateStaticLocations(import_data: YargAPImportData):
     return location_index
 
 def CreateStaticItems(import_data: YargAPImportData):
+    
+    static_item_data: Dict[str, YargItemData] = {
+        StaticItems.Victory: YargItemData(
+            itemName=StaticItems.Victory,
+            classification=ItemClassification.progression_skip_balancing
+        ),
+        StaticItems.FamePoint: YargItemData(
+            itemName=StaticItems.FamePoint,
+            classification=ItemClassification.progression_skip_balancing
+        ),
+        StaticItems.SongCompletion: YargItemData(
+            itemName=StaticItems.SongCompletion,
+            classification=ItemClassification.progression_skip_balancing
+        ),
+        StaticItems.StarPower: YargItemData(
+            itemName=StaticItems.StarPower,
+            classification=ItemClassification.filler
+        ),
+        StaticItems.SwapRandom: YargItemData(
+            itemName=StaticItems.SwapRandom,
+            classification=ItemClassification.filler
+        ),
+        StaticItems.SwapPick: YargItemData(
+            itemName=StaticItems.SwapPick,
+            classification=ItemClassification.useful
+        ),
+        StaticItems.LowerDifficulty: YargItemData(
+            itemName=StaticItems.LowerDifficulty,
+            classification=ItemClassification.useful
+        ),
+        StaticItems.TrapRestart: YargItemData(
+            itemName=StaticItems.TrapRestart,
+            classification=ItemClassification.trap
+        ),
+        StaticItems.TrapRockMeter: YargItemData(
+            itemName=StaticItems.TrapRockMeter,
+            classification=ItemClassification.trap
+        ),
+    }
+    
+    for inst in VALID_INSTRUMENTS:
+        static_item_data[nice_name(inst)] = YargItemData(
+            itemName=nice_name(inst),
+            classification=ItemClassification.progression
+        )
     item_index = 0
     for name, data in static_item_data.items():
         import_data.item_name_to_id[name] = item_index
         import_data.item_name_to_classification[name] = data.classification
         item_index += 1
     return item_index
+

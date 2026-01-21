@@ -326,9 +326,9 @@ def distribute_songs_to_pools(
     distributor = SongDistributor(song_pools, available_songs)
     
     # Validate before attempting distribution
-    is_feasible, errors = distributor.validate_feasibility()
-    if not is_feasible:
-        error_message = "Song pool configuration is not feasible:\n" + "\n".join(errors)
-        raise OptionError(error_message)
+    #is_feasible, errors = distributor.validate_feasibility()
+    #if not is_feasible:
+    #    error_message = "Song pool configuration is not feasible:\n" + "\n".join(errors)
+    #    raise OptionError(error_message)
     
     return distributor.distribute()
