@@ -106,8 +106,8 @@ class yargWorld(World):
             if hash not in self.item_location_data.hash_to_song_data:
                 raise OptionError(f"Fatal Error, Player {self.player_name} song {data.Title} was not added to master data list. Ensure the SongList Hash is not a weighted option.")
 
-        goalSongPlando = self.options.goal_song_plando.value or None
-        goalPoolPlando = self.options.goal_pool_plando.value or None
+        goalSongPlando = self.options.goal_song_plando.value if self.options.goal_song_plando.value is not None else None
+        goalPoolPlando = self.options.goal_pool_plando.value if self.options.goal_pool_plando.value is not None else None
 
         distributor = (SongDistributor(self.random)
             .with_available_songs(user_songs)

@@ -70,7 +70,7 @@ class GoalSongPoolPlando(FreeText):
     Forces the goal song into the given pool
     """
     display_name = "Goal Pool Plando"
-    default = None
+    default = ""
 
 class GoalSongSongPlando(FreeText):
     """
@@ -79,7 +79,7 @@ class GoalSongSongPlando(FreeText):
     The song must be entered by the song hash which can be obtained from the YAML Generator
     """
     display_name = "Goal Song Plando"
-    default = None
+    default = ""
 
 class SongPools(OptionDict):
     """
