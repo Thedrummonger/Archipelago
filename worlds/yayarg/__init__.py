@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Any, Dict
 from math import ceil
 from BaseClasses import CollectionState, Region, Tutorial, MultiWorld
@@ -309,14 +310,39 @@ class yargWorld(World):
         return pick_weighted_item(self.random, self.fillerItems).name
     
     def fill_slot_data(self) -> Dict[str, Any]:
+        # dict[song_hash, dict[pool_name, tuple[main_loc_id, extra_loc_id, completion_loc_id, unlock_item_id]]]
+        song_data: dict[str, dict[str, tuple[int, int, int, int]]] = defaultdict(dict)
+
+        for entry in self.SongsWithItemLocations:
+            mainLocation = entry.GetStandardCheck(self.options.song_pools.value, self.item_location_data)
+            ExtraLocation = entry.GetExtraCheck(self.options.song_pools.value, self.item_location_data)
+            completionLocation = entry.GetCompletionCheck(self.options.song_pools.value, self.item_location_data)
+            unlockItem = entry.GetUnlockSongItem(self.options.song_pools.value, self.item_location_data)
+
+            mainLocationID = self.location_name_to_id[mainLocation]
+            extraLocationID = self.location_name_to_id[ExtraLocation] if entry.ExtraCheck else -1
+            completionLocationID = self.location_name_to_id[completionLocation] if self.options.setlist_needed.value > 0 else -1
+            unlockItemID = self.item_name_to_id[unlockItem]
+
+            song_data[entry.SongHash][entry.SongPool] = (mainLocationID, extraLocationID, completionLocationID, unlockItemID)
+
+        GoalLocation = self.GoalSong.GetStandardCheck(self.options.song_pools.value, self.item_location_data)
+        GoalLocationID = self.location_name_to_id[GoalLocation]
+        unlockItem = self.GoalSong.GetUnlockSongItem(self.options.song_pools.value, self.item_location_data)
+        unlockItemID = self.item_name_to_id[unlockItem] if self.options.goal_song_item_needed else -1
+        # string, string, long, long
+        goal_data = (self.GoalSong.SongHash, self.GoalSong.SongPool, GoalLocationID, unlockItemID)
+
         return {
             "fame_points_for_goal": self.famePointsNeeded,
             "setlist_needed_for_goal": self.SongCompletionsNeeded,
+            "goal_data": goal_data,
             "death_link": self.options.death_link.value,
             "energy_link": self.options.energy_link.value,
-            "pools": self.options.song_pools.value
+            "pools": self.options.song_pools.value,
+            "song_data": dict(song_data)
         }
-    
+
     
     def CreateFillerItems(self):
         if self.options.star_power.value > 0:
