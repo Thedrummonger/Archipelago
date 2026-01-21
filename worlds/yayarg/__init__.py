@@ -9,8 +9,7 @@ from .Items import WeightedItem, StaticItems, pick_weighted_item, YargItem
 from Options import OptionError
 from .data_register import YargAPImportData, ImportAndCreateItemLocationData, nice_name, YargSongData
 from .yarg_song_data_helper import deserialize_song_data
-from .song_distribution import distribute_songs_to_pools
-from .TDMutility import split_pools_by_instrument
+from .song_distribution import SongDistributor
 
 class yargWebWorld(WebWorld):
     theme = "partyTime"
@@ -107,34 +106,20 @@ class yargWorld(World):
             if hash not in self.item_location_data.hash_to_song_data:
                 raise OptionError(f"Fatal Error, Player {self.player_name} song {data.Title} was not added to master data list. Ensure the SongList Hash is not a weighted option.")
 
-        # If we can't share songs across instruments, run all of our song pools through the distributer at once
-        song_distribution_groups: Dict[str, Dict[str, Dict]] = {"all": self.options.song_pools.value} 
-        # If we can share songs across instruments, separate each song pool into groups of like instruments
-        # and run them through the distributer separately
-        if (self.options.reuse_songs.value == 1):
-            song_distribution_groups = split_pools_by_instrument(self.options.song_pools.value)
-            
-        shuffled_groups = list(song_distribution_groups.items())
-        self.random.shuffle(shuffled_groups)
-
-        exclusionList: dict[str, list[str]] = self.options.song_pool_exclusions.value
-        inclusionList: dict[str, list[str]] = self.options.song_pool_inclusions.value
-
         goalSongPlando = self.options.goal_song_plando.value or None
         goalPoolPlando = self.options.goal_pool_plando.value or None
 
-        all_assignments: Dict[str, list[str]] = {}
-        goal_plando_processed = False
-        for _, pools in shuffled_groups:
-            goal_song_plando_to_process = goalSongPlando if goalSongPlando and not goal_plando_processed else None
-            goal_pool_plando_to_process = goalPoolPlando if goalPoolPlando and not goal_plando_processed else None
-            result = distribute_songs_to_pools(self.random, pools, user_songs, inclusionList, exclusionList, goal_song_plando_to_process, goal_pool_plando_to_process)
-            all_assignments.update(result.pool_assignments)
-            if result.goal_placed:
-                goal_plando_processed = True
+        distributor = (SongDistributor(self.random)
+            .with_available_songs(user_songs)
+            .with_pools(self.options.song_pools.value)
+            .with_reuse_songs(self.options.reuse_songs.value == 1)
+            .with_inclusion_lists(self.options.song_pool_inclusions.value)
+            .with_exclusion_lists(self.options.song_pool_exclusions.value)
+            .with_goal_song(goalSongPlando, goalPoolPlando)
+        )
         
-        if (goalSongPlando or goalPoolPlando) and not goal_plando_processed:
-            raise OptionError("Goal plando could not be preocessed")
+        result = distributor.distribute()
+        all_assignments = result.pool_assignments
         
         # A list of AssignedSongData, each entry represents a single song, containing it's location unlock items and song pool
         for pool, assignedHashes in all_assignments.items():
