@@ -21,11 +21,13 @@ class SongDistributionResult:
         self.warnings: List[str] = []
         self.errors: List[str] = []
         self.success: bool = True
+        self.goal_placed: bool = False
 
 
 class SongDistributor:
     def __init__(self, rnd: random.Random, song_pools: Dict[str, Dict], available_songs: Dict[str, YargExportSongData],
-                 inclusion_lists: Dict[str, List[str]] = None, exclusion_lists: Dict[str, List[str]] = None):
+                 inclusion_lists: Dict[str, List[str]] = None, exclusion_lists: Dict[str, List[str]] = None,
+                 goal_song: str = None, goal_pool: str = None):
         self.random = rnd
         self.song_pools = [SongPoolConfig(
             name=name,
@@ -37,26 +39,75 @@ class SongDistributor:
         self.available_songs = available_songs
         self.inclusion_lists = inclusion_lists or {}
         self.exclusion_lists = exclusion_lists or {}
+        self.goal_song = goal_song
+        self.goal_pool = goal_pool
         self.result = SongDistributionResult()
     
     def distribute(self) -> SongDistributionResult:
-        sorted_pools = sorted(
-            [p for p in self.song_pools if p.amount_in_pool > 0],
-            key=lambda p: (p.max_difficulty - p.min_difficulty, -p.amount_in_pool)
-        )
-        
+        active_pools = [p for p in self.song_pools if p.amount_in_pool > 0]
+
         assigned_songs: Set[str] = set()
         assigned_song_instruments: Dict[str, Set[str]] = defaultdict(set)
-        
+
+        if self._try_place_goal_song(active_pools, assigned_songs, assigned_song_instruments):
+            self.result.goal_placed = True
+
+        sorted_pools = sorted(active_pools, key=lambda p: (p.max_difficulty - p.min_difficulty, -p.amount_in_pool))
+
         for pool in sorted_pools:
             self._process_inclusion_list(pool, assigned_songs, assigned_song_instruments)
-        
+
         for pool in sorted_pools:
             self._assign_songs_to_pool(pool, assigned_songs)
-        
+
         self._backfill_shortages(sorted_pools)
-        
+
         return self.result
+    
+    def _try_place_goal_song(self, pools: List[SongPoolConfig], assigned_songs: Set[str], assigned_song_instruments: Dict[str, Set[str]]) -> bool:
+        
+        if self.goal_song and self.goal_song not in self.available_songs:
+            raise OptionError(f"Goal song '{self.goal_song}' is not in the available songs")
+        
+        if self.goal_pool and self.goal_song:
+            target_pool = next((p for p in pools if p.name == self.goal_pool), None)
+            if not target_pool:
+                return False # Target Pool wasn't in this passthrough
+            
+            song_data = self.available_songs[self.goal_song]
+            if target_pool.instrument not in song_data.Difficulties:
+                raise OptionError(
+                    f"Goal song '{self.goal_song}' does not have instrument '{target_pool.instrument}' "
+                    f"required by goal pool '{self.goal_pool}'"
+                )
+            
+            if target_pool.name not in self.result.pool_assignments:
+                self.result.pool_assignments[target_pool.name] = []
+            
+            self.result.pool_assignments[target_pool.name].append(self.goal_song)
+            assigned_songs.add(self.goal_song)
+            assigned_song_instruments[self.goal_song].add(target_pool.instrument)
+            return True
+        elif self.goal_song:
+            song_data = self.available_songs[self.goal_song]
+            
+            shuffled_pools = pools.copy()
+            self.random.shuffle(shuffled_pools)
+
+            for pool in shuffled_pools:
+                if (pool.instrument in song_data.Difficulties and pool.instrument not in assigned_song_instruments[self.goal_song]):
+                    
+                    if pool.name not in self.result.pool_assignments:
+                        self.result.pool_assignments[pool.name] = []
+                    
+                    self.result.pool_assignments[pool.name].append(self.goal_song)
+                    assigned_songs.add(self.goal_song)
+                    assigned_song_instruments[self.goal_song].add(pool.instrument)
+                    return True
+            
+            return False # Goal Song did not have the instrument for any pool in this pass
+        
+        return True # We didn't define a goal song se we are done.
     
     def _process_inclusion_list(self, pool: SongPoolConfig, assigned_songs: Set[str], 
                                  assigned_song_instruments: Dict[str, Set[str]]):
@@ -194,7 +245,9 @@ def distribute_songs_to_pools(
     song_pools: Dict[str, Dict],
     available_songs: Dict[str, YargExportSongData],
     inclusion_lists: Dict[str, List[str]] = None,
-    exclusion_lists: Dict[str, List[str]] = None
+    exclusion_lists: Dict[str, List[str]] = None,
+    goal_song: str = None,
+    goal_pool: str = None
 ) -> SongDistributionResult:
-    distributor = SongDistributor(rnd, song_pools, available_songs, inclusion_lists, exclusion_lists)
+    distributor = SongDistributor(rnd, song_pools, available_songs, inclusion_lists, exclusion_lists, goal_song, goal_pool)
     return distributor.distribute()

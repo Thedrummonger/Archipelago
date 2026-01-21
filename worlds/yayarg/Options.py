@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from Options import FreeText, OptionDict, StartInventoryPool, Choice, Range, PerGameCommonOptions, Toggle, OptionDict, OptionError
-from schema import Schema, And
+from schema import Optional, Schema, And
 from typing import Any
 
 # Maximum number of songs available.
@@ -36,6 +36,49 @@ class SongList(FreeText):
     WARNING: You can NOT format this as weighted option. You must replace null with the hashstring in quotes.
     """
     display_name = "Song List"
+    default = None
+
+class SongPoolExclusions(OptionDict):
+    """
+    A list of songs per song pool that should not be placed in that song pool
+
+    songs must be entered by the song hash which can be obtained from the YAML Generator
+
+    For example, \"Guitar Pool 1\": [\"songHashExample1\", \"songHashExample2\"]
+    """
+    display_name = "Song Pool Exclusions"
+    schema = Schema({
+        Optional(str): list
+    })
+
+class SongPoolForceInclusions(OptionDict):
+    """
+    A list of songs per song pool that should always be placed in the given pool.
+    If more inclusions are entered than slot available in the pool, a random subset will be chosen.
+
+    songs must be entered by the song hash which can be obtained from the YAML Generator
+
+    For example, \"Guitar Pool 1\": [\"songHashExample1\", \"songHashExample2\"]
+    """
+    display_name = "Song Pool Forced Inclusions"
+    schema = Schema({
+        Optional(str): list
+    })
+
+class GoalSongPoolPlando(FreeText):
+    """
+    Forces the goal song into the given pool
+    """
+    display_name = "Goal Pool Plando"
+    default = None
+
+class GoalSongSongPlando(FreeText):
+    """
+    Forces the goal song to be the given song
+    
+    The song must be entered by the song hash which can be obtained from the YAML Generator
+    """
+    display_name = "Goal Song Plando"
     default = None
 
 class SongPools(OptionDict):
@@ -318,6 +361,10 @@ class YargEnergyLink(Choice):
 class YargOptions(PerGameCommonOptions):
     songList: SongList
     song_pools: SongPools
+    song_pool_exclusions: SongPoolExclusions
+    song_pool_inclusions: SongPoolForceInclusions
+    goal_pool_plando: GoalSongPoolPlando
+    goal_song_plando: GoalSongSongPlando
     song_check_extra: SongCheckExtra
     song_pack_size: SongPackAmount
     instrument_shuffle: InstrumentShuffle

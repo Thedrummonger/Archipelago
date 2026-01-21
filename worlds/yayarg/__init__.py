@@ -113,11 +113,28 @@ class yargWorld(World):
         # and run them through the distributer separately
         if (self.options.reuse_songs.value == 1):
             song_distribution_groups = split_pools_by_instrument(self.options.song_pools.value)
-        
+            
+        shuffled_groups = list(song_distribution_groups.items())
+        self.random.shuffle(shuffled_groups)
+
+        exclusionList: dict[str, list[str]] = self.options.song_pool_exclusions.value
+        inclusionList: dict[str, list[str]] = self.options.song_pool_inclusions.value
+
+        goalSongPlando = self.options.goal_song_plando.value or None
+        goalPoolPlando = self.options.goal_pool_plando.value or None
+
         all_assignments: Dict[str, list[str]] = {}
-        for _, pools in song_distribution_groups.items():
-            result = distribute_songs_to_pools(self.random, pools, user_songs)
+        goal_plando_processed = False
+        for _, pools in shuffled_groups:
+            goal_song_plando_to_process = goalSongPlando if goalSongPlando and not goal_plando_processed else None
+            goal_pool_plando_to_process = goalPoolPlando if goalPoolPlando and not goal_plando_processed else None
+            result = distribute_songs_to_pools(self.random, pools, user_songs, inclusionList, exclusionList, goal_song_plando_to_process, goal_pool_plando_to_process)
             all_assignments.update(result.pool_assignments)
+            if result.goal_placed:
+                goal_plando_processed = True
+        
+        if (goalSongPlando or goalPoolPlando) and not goal_plando_processed:
+            raise OptionError("Goal plando could not be preocessed")
         
         # A list of AssignedSongData, each entry represents a single song, containing it's location unlock items and song pool
         for pool, assignedHashes in all_assignments.items():
@@ -125,13 +142,35 @@ class yargWorld(World):
                 AssignmentData = AssignedSongData(hash, pool)
                 self.AssignedSongs.append(AssignmentData)
 
+        #if we plando our goal song on anything, set it before starting songs so instrument rando can take it into account
+        if goalSongPlando or goalPoolPlando:
+            goal_candidates = self.AssignedSongs.copy()
+
+            if goalSongPlando:
+                goal_candidates = [song for song in goal_candidates if song.SongHash == goalSongPlando]
+
+            if goalPoolPlando:
+                goal_candidates = [song for song in goal_candidates if song.SongPool == goalPoolPlando]
+
+            if not goal_candidates:
+                error_msg = "Goal song not found"
+                if goalSongPlando and goalPoolPlando:
+                    error_msg = f"Goal song '{goalSongPlando}' was not assigned to pool '{goalPoolPlando}'"
+                elif goalSongPlando:
+                    error_msg = f"Goal song '{goalSongPlando}' was not assigned to any pool"
+                elif goalPoolPlando:
+                    error_msg = f"No songs found in pool '{goalPoolPlando}'"
+                raise OptionError(error_msg)
+            self.GoalSong = self.random.choice(goal_candidates)
+            self.GoalSong.Goal = True
+
         # If we are shuffling instruments, pick a starting instrument that will allow us enough songs to fill 
         # our starting songs 
         if self.options.instrument_shuffle.value == 1:
             distinct_instruments = {pool_data["instrument"] for pool_data in self.options.song_pools.value.values()}
             songs_per_instrument = {}
             for instrument in distinct_instruments:
-                count = len([song for song in self.AssignedSongs if song.GetInstrument(self.options.song_pools.value) == instrument])
+                count = len([song for song in self.AssignedSongs if not song.Goal and song.GetInstrument(self.options.song_pools.value) == instrument])
                 songs_per_instrument[instrument] = count
             
             valid_starting_instruments = [
@@ -147,19 +186,21 @@ class yargWorld(World):
                 )
             self.starting_instrument = self.random.choice(valid_starting_instruments)
 
-        eligible_starting_songs = self.AssignedSongs
+        # Select starting songs
+        eligible_starting_songs = [song for song in self.AssignedSongs if not song.Goal]
         if self.starting_instrument:
-            eligible_starting_songs = [song for song in self.AssignedSongs
-                if self.options.song_pools.value[song.SongPool]["instrument"] == self.starting_instrument]
+            eligible_starting_songs = [song for song in eligible_starting_songs if self.options.song_pools.value[song.SongPool]["instrument"] == self.starting_instrument]
 
-        # Select Starting Songs before goal song since starting songs can be picky with instrument rando
-        # and we don't want to waste a potential candidate
         self.startingSongs = self.random.sample(eligible_starting_songs, self.options.starting_songs.value)
         for song in self.startingSongs:
             song.Starting = True
-        
-        self.GoalSong = self.random.choice([song for song in self.AssignedSongs if not song.Starting])
-        self.GoalSong.Goal = True
+
+        if not self.GoalSong:
+            goal_candidates = [song for song in self.AssignedSongs if not song.Starting]
+            if not goal_candidates:
+                raise OptionError("No valid goal songs available")
+            self.GoalSong = self.random.choice(goal_candidates)
+            self.GoalSong.Goal = True
         
         # Technically Goal Song can have an unlock item, but we handle it differently
         self.SongsWithUnlockItems = [song for song in self.AssignedSongs if not song.Starting and not song.Goal]
