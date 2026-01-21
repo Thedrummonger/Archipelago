@@ -9,7 +9,8 @@ from .Items import WeightedItem, StaticItems, pick_weighted_item, YargItem
 from Options import OptionError
 from .data_register import YargAPImportData, ImportAndCreateItemLocationData, nice_name, YargSongData
 from .yarg_song_data_helper import deserialize_song_data
-from .song_distribution import distribute_songs_to_pools, split_pools_by_instrument
+from .song_distribution import distribute_songs_to_pools
+from .TDMutility import split_pools_by_instrument
 
 class yargWebWorld(WebWorld):
     theme = "partyTime"
@@ -115,10 +116,7 @@ class yargWorld(World):
         
         all_assignments: Dict[str, list[str]] = {}
         for _, pools in song_distribution_groups.items():
-            result = distribute_songs_to_pools(pools, user_songs)
-            if not result.success:
-                error_message = "Failed to Fill Song pools:\n" + "\n".join(result.errors)
-                raise OptionError(error_message)
+            result = distribute_songs_to_pools(self.random, pools, user_songs)
             all_assignments.update(result.pool_assignments)
         
         # A list of AssignedSongData, each entry represents a single song, containing it's location unlock items and song pool
