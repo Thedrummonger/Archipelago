@@ -25,10 +25,27 @@ class StaticItems:
     TrapRestart: str = "Restart Trap"
     TrapRockMeter: str = "Rock Meter Trap"
 
-# ------------------------------------------------------------------------------
-# Global Item Data and Song Pool Initialization
-# ------------------------------------------------------------------------------
-
+static_item_data = {
+    ItemClassification.progression_skip_balancing: [
+        StaticItems.Victory,
+        StaticItems.FamePoint,
+        StaticItems.SongCompletion
+    ],
+    ItemClassification.filler: [
+        StaticItems.StarPower,
+        StaticItems.SwapRandom,
+        StaticItems.SwapPick
+    ],
+    ItemClassification.useful:[
+        StaticItems.SwapRandom,
+        StaticItems.SwapPick,
+        StaticItems.LowerDifficulty
+    ],
+    ItemClassification.trap: [
+        StaticItems.TrapRestart,
+        StaticItems.TrapRockMeter
+    ]
+}
 
 # ------------------------------------------------------------------------------
 # Weighted Item and Helper Function

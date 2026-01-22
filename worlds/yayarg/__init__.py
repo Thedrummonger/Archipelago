@@ -69,9 +69,9 @@ class yargWorld(World):
     options_dataclass = YargOptions
     options: YargOptions
 
-    location_name_to_id = {}
-    item_name_to_id = {}
-    item_location_data: YargAPImportData = None
+    item_location_data: YargAPImportData = ImportAndCreateItemLocationData()
+    location_name_to_id = item_location_data.location_name_to_id
+    item_name_to_id = item_location_data.item_name_to_id
     
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
@@ -88,13 +88,7 @@ class yargWorld(World):
 
         self.famePointsNeeded: int = 0
         self.SongCompletionsNeeded: int = 0
-        
-        if self.item_location_data is None:
-            self.item_location_data = ImportAndCreateItemLocationData()
-            self.location_name_to_id = self.item_location_data.location_name_to_id
-            self.item_name_to_id = self.item_location_data.item_name_to_id
 
-    
     def generate_early(self) -> None:
 
         self.CreateFillerItems()
@@ -369,7 +363,22 @@ class yargWorld(World):
             "pools": self.options.song_pools.value,
             "song_data": dict(song_data)
         }
-
+    
+    def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]) -> None:
+        song_pack_hint_data = {}
+        for entry in self.SongsWithItemLocations:
+            if not entry.SongPack:
+                continue
+            standardCheck = entry.GetStandardCheck(self.options.song_pools.value, self.item_location_data)
+            standardCheckID = self.location_name_to_id[standardCheck]
+            song_pack_hint_data[standardCheckID] = entry.SongPack
+            if entry.ExtraCheck:
+                ExtraCheck = entry.GetExtraCheck(self.options.song_pools.value, self.item_location_data)
+                ExtraCheckID = self.location_name_to_id[ExtraCheck]
+                song_pack_hint_data[ExtraCheckID] = entry.SongPack
+                
+        hint_data.update({self.player: song_pack_hint_data})
+                
     
     def CreateFillerItems(self):
         if self.options.star_power.value > 0:
