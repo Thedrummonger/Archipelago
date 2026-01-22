@@ -102,6 +102,9 @@ class yargWorld(World):
         SerializedSongList = self.options.songList.value
         user_songs = deserialize_song_data(SerializedSongList)
 
+        if not user_songs:
+            raise OptionError(f'Failed to read song data for user {self.player_name}')
+
         for hash, data in user_songs.items():
             if hash not in self.item_location_data.hash_to_song_data:
                 raise OptionError(f"Fatal Error, Player {self.player_name} song {data.Title} was not added to master data list. Ensure the SongList Hash is not a weighted option.")
