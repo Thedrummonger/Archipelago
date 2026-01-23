@@ -26,6 +26,11 @@ class YargAPImportData:
         self.song_pack_id_to_name: Dict[int, str] = {}
         self.item_name_to_classification: Dict[str, ItemClassification] = {}
 
+        self.used_base_names: set[str] = set()
+        
+        self.current_location_id: int = 0
+        self.current_item_id: int = 0
+
 def nice_name(name):
     return re.sub(r'(?<=[a-z0-9])(?=[A-Z])', ' ', name)
 
@@ -34,8 +39,8 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
 
     import_data = YargAPImportData()
 
-    APLocIDCounter = CreateStaticLocations(import_data)
-    APItemIDCounter = CreateStaticItems(import_data)
+    import_data.current_location_id += CreateStaticLocations(import_data)
+    import_data.current_item_id += CreateStaticItems(import_data)
 
     SongNum = 1
 
@@ -50,54 +55,50 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
 
                 import_data.hash_to_song_data[checksum] = data
                 
-                locations_registered = register(import_data, data, song, 'none', '', APLocIDCounter, APItemIDCounter, SongNum)
-                APLocIDCounter += locations_registered
-                APItemIDCounter += 1
-                
                 for instrument in VALID_INSTRUMENTS:
-                    inst = nice_name(instrument)
-                    locations_registered = register(import_data, data, song, instrument, f' ({inst})', APLocIDCounter, APItemIDCounter, SongNum)
-                    APLocIDCounter += locations_registered
-                    APItemIDCounter += 1
+                    inst_name = nice_name(instrument)
+                    register(import_data, data, instrument, f'{song.Title} on {inst_name}')
                 
                 SongNum += 1
 
     for i in range(math.ceil(len(import_data.item_name_to_id) / 2)):
         songpack = f"Song Pack {i+1}"
         import_data.song_pack_id_to_name[i+1] = songpack
-        import_data.item_name_to_id[songpack] = APItemIDCounter
+        import_data.item_name_to_id[songpack] = import_data.current_item_id
         import_data.item_name_to_classification[songpack] = ItemClassification.progression
-        APItemIDCounter += 1
+        import_data.current_item_id += 1
 
     return import_data 
    
-def register(
-        ImportData: YargAPImportData,
-        songData: YargSongData, 
-        ExportData: YargExportSongData, 
-        instrument_key: str, 
-        instrument_display: str, 
-        current_location_id: int, 
-        current_item_id: int, 
-        song_num: int) -> int:
+def register(ImportData: YargAPImportData, songData: YargSongData, instrument_key: str, base_name: str):
+    
+    # If one or more users have the same song with the same title but a different hash
+    # (due to different instruments or difficulties) make sure the names are unique.
+    baseName = base_name
+    postfix_counter = 0
+    while baseName in ImportData.used_base_names:
+        postfix_counter += 1
+        baseName = f'{base_name} ({postfix_counter})'
+    ImportData.used_base_names.add(baseName)
 
-    itemName = f'Song {song_num}: {ExportData.Title}{instrument_display}'
-    songData.unlock_items[instrument_key] = itemName
-    ImportData.item_name_to_id[itemName] = current_item_id
-    ImportData.item_name_to_classification[itemName] = ItemClassification.progression
+    songData.unlock_items[instrument_key] = baseName
+    ImportData.item_name_to_id[baseName] = ImportData.current_item_id
+    ImportData.item_name_to_classification[baseName] = ItemClassification.progression
+    ImportData.current_item_id += 1
     
     locations = [
-        (songData.main_locations, f'Song {song_num}: {ExportData.Title}{instrument_display} Reward 1'),
-        (songData.extra_locations, f'Song {song_num}: {ExportData.Title}{instrument_display} Reward 2'),
-        (songData.completion_locations, f'Song {song_num}: {ExportData.Title}{instrument_display} Completion')
+        (songData.main_locations, 'Reward 1'),
+        (songData.extra_locations, 'Reward 2'),
+        (songData.completion_locations, 'Completion')
     ]
     
-    for i, (location_dict, location_name) in enumerate(locations):
+    for (location_dict, location_postfix) in locations:
+        location_name = f'{baseName} {location_postfix}'
         location_dict[instrument_key] = location_name
-        loc_id = current_location_id + i
-        ImportData.location_name_to_id[location_name] = loc_id
+        ImportData.location_name_to_id[location_name] = ImportData.current_location_id
         ImportData.location_name_to_song_data[location_name] = songData
-        ImportData.location_id_to_song_data[loc_id] = songData
+        ImportData.location_id_to_song_data[ImportData.current_location_id] = songData
+        ImportData.current_location_id += 1
     return len(locations)
 
 def CreateStaticLocations(import_data: YargAPImportData):
