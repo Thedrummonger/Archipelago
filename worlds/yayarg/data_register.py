@@ -35,14 +35,12 @@ def nice_name(name):
     return re.sub(r'(?<=[a-z0-9])(?=[A-Z])', ' ', name)
 
 def ImportAndCreateItemLocationData() -> YargAPImportData:
+
     song_values = collect_all_option_values(verbose=False)
 
     import_data = YargAPImportData()
 
-    import_data.current_location_id += CreateStaticLocations(import_data)
-    import_data.current_item_id += CreateStaticItems(import_data)
-
-    SongNum = 1
+    CreateStaticItems(import_data)
 
     for SerializedSongList in song_values:
         song_dict = deserialize_song_data(SerializedSongList)
@@ -58,8 +56,6 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
                 for instrument in VALID_INSTRUMENTS:
                     inst_name = nice_name(instrument)
                     register(import_data, data, instrument, f'{song.Title} on {inst_name}')
-                
-                SongNum += 1
 
     for i in range(math.ceil(len(import_data.item_name_to_id) / 2)):
         songpack = f"Song Pack {i+1}"
@@ -92,7 +88,7 @@ def register(ImportData: YargAPImportData, songData: YargSongData, instrument_ke
         (songData.completion_locations, 'Completion')
     ]
     
-    for (location_dict, location_postfix) in locations:
+    for location_dict, location_postfix in locations:
         location_name = f'{baseName} {location_postfix}'
         location_dict[instrument_key] = location_name
         ImportData.location_name_to_id[location_name] = ImportData.current_location_id
@@ -101,22 +97,16 @@ def register(ImportData: YargAPImportData, songData: YargSongData, instrument_ke
         ImportData.current_location_id += 1
     return len(locations)
 
-def CreateStaticLocations(import_data: YargAPImportData):
-    location_index = 0
-    return location_index
-
 def CreateStaticItems(import_data: YargAPImportData):
 
-    item_index = 1
     for classification, items in static_item_data.items():
         for item in items:
-            import_data.item_name_to_id[item] = item_index
+            import_data.item_name_to_id[item] = import_data.current_item_id
             import_data.item_name_to_classification[item] = classification
-            item_index += 1
+            import_data.current_item_id += 1
     
     for inst in VALID_INSTRUMENTS:
-        import_data.item_name_to_id[nice_name(inst)] = item_index
+        import_data.item_name_to_id[nice_name(inst)] = import_data.current_item_id
         import_data.item_name_to_classification[nice_name(inst)] = ItemClassification.progression
-        item_index += 1
-    return item_index
+        import_data.current_item_id += 1
 
