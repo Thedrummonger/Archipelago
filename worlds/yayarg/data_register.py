@@ -1,10 +1,9 @@
 import math
 import re
 from typing import Dict
-from .Options import VALID_INSTRUMENTS
 from worlds.yayarg.yaml_scanner import collect_all_option_values
 from worlds.yayarg.yarg_song_data_helper import deserialize_song_data, YargExportSongData
-from .Items import static_item_data
+from .Items import InstrumentItems, StaticItems
 from BaseClasses import ItemClassification
 
 class YargSongData:
@@ -53,9 +52,8 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
 
                 import_data.hash_to_song_data[checksum] = data
                 
-                for instrument in VALID_INSTRUMENTS:
-                    inst_name = nice_name(instrument)
-                    register(import_data, data, instrument, f'{song.Title} on {inst_name}')
+                for instrument in InstrumentItems:
+                    register(import_data, data, instrument.name, f'{song.Title} on {instrument.nice_name}')
 
     for i in range(math.ceil(len(import_data.item_name_to_id) / 2)):
         songpack = f"Song Pack {i+1}"
@@ -98,15 +96,13 @@ def register(ImportData: YargAPImportData, songData: YargSongData, instrument_ke
     return len(locations)
 
 def CreateStaticItems(import_data: YargAPImportData):
-
-    for classification, items in static_item_data.items():
-        for item in items:
-            import_data.item_name_to_id[item] = import_data.current_item_id
-            import_data.item_name_to_classification[item] = classification
-            import_data.current_item_id += 1
+    for item in StaticItems:
+        import_data.item_name_to_id[item.nice_name] = import_data.current_item_id
+        import_data.item_name_to_classification[item.nice_name] = item.classification
+        import_data.current_item_id += 1
     
-    for inst in VALID_INSTRUMENTS:
-        import_data.item_name_to_id[nice_name(inst)] = import_data.current_item_id
-        import_data.item_name_to_classification[nice_name(inst)] = ItemClassification.progression
+    for inst in InstrumentItems:
+        import_data.item_name_to_id[inst.nice_name] = import_data.current_item_id
+        import_data.item_name_to_classification[inst.nice_name] = inst.classification
         import_data.current_item_id += 1
 

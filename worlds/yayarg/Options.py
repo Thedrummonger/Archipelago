@@ -2,17 +2,12 @@ from dataclasses import dataclass
 from Options import FreeText, OptionDict, StartInventoryPool, Choice, Range, PerGameCommonOptions, Toggle, OptionDict, OptionError
 from schema import Optional, Schema, And
 from typing import Any
+from .Items import InstrumentItems
 
 # Maximum number of songs available.
 
 # Supported instrument names
-VALID_INSTRUMENTS = {
-    "FiveFretGuitar", "FiveFretBass", "Keys",
-    "SixFretGuitar", "SixFretBass",
-    "FourLaneDrums", "ProDrums", "FiveLaneDrums",
-    "ProKeys",
-    "Vocals", "Harmony"
-}
+VALID_INSTRUMENTS = {item.name for item in InstrumentItems}
 
 # Completion requirement names (from CompletionReq enum)
 VALID_COMPLETION_REQS = {

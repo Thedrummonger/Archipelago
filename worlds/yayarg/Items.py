@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from random import Random
 from typing import NamedTuple, List
 from BaseClasses import Item, ItemClassification
+from enum import Enum
 
 # ------------------------------------------------------------------------------
 # Item Classes and Helpers
@@ -14,38 +15,38 @@ class YargItemData(NamedTuple):
     itemName: str
     classification: ItemClassification
 
-class StaticItems:
-    Victory: str    = "Victory"
-    FamePoint: str  = "Fame Point"
-    SongCompletion: str  = "Song Completion"
-    StarPower: str  = "Star Power"
-    SwapRandom: str = "Swap Song (Random)"
-    SwapPick: str   = "Swap Song (Pick)"
-    LowerDifficulty: str = "Lower Difficulty"
-    TrapRestart: str = "Restart Trap"
-    TrapRockMeter: str = "Rock Meter Trap"
+class StaticItems(Enum):
+    Victory = ("Victory", ItemClassification.progression_skip_balancing)
+    FamePoint = ("Fame Point", ItemClassification.progression_skip_balancing)
+    SongCompletion = ("Song Completion", ItemClassification.progression_skip_balancing)
+    StarPower = ("Star Power", ItemClassification.filler)
+    SwapRandom = ("Swap Song (Random)", ItemClassification.useful)
+    SwapPick = ("Swap Song (Pick)", ItemClassification.useful)
+    LowerDifficulty = ("Lower Difficulty", ItemClassification.useful)
+    TrapRestart = ("Restart Trap", ItemClassification.trap)
+    TrapRockMeter = ("Rock Meter Trap", ItemClassification.trap)
+    
+    def __init__(self, nice_name, classification):
+        self.nice_name = nice_name
+        self.classification = classification
 
-static_item_data = {
-    ItemClassification.progression_skip_balancing: [
-        StaticItems.Victory,
-        StaticItems.FamePoint,
-        StaticItems.SongCompletion
-    ],
-    ItemClassification.filler: [
-        StaticItems.StarPower,
-        StaticItems.SwapRandom,
-        StaticItems.SwapPick
-    ],
-    ItemClassification.useful:[
-        StaticItems.SwapRandom,
-        StaticItems.SwapPick,
-        StaticItems.LowerDifficulty
-    ],
-    ItemClassification.trap: [
-        StaticItems.TrapRestart,
-        StaticItems.TrapRockMeter
-    ]
-}
+class InstrumentItems(Enum):
+    # Single point of definition - just nice names, all are progression
+    FiveFretGuitar = "Five Fret Guitar"
+    FiveFretBass = "Five Fret Bass"
+    Keys = "Keys"
+    SixFretGuitar = "Six Fret Guitar"
+    SixFretBass = "Six Fret Bass"
+    FourLaneDrums = "Four Lane Drums"
+    ProDrums = "Pro Drums"
+    FiveLaneDrums = "Five Lane Drums"
+    ProKeys = "Pro Keys"
+    Vocals = "Vocals"
+    Harmony = "Harmony"
+    
+    def __init__(self, nice_name):
+        self.nice_name = nice_name
+        self.classification = ItemClassification.progression
 
 # ------------------------------------------------------------------------------
 # Weighted Item and Helper Function
