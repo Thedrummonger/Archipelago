@@ -202,7 +202,7 @@ class yargWorld(World):
             for i, song in enumerate(self.SongsWithUnlockItems):
                 song.SongPack = pack_pool[i]
 
-        self.SongCompletionsNeeded = ceil(len(self.SongsWithItemLocations) * (self.options.fame_point_needed.value / 100))
+        self.SongCompletionsNeeded = ceil(len(self.SongsWithItemLocations) * (self.options.setlist_needed.value / 100))
         self.famePointsNeeded = ceil(self.options.fame_point_amount.value * (self.options.fame_point_needed.value / 100))
         
 
@@ -223,7 +223,7 @@ class yargWorld(World):
         # Add Fame Points to Pool
         fame_points_in_pool = self.options.fame_point_amount.value if self.options.fame_point_needed.value > 0 else 0
         if fame_points_in_pool > 0:
-            self.multiworld.itempool += [self.create_item(StaticItems.FamePoint) for _ in range(fame_points_in_pool)]
+            self.multiworld.itempool += [self.create_item(StaticItems.FamePoint.name) for _ in range(fame_points_in_pool)]
 
         # Add Unlock Items for all songs that need them
         unlockItems: set[str] = set()
@@ -288,9 +288,9 @@ class yargWorld(World):
         menuRegion.add_locations(allLocations, YargLocation)
 
         for check in CompletionChecks:
-            self.multiworld.get_location(check, self.player).place_locked_item(self.create_item(StaticItems.SongCompletion))
+            self.multiworld.get_location(check, self.player).place_locked_item(self.create_item(StaticItems.SongCompletion.name))
         
-        self.multiworld.get_location(GoalSongLocation, self.player).place_locked_item(self.create_item(StaticItems.Victory))
+        self.multiworld.get_location(GoalSongLocation, self.player).place_locked_item(self.create_item(StaticItems.Victory.name))
         
     def set_rules(self) -> None:
         for entry in self.SongsWithItemLocations:
@@ -317,17 +317,17 @@ class yargWorld(World):
         GoalSongCheck = self.GoalSong.GetStandardCheck(self.options.song_pools.value, self.item_location_data)
         GoalSongLocation = self.multiworld.get_location(GoalSongCheck, self.player)
         GoalSongLocation.access_rule = lambda state, I=goal_instrument, P=goal_unlockitem: self.can_complete_goal(state, I, P)
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(StaticItems.Victory, self.player)
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(StaticItems.Victory.name, self.player)
 
     def can_complete_goal(self, state: CollectionState, instrument: str, unlockItem: str) -> bool:
         SongLocationUnlocked = state.has(instrument, self.player) and state.has(unlockItem, self.player)
-        MetFameGoal = self.famePointsNeeded == 0 or state.has(StaticItems.FamePoint, self.player, self.famePointsNeeded)
-        MetSetlistGoal = self.SongCompletionsNeeded == 0 or state.has(StaticItems.SongCompletion, self.player, self.SongCompletionsNeeded)
+        MetFameGoal = self.famePointsNeeded == 0 or state.has(StaticItems.FamePoint.name, self.player, self.famePointsNeeded)
+        MetSetlistGoal = self.SongCompletionsNeeded == 0 or state.has(StaticItems.SongCompletion.name, self.player, self.SongCompletionsNeeded)
         return SongLocationUnlocked and MetFameGoal and MetSetlistGoal
             
     def get_filler_item_name(self) -> str:
         if not self.fillerItems:
-            return StaticItems.StarPower
+            return StaticItems.StarPower.name
         return pick_weighted_item(self.random, self.fillerItems).name
     
     def fill_slot_data(self) -> Dict[str, Any]:
@@ -382,16 +382,16 @@ class yargWorld(World):
     
     def CreateFillerItems(self):
         if self.options.star_power.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.StarPower, self.options.star_power.value))
+            self.fillerItems.append(WeightedItem(StaticItems.StarPower.name, self.options.star_power.value))
         if self.options.swap_song_random.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.SwapRandom, self.options.swap_song_random.value))
+            self.fillerItems.append(WeightedItem(StaticItems.SwapRandom.name, self.options.swap_song_random.value))
         if self.options.swap_song_choice.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.SwapPick, self.options.swap_song_choice.value))
+            self.fillerItems.append(WeightedItem(StaticItems.SwapPick.name, self.options.swap_song_choice.value))
         if self.options.lower_difficulty.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.LowerDifficulty, self.options.lower_difficulty.value))
+            self.fillerItems.append(WeightedItem(StaticItems.LowerDifficulty.name, self.options.lower_difficulty.value))
         if self.options.restart_trap.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.TrapRestart, self.options.restart_trap.value))
+            self.fillerItems.append(WeightedItem(StaticItems.TrapRestart.name, self.options.restart_trap.value))
         if self.options.rock_meter_trap.value > 0:
-            self.fillerItems.append(WeightedItem(StaticItems.TrapRockMeter, self.options.rock_meter_trap.value))
+            self.fillerItems.append(WeightedItem(StaticItems.TrapRockMeter.name, self.options.rock_meter_trap.value))
         if not self.fillerItems:
-            self.fillerItems.append(WeightedItem(StaticItems.StarPower, 1))
+            self.fillerItems.append(WeightedItem(StaticItems.StarPower.name, 1))

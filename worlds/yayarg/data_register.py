@@ -97,8 +97,8 @@ def register(ImportData: YargAPImportData, songData: YargSongData, instrument_ke
 
 def CreateStaticItems(import_data: YargAPImportData):
     for item in StaticItems:
-        import_data.item_name_to_id[item.nice_name] = import_data.current_item_id
-        import_data.item_name_to_classification[item.nice_name] = item.classification
+        import_data.item_name_to_id[item.name] = import_data.current_item_id
+        import_data.item_name_to_classification[item.name] = item.classification
         import_data.current_item_id += 1
     
     for inst in InstrumentItems:

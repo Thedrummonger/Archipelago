@@ -26,7 +26,7 @@ class StaticItems(Enum):
     TrapRestart = ("Restart Trap", ItemClassification.trap)
     TrapRockMeter = ("Rock Meter Trap", ItemClassification.trap)
     
-    def __init__(self, nice_name, classification):
+    def __init__(self, nice_name: str, classification: ItemClassification):
         self.nice_name = nice_name
         self.classification = classification
 
