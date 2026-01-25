@@ -350,7 +350,7 @@ class yargWorld(World):
         GoalLocation = self.GoalSong.GetStandardCheck(self.options.song_pools.value, self.item_location_data)
         GoalLocationID = self.location_name_to_id[GoalLocation]
         unlockItem = self.GoalSong.GetUnlockSongItem(self.options.song_pools.value, self.item_location_data)
-        unlockItemID = self.item_name_to_id[unlockItem] if self.options.goal_song_item_needed else -1
+        unlockItemID = self.item_name_to_id[unlockItem]
         # string, string, long, long
         goal_data = (self.GoalSong.SongHash, self.GoalSong.SongPool, GoalLocationID, unlockItemID)
 
