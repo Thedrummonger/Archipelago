@@ -53,7 +53,7 @@ class SongPoolExclusions(OptionDict):
 class SongPoolForceInclusions(OptionDict):
     """
     A list of songs per song pool that should always be placed in the given pool.
-    If more inclusions are entered than slot available in the pool, a random subset will be chosen.
+    If more inclusions are entered than slots available in the pool, a random subset will be chosen.
 
     songs must be entered by the song hash which can be obtained from the YAML Generator
 
@@ -87,7 +87,7 @@ class SongPools(OptionDict):
     
     Each song pool must have a unique name and specify:
     - instrument: The instrument this pool is for (see supported instruments below)
-    - amount_in_pool: Number of songs from this pool to include (0 = all available songs)
+    - amount_in_pool: Number of songs from this pool to include
     - min_difficulty: Minimum difficulty tier (0 or higher)
     - max_difficulty: Maximum difficulty tier (0 or higher)
     - completion_requirements: Settings for what counts as completing a song
@@ -95,12 +95,10 @@ class SongPools(OptionDict):
     **Supported Instruments:**
     - FiveFretGuitar: Standard 5-button guitar
     - FiveFretBass: Standard 5-button bass
-    - Keys: Keyboard/keys
-    - SixFretGuitar: 6-button guitar (Guitar Hero Live style)
-    - SixFretBass: 6-button bass
     - FourLaneDrums: 4-lane drums (Rock Band style)
     - ProDrums: Pro drums with cymbals
     - FiveLaneDrums: 5-lane drums (Guitar Hero style)
+    - Keys: Keyboard/keys
     - ProKeys: Pro keys with multiple lanes
     - Vocals: Lead vocals
     - Harmony: Harmony vocals
