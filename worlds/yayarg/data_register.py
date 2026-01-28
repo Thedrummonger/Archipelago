@@ -6,6 +6,9 @@ from worlds.yayarg.yarg_song_data_helper import deserialize_song_data, YargExpor
 from .Items import InstrumentItems, StaticItems
 from BaseClasses import ItemClassification
 
+#This must be set to the same value in the CommonData class in the plugin
+_itemIDOffsetCounter: int = 100
+
 class YargSongData:
     def __init__(self, Hash: str, Difficulties: Dict[str, int]):
         self.Hash: str = Hash
@@ -27,8 +30,8 @@ class YargAPImportData:
 
         self.used_base_names: set[str] = set()
         
-        self.current_location_id: int = 0
-        self.current_item_id: int = 0
+        self.current_location_id: int = _itemIDOffsetCounter
+        self.current_item_id: int = _itemIDOffsetCounter
 
 def nice_name(name):
     return re.sub(r'(?<=[a-z0-9])(?=[A-Z])', ' ', name)
