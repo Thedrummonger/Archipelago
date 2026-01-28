@@ -3,21 +3,21 @@
 ## Required Software
 
 - **[Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases)**.
-    - Only to generate your YAML.
+    - Only if you are hosting the seed or playing solo.
 - **[YARG](https://yarg.in/)**
     - Available via the **[YARC Launcher](https://github.com/YARC-Official/YARC-Launcher/releases/latest)**.
 - **[BepInEx 5](https://github.com/BepInEx/BepInEx/releases)**
     - Use the latest version of `BepInEx 5.x.x` NOT `BepInEx 6.x.x`.
-- **[The YARG Archipelago Plugin](https://github.com/Thedrummonger/YargArchipelagoClient/releases/latest)**
-- **[The YARG Archipelago Client](https://github.com/Thedrummonger/YargArchipelagoClient/releases/latest)**
-- **[The YARG APWorld](https://github.com/Thedrummonger/YargArchipelagoClient/releases/latest)**
+- **[The YARG Archipelago Plugin](https://github.com/Thedrummonger/YargArchipelagoPluginV2/releases/latest)**
+- **[The YARG AP YAML Creator](https://github.com/Thedrummonger/YargArchipelagoPluginV2/releases/latest)**
+- **[The YARG APWorld](https://github.com/Thedrummonger/YargArchipelagoPluginV2/releases/latest)**
 
 ## Installation
 
 ### Setup
 
 1. **Install [Archipelago](https://archipelago.gg/tutorial/Archipelago/setup_en) and the Yarg APWorld**
-    - Unless you are the one generating the seed, this is only required to generate your YAML. The Archipelago program is not required to connect YARG to an AP server.
+    - Unless you are the one generating the seed, this is not required. The Archipelago program is not required to connect YARG to an AP server.
 
 2. **Install YARG**
     - Download and install the [**YARC Launcher**](https://github.com/YARC-Official/YARC-Launcher/releases/latest) and use it to install **YARG**. You can also download a portable build directly from [YARG releases](https://github.com/YARC-Official/YARG/releases/latest).
@@ -32,43 +32,26 @@
 
 4. **Install the YARG Archipelago Plugin**
     - Go to your YARG installation folder.
-    - Move `YargArchipelagoPlugin.dll` to the `BepInEx\plugins` directory.
+    - Open the YargAPPlugin.zip file downloaded from github
+    - Move `YargArchipelagoPlugin.dll` and `Archipelago.MultiClient.Net.dll` to the `BepInEx\plugins` directory.
 
 5. **Launch YARG & Import Songs**
     - Open YARG and import the songs you want in your seed.
         - It’s recommended to create a separate folder with only the songs you want in your seed and set that as your only active song folder in yarg.
     - Navigate to **Settings → Songs** and select **Scan Songs** at least once after updating your song directory.
-    - Ensure you have done this step and scanned your songs at least once before opening and configuring the client
+    - Ensure you have done this step and scanned your songs at least once before opening the YAML Creator and configuring your YAML.
 
-6. **Launch the YARG Archipelago Client & Configure Your Seed**
-    - This must be done **after** the world is generated, and **after** you have scanned your songs in YARG.
+6. **Generate Your YAML File**
+    - See `Create a Config (.yaml) File` below for instruction. This is not the normal setup process!
 
-
-## Which Client do I need?
-### Windows
-- Download the `yarg-ap-client-windows-x64.zip` file.
-- Extract the files and launch the `YargArchipelagoClient.exe`.
-### Linux
-- Download the `yarg-ap-console-linux-x64.zip` file.
-- Extract the files and run the client using the `run_client.sh` script or by running the command:
-```bash
-./YargArchipelagoCLI
-```
-- You may need to give execute permissions to the client and script using:
-```bash
-chmod +x ./YargArchipelagoCLI
-```
-### Anything else (MacOS, ARM, x86 etc)
-- Download the `yarg-ap-console-dotnet8.zip` file.
-- If you haven't already, install the [.NET 8 runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0). 
-- If you are on Windows, use the YargArchipelagoCLI.exe file.
-- If you are on anything else run it with:
-```bash
-dotnet ./YargArchipelagoCLI.dll
-```
+7. **Launch the YARG and Connect!**
+    - Once you have launched yarg with the plugin loaded, you will see a connection window. This window can be opened
+    or closed at any time with F10.
 
 
 ## Create a Config (.yaml) File
+
+> **Important:** READ THIS!!! This is **not** the usual Archipelago setup process!
 
 ### What is a config file and why do I need one?
 
@@ -76,32 +59,38 @@ See the guide on setting up a basic YAML at the Archipelago setup guide: [Basic 
 
 ### Where do I get a config file?
 
-Run `ArchipelagoLauncher.exe` and click on `Generate Template Options` to create a set of template YAMLs for each game in your Archipelago install.
-These will be placed in your Players/Templates folder.
+Unlike most Archipelago games, you **do not manually create** a YAML file for YARG.
 
-## Difference between the YAML config and the YARG client config settings
+Instead, you must use the **included YAML Creator application** to generate your config file.
 
-### **The YAML Config**
-- Created **before** the multiworld is generated.
-- Defines the number and types of items and locations in your world as well as your victory condition.
-- **Does NOT** specify what songs these locations require you to play or what is required to clear them.
+This is required because the YARG APWorld generates a **unique hash** based on the songs you currently have installed in YARG. That hash is used to build a **custom location list** for your seed. Without it, the generator has no way to know which songs exist in your library.
 
-### **The Client Config**
-- Created **after** the multiworld is generated when you first connect the client to the server.
-- Determines which songs from your YARG setlist are assigned to each Archipelago location.
-- Uses **Song Pools** to define the requirements such as instruments, difficulty, and minimum score for each song location.
 
-## Configuring a Song Pool
+## What is a Song Pool?
+
+Song pools are the system this YARG Archipelago implimentation uses to decide **which songs are included in your seed**.
+
+Each song pool defines a set of restrictions (instrument, difficulty range, clear requirements, etc.) and then adds a **specific number of songs** that match those rules to the seed. Your final song list is created by combining the results of *all* enabled song pools.
+
+For example, you could create:
+- A **Guitar** song pool that adds **20 songs** with difficulties between **3–5**
+- A **Drums** song pool that adds **20 songs** with difficulties between **1–4**
+
+Each song pool operates independently, allowing you to mix and match instruments and difficulty ranges freely.
+
+You can also create **multiple song pools for the same instrument**. For example:
+- A Guitar pool with difficulties **1–4** that requires a **Full Combo** to complete the check
+- Another Guitar pool with difficulties **4–6** that only requires **4 stars** for the main check and **3 stars** for the extra check
+
+This makes it possible to design very specific progression rules. Easier songs can demand high accuracy, while harder songs can allow more room for mistakes.
+
 
 ### **Adding a Song Pool**
 1. **Instrument** – Select the required instrument for this pool.
 2. **Name** – Choose a unique name (displayed alongside each song in the list).
 
 ### **Configuring a Song Pool**
-- **Random Pool Amount** – If enabled, it will pick a random amount of songs to add to this pool.
-- **Song pool Weight** – If Random Pool Amount is enabled, This will weight your odds of adding songs to this pool by the given amount.
-- **Amount in Pool** – The total number of songs in this pool.  
-  _(All pools combined must equal the total locations in your Archipelago world. Base Song Pool Amount + Starting Songs + 1 Goal Song)_
+- **Amount in Pool** – The total number of songs in this pool.
 - **Song Selection**
     - **Min Difficulty** – Only songs **at or above** this difficulty for the selected instrument are included.
     - **Max Difficulty** – Only songs **at or below** this difficulty for the selected instrument  are included.
@@ -114,9 +103,7 @@ These will be placed in your Players/Templates folder.
 ## Joining a MultiWorld Game
 
 
-### Connect and configure the client
+### Connecting to the AP Server
 
-1. Open the YARG Archipelago Client and connect to the Archipelago server when prompted
-2. Configure your client settings as detailed above.
-3. Open your YARG install, you should see a message in the client confirming YARG is connected.
-    - To test the connection, start playing any song. you should see the title of the client update to display the song name.
+1. Open YARG with the bepin plugins installed and connect to the Archipelago server using the f10 menu
+2. Your available songs will be displayed in a custom header in the music library.
