@@ -23,7 +23,6 @@
     - Download and install the **[YARC Launcher](https://github.com/YARC-Official/YARC-Launcher/releases/latest)** and use it to install **YARG**. You can also download a portable build directly from the [YARG releases](https://github.com/YARC-Official/YARG/releases/latest).
     - Both **nightly** and **stable** versions are supported; just be sure to use the corresponding plugin.
         - **Note:** Nightly updates frequently and requires reinstalling BepInEx and the AP plugin after each update.
-        - Currently, the only functional difference is that nightly supports *failing* a song, which can trigger DeathLink if enabled.
     - It is recommended to create a separate installation of **YARG** specifically for **Archipelago**. This can be done through the YARC Launcher or by using a portable YARG build.
 
 3. **Install BepInEx 5**

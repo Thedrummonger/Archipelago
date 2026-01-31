@@ -319,8 +319,7 @@ class YargDeathLink(Choice):
     Failing a song will send a DeathLink to others. 
     If you receive a DeathLink, you will instantly fail your current song. 
 
-    Death link will trigger if you "fail" a song (Currently only supported in Yarg Nightly) 
-    or if you fail to meet the requirements for the song location check after completing it.
+    Death link will trigger if you fail a song or if you fail to meet the requirements for the song location check after completing it.
 
     Modes:
     Instant Fail: Recieving a DeathLink will cause you to instantly fail the song you are currently playing.
