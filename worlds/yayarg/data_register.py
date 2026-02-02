@@ -56,7 +56,7 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
                 import_data.hash_to_song_data[checksum] = data
                 
                 for instrument in InstrumentItems:
-                    register(import_data, data, instrument.name, f'{song.Title} on {instrument.nice_name}')
+                    register(import_data, data, instrument, song)
 
     for i in range(math.ceil(len(import_data.item_name_to_id) / 2)):
         songpack = f"Song Pack {i+1}"
@@ -67,18 +67,18 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
 
     return import_data 
    
-def register(ImportData: YargAPImportData, songData: YargSongData, instrument_key: str, base_name: str):
+def register(ImportData: YargAPImportData, songData: YargSongData, instrument: InstrumentItems, exportData: YargExportSongData):
     
     # If one or more users have the same song with the same title but a different hash
     # (due to different instruments or difficulties) make sure the names are unique.
-    baseName = base_name
+    baseName = f'{exportData.Title} on {instrument.nice_name}'
     postfix_counter = 0
     while baseName in ImportData.used_base_names:
         postfix_counter += 1
-        baseName = f'{base_name} ({postfix_counter})'
+        baseName = f'{exportData.Title} on {instrument.nice_name} ({postfix_counter})'
     ImportData.used_base_names.add(baseName)
 
-    songData.unlock_items[instrument_key] = baseName
+    songData.unlock_items[instrument.name] = baseName
     ImportData.item_name_to_id[baseName] = ImportData.current_item_id
     ImportData.item_name_to_classification[baseName] = ItemClassification.progression
     ImportData.current_item_id += 1
@@ -91,7 +91,7 @@ def register(ImportData: YargAPImportData, songData: YargSongData, instrument_ke
     
     for location_dict, location_postfix in locations:
         location_name = f'{baseName} {location_postfix}'
-        location_dict[instrument_key] = location_name
+        location_dict[instrument.name] = location_name
         ImportData.location_name_to_id[location_name] = ImportData.current_location_id
         ImportData.location_name_to_song_data[location_name] = songData
         ImportData.location_id_to_song_data[ImportData.current_location_id] = songData
