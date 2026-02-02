@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Any, Dict
+from typing import Any, Dict, List, Tuple
 from math import ceil
 from BaseClasses import CollectionState, Region, Tutorial, MultiWorld
 from worlds.AutoWorld import WebWorld, World
@@ -106,12 +106,14 @@ class yargWorld(World):
         goalSongPlando = self.options.goal_song_plando.value if self.options.goal_song_plando.value is not None else None
         goalPoolPlando = self.options.goal_pool_plando.value if self.options.goal_pool_plando.value is not None else None
 
+        inclusion_list, exclusion_list = self.build_song_pool_inclusion_exclusion_dicts()
+
         distributor = (SongDistributor(self.random)
             .with_available_songs(user_songs)
             .with_pools(self.options.song_pools.value)
             .with_reuse_songs(self.options.reuse_songs.value == 1)
-            .with_inclusion_lists(self.options.song_pool_inclusions.value)
-            .with_exclusion_lists(self.options.song_pool_exclusions.value)
+            .with_inclusion_lists(inclusion_list)
+            .with_exclusion_lists(exclusion_list)
             .with_goal_song(goalSongPlando, goalPoolPlando)
         )
         
@@ -395,3 +397,24 @@ class yargWorld(World):
             self.fillerItems.append(WeightedItem(StaticItems.TrapRockMeter.nice_name, self.options.rock_meter_trap.value))
         if not self.fillerItems:
             self.fillerItems.append(WeightedItem(StaticItems.StarPower.nice_name, 1))
+
+    def build_song_pool_inclusion_exclusion_dicts(self) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
+    
+        pool_inclusions: Dict[str, List[str]] = defaultdict(list)
+        pool_exclusions: Dict[str, List[str]] = defaultdict(list)
+
+        pool_names = self.options.song_pools.value.keys()
+
+        for song_hash in self.options.song_exclusion_list.value:
+            for pool_name in pool_names:
+                pool_exclusions[pool_name].append(song_hash)
+
+        for song_hash, pools in self.options.exclusions_per_pool.value.items():
+            for pool_name in pools:
+                pool_exclusions[pool_name].append(song_hash)
+
+        for song_hash, pools in self.options.inclusions_per_pool.value.items():
+            for pool_name in pools:
+                pool_inclusions[pool_name].append(song_hash)
+
+        return dict(pool_inclusions), dict(pool_exclusions)

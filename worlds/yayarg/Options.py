@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import FreeText, OptionDict, StartInventoryPool, Choice, Range, PerGameCommonOptions, Toggle, OptionDict, OptionError
+from Options import FreeText, OptionDict, OptionSet, StartInventoryPool, Choice, Range, PerGameCommonOptions, Toggle, OptionDict, OptionError
 from schema import Optional, Schema, And
 from typing import Any
 from .Items import InstrumentItems
@@ -36,33 +36,57 @@ class SongList(FreeText):
     """
     display_name = "Song List"
     default = None
-
-class SongPoolExclusions(OptionDict):
+    
+class SongExclusions(OptionSet):
     """
-    A list of songs per song pool that should not be placed in that song pool
+    A list of songs that will be completely excluded from your seed.
 
-    songs must be entered by the song hash which can be obtained from the YAML Generator
+    Songs must be specified by their song hash, which can be obtained
+    from the YAML Generator.
 
-    For example, \"Guitar Pool 1\": [\"songHashExample1\", \"songHashExample2\"]
+    Example::
+        [song_hash_5, song_hash_6, song_hash_7]
+    """
+    display_name = "Global Song Exclusions"
+
+
+class SongExclusionPerPool(OptionDict):
+    """
+    A mapping of songs to the specific pools they should be excluded from.
+
+    Songs must be specified by their song hash, which can be obtained
+    from the YAML Generator.
+
+    Example::
+        song_hash_3: ['Guitar Pool Name', 'Bass Pool Name']
+        song_hash_4: ['Drum Pool Name']
     """
     display_name = "Song Pool Exclusions"
     schema = Schema({
-        Optional(str): list
+        str: list[str]
     })
+    default = {}
 
-class SongPoolForceInclusions(OptionDict):
+
+class SongInclusionsPerPool(OptionDict):
     """
-    A list of songs per song pool that should always be placed in the given pool.
-    If more inclusions are entered than slots available in the pool, a random subset will be chosen.
+    A mapping of songs to the pools they are required to appear in.
 
-    songs must be entered by the song hash which can be obtained from the YAML Generator
+    Each listed song will always appear in at least one of the specified pools.
 
-    For example, \"Guitar Pool 1\": [\"songHashExample1\", \"songHashExample2\"]
+    Songs must be specified by their song hash, which can be obtained
+    from the YAML Generator.
+    
+    Example::
+        song_hash_3: ['Guitar Pool Name', 'Bass Pool Name']
+        song_hash_4: ['Drum Pool Name']
     """
-    display_name = "Song Pool Forced Inclusions"
+    display_name = "Song Pool Inclusions"
     schema = Schema({
-        Optional(str): list
+        str: list[str]
     })
+    default = {}
+
 
 class GoalSongPoolPlando(FreeText):
     """
@@ -357,8 +381,9 @@ class YargEnergyLink(Choice):
 class YargOptions(PerGameCommonOptions):
     songList: SongList
     song_pools: SongPools
-    song_pool_exclusions: SongPoolExclusions
-    song_pool_inclusions: SongPoolForceInclusions
+    song_exclusion_list: SongExclusions
+    exclusions_per_pool: SongExclusionPerPool
+    inclusions_per_pool: SongInclusionsPerPool
     goal_pool_plando: GoalSongPoolPlando
     goal_song_plando: GoalSongSongPlando
     song_check_extra: SongCheckExtra
