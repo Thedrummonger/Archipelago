@@ -63,7 +63,7 @@ class SongExclusionPerPool(OptionDict):
     """
     display_name = "Song Pool Exclusions"
     schema = Schema({
-        str: list[str]
+        Optional(str): list[str]
     })
     default = {}
 
@@ -83,7 +83,7 @@ class SongInclusionsPerPool(OptionDict):
     """
     display_name = "Song Pool Inclusions"
     schema = Schema({
-        str: list[str]
+        Optional(str): list[str]
     })
     default = {}
 
