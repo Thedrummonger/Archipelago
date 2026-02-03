@@ -106,6 +106,9 @@ class yargWorld(World):
         goalSongPlando = self.options.goal_song_plando.value if self.options.goal_song_plando.value is not None else None
         goalPoolPlando = self.options.goal_pool_plando.value if self.options.goal_pool_plando.value is not None else None
 
+        if goalPoolPlando and goalPoolPlando in self.options.song_pools.value and self.options.song_pools.value[goalPoolPlando]["amount_in_pool"] <= 0:
+            self.options.song_pools.value[goalPoolPlando]["amount_in_pool"] = 1
+
         inclusion_list, exclusion_list = self.build_song_pool_inclusion_exclusion_dicts()
 
         distributor = (SongDistributor(self.random)
