@@ -332,7 +332,7 @@ class yargWorld(World):
             
     def get_filler_item_name(self) -> str:
         if not self.fillerItems:
-            return StaticItems.StarPower.nice_name
+            return StaticItems.Nothing.nice_name
         return pick_weighted_item(self.random, self.fillerItems).name
     
     def fill_slot_data(self) -> Dict[str, Any]:
@@ -398,8 +398,12 @@ class yargWorld(World):
             self.fillerItems.append(WeightedItem(StaticItems.TrapRestart.nice_name, self.options.restart_trap.value))
         if self.options.rock_meter_trap.value > 0:
             self.fillerItems.append(WeightedItem(StaticItems.TrapRockMeter.nice_name, self.options.rock_meter_trap.value))
+        if self.options.fail_prevention.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.FailPrevention.nice_name, self.options.fail_prevention.value))
+        if self.options.nothing_item.value > 0:
+            self.fillerItems.append(WeightedItem(StaticItems.Nothing.nice_name, self.options.nothing_item.value))
         if not self.fillerItems:
-            self.fillerItems.append(WeightedItem(StaticItems.StarPower.nice_name, 1))
+            self.fillerItems.append(WeightedItem(StaticItems.Nothing.nice_name, 1))
 
     def build_song_pool_inclusion_exclusion_dicts(self) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
     
