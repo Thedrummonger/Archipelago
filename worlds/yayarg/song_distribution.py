@@ -23,7 +23,6 @@ class SongDistributionResult:
 class SongDistributor:
     def __init__(self, rnd: random.Random):
         self.random = rnd
-        self.assigned_songs: Set[str] = set()
         self.assigned_song_instruments: Dict[str, Set[str]] = defaultdict(set)
         self.pool_assignments: Dict[str, List[str]] = {}
         self.goal_placed = False
@@ -99,13 +98,14 @@ class SongDistributor:
     
     def _song_would_create_duplicate_instrument(self, song_hash: str, pool: SongPoolConfig) -> bool:
         """Hard check: We can never have a song appear in more than one pool with the same instrument."""
-        return pool.instrument in self.assigned_song_instruments[song_hash]
+        return pool.instrument in self.assigned_song_instruments.get(song_hash, set())
     
     def _song_already_used(self, song_hash: str, pool: SongPoolConfig) -> bool:
-        if self.reuse_songs_across_instruments:
-            return False  # Can reuse across different instruments
-        else:
-            return song_hash in self.assigned_songs  # Cannot reuse at all
+        if self._song_would_create_duplicate_instrument(song_hash, pool):
+            return True
+        if not self.reuse_songs_across_instruments and song_hash in self.assigned_song_instruments:
+            return True
+        return False
     
     def _process_goal_song(self, pools: List[SongPoolConfig]):
         if not self.goal_song or self.goal_placed:
@@ -134,8 +134,7 @@ class SongDistributor:
             self.random.shuffle(shuffled_pools)
             
             for pool in shuffled_pools:
-                if (pool.instrument in song_data.Difficulties 
-                    and not self._song_would_create_duplicate_instrument(self.goal_song, pool)):
+                if (pool.instrument in song_data.Difficulties and not self._song_would_create_duplicate_instrument(self.goal_song, pool)):
                     self._assign_song_to_pool_internal(self.goal_song, pool)
                     self.goal_placed = True
                     return
@@ -230,13 +229,9 @@ class SongDistributor:
                 if refill_song is None:
                     continue
                 
-                self.pool_assignments[donor_pool.name].remove(song_hash)
-                self.pool_assignments[donor_pool.name].append(refill_song)
-                self.assigned_songs.add(refill_song)
-                
-                if recipient_pool.name not in self.pool_assignments:
-                    self.pool_assignments[recipient_pool.name] = []
-                self.pool_assignments[recipient_pool.name].append(song_hash)
+                self._remove_song_from_pool_internal(song_hash, donor_pool)
+                self._assign_song_to_pool_internal(refill_song, donor_pool)
+                self._assign_song_to_pool_internal(song_hash, recipient_pool)
                 
                 return True
         
@@ -267,5 +262,11 @@ class SongDistributor:
             self.pool_assignments[pool.name] = []
         
         self.pool_assignments[pool.name].append(song_hash)
-        self.assigned_songs.add(song_hash)
         self.assigned_song_instruments[song_hash].add(pool.instrument)
+
+    def _remove_song_from_pool_internal(self, song_hash: str, pool: SongPoolConfig):
+        self.pool_assignments[pool.name].remove(song_hash)
+        self.assigned_song_instruments[song_hash].remove(pool.instrument)
+
+        if not self.assigned_song_instruments[song_hash]:
+            del self.assigned_song_instruments[song_hash]
