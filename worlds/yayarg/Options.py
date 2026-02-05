@@ -279,8 +279,6 @@ class StarPowerItem(Range):
     """
     Specifies the weight of the Star Power filler item.
     This item adds 1/4 of a Star Power bar when received.
-
-    If all filler/trap items are set to a weight of zero, this value will be forced to 1
     """
     display_name = "Star Power Item Filler Weight"
     range_start = 0
@@ -319,7 +317,7 @@ class LowerDifficulty(Range):
 
 class RestartTrap(Range):
     """
-    Specifies the weight of the Restart Trap filler item.
+    Specifies the weight of the Restart Trap item.
     Recieving this item during a song will cause the song to immediately exit to the menu.
     """
     display_name = "Restart Trap Filler Weight"
@@ -329,10 +327,33 @@ class RestartTrap(Range):
 
 class RockMeterTrap(Range):
     """
-    Specifies the weight of the Rock Meter Trap filler item.
+    Specifies the weight of the Rock Meter Trap item.
     Recieving this item during a song will drain your rock meter by 1/4th.
     """
     display_name = "Rock Meter Trap Filler Weight"
+    range_start = 0
+    range_end = 999
+    default = 1
+
+class SongFailPrevention(Range):
+    """
+    Specifies the weight of the Failure Prevention item.
+    These will prevent you from failing a song once per item by granting you 1/4 of a rock meter.
+    It will activate automatically when you would fail a song.
+    """
+    display_name = "Failure Prevention"
+    range_start = 0
+    range_end = 999
+    default = 0
+
+class NothingItem(Range):
+    """
+    Specifies the weight of the Nothing filler item.
+    It does nothing.
+
+    If all filler/trap items are set to a weight of zero, this value will be forced to 1
+    """
+    display_name = "Nothing"
     range_start = 0
     range_end = 999
     default = 1
@@ -398,9 +419,11 @@ class YargOptions(PerGameCommonOptions):
     star_power: StarPowerItem
     swap_song_random: SwapSongRandom
     swap_song_choice: SwapSongChoice
+    fail_prevention: SongFailPrevention
     lower_difficulty: LowerDifficulty
     restart_trap: RestartTrap
     rock_meter_trap: RockMeterTrap
+    nothing_item: NothingItem
     death_link: YargDeathLink
     energy_link: YargEnergyLink
     start_inventory_from_pool: StartInventoryPool
