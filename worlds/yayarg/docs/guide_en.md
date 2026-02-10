@@ -102,6 +102,7 @@ This makes it possible to design very specific progression rules. Easier songs c
 
 ### Configuring a Song Pool
 - **Amount in Pool** – The total number of songs in this pool.
+- **Random Variance** – Randomizes the pool size by selecting a value between `amount in pool − variance` and `amount in pool + variance`
 - **Song Selection**
     - **Min Difficulty** – Only songs **at or above** this difficulty for the selected instrument are included.
     - **Max Difficulty** – Only songs **at or below** this difficulty for the selected instrument are included.
