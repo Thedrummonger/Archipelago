@@ -111,6 +111,7 @@ class SongPools(OptionDict):
     
     Each song pool must have a unique name and specify:
     - instrument: The instrument this pool is for (see supported instruments below)
+    - random_variance: Randomizes the pool size by selecting a value between amount_in_pool − variance and amount_in_pool + variance
     - amount_in_pool: Number of songs from this pool to include
     - min_difficulty: Minimum difficulty tier (0 or higher)
     - max_difficulty: Maximum difficulty tier (0 or higher)
@@ -152,6 +153,7 @@ class SongPools(OptionDict):
         "Guitar": {
             "instrument": "FiveFretGuitar",
             "amount_in_pool": 40,
+            "random_variance": 5,
             "min_difficulty": 3,
             "max_difficulty": 5,
             "completion_requirements": {
@@ -167,6 +169,7 @@ class SongPools(OptionDict):
         str: {  # Pool name (must be unique)
             "instrument": And(str, lambda s: s in VALID_INSTRUMENTS),
             "amount_in_pool": And(int, lambda n: n >= 0),
+            "random_variance": And(int, lambda n: n >= 0),
             "min_difficulty": And(int, lambda n: n >= 0),
             "max_difficulty": And(int, lambda n: n >= 0),
             "completion_requirements": {

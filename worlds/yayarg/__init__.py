@@ -93,6 +93,16 @@ class yargWorld(World):
 
         self.CreateFillerItems()
 
+        for _, pool in self.options.song_pools.value.items():
+            base = int(pool.get("amount_in_pool", 0))
+            variance = int(pool.get("random_variance", 0))
+
+            if variance > 0:
+                low = max(0, base - variance)
+                high = base + variance
+                pool["amount_in_pool"] = self.random.randint(low, high)
+
+
         SerializedSongList = self.options.songList.value
         user_songs = deserialize_song_data(SerializedSongList)
 
