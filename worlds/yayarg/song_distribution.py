@@ -217,11 +217,15 @@ class SongDistributor:
                 continue
             
             for song_hash in donor_song_hashes:
+                # Make sure we never steal the goal song out of the goal pool if both are assigned
+                if self.goal_song and self.goal_pool and self.goal_song == song_hash and self.goal_pool == donor_pool.name:
+                    continue
+
                 if not self._song_fits_pool(song_hash, recipient_pool):
                     continue
                 
-                # If we are stealing from a song with the same instrument, we know we are safe to move the song
-                # But if its a differnt instrument, we have to check that it does not already exist in a pool with this same instrument
+                # If we are stealing from a pool with the same instrument, we know we are safe to move the song
+                # But if its a differnt instrument, we have to check that it does not already exist in another pool with this same instrument
                 if donor_pool.instrument != recipient_pool.instrument and self._song_would_create_duplicate_instrument(song_hash, recipient_pool):
                     continue
                 
