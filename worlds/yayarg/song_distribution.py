@@ -221,6 +221,10 @@ class SongDistributor:
                 if self.goal_song and self.goal_pool and self.goal_song == song_hash and self.goal_pool == donor_pool.name:
                     continue
 
+                # Don't steal songs from pools they were plando'd to
+                if song_hash in set(self.inclusion_lists.get(donor_pool.name, [])):
+                    continue
+
                 if not self._song_fits_pool(song_hash, recipient_pool):
                     continue
                 
