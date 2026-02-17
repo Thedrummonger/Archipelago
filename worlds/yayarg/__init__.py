@@ -8,7 +8,7 @@ from .Locations import YargLocation
 from .Items import WeightedItem, StaticItems, pick_weighted_item, YargItem
 from Options import OptionError
 from .data_register import YargAPImportData, ImportAndCreateItemLocationData, nice_name, YargSongData
-from .yarg_song_data_helper import deserialize_song_data
+from .yarg_song_data_helper import deserialize_song_data, loadDefaultSongList
 from .song_distribution import SongDistributor
 
 class yargWebWorld(WebWorld):
@@ -104,7 +104,11 @@ class yargWorld(World):
 
 
         SerializedSongList = self.options.songList.value
-        user_songs = deserialize_song_data(SerializedSongList)
+        print(SerializedSongList)
+        if (SerializedSongList == 'None' or SerializedSongList == '' or SerializedSongList == None):
+            user_songs = loadDefaultSongList()
+        else:
+            user_songs = deserialize_song_data(SerializedSongList)
 
         if not user_songs:
             raise OptionError(f'Failed to read song data for user {self.player_name}')

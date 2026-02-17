@@ -2,7 +2,7 @@ import math
 import re
 from typing import Dict
 from worlds.yayarg.yaml_scanner import collect_all_option_values
-from worlds.yayarg.yarg_song_data_helper import deserialize_song_data, YargExportSongData
+from worlds.yayarg.yarg_song_data_helper import deserialize_song_data, loadDefaultSongList, YargExportSongData
 from .Items import InstrumentItems, StaticItems
 from BaseClasses import ItemClassification
 
@@ -44,19 +44,15 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
 
     CreateStaticItems(import_data)
 
+    parseSongDict(loadDefaultSongList(), import_data)
+
     for SerializedSongList in song_values:
+        if (SerializedSongList is None or SerializedSongList == "" or SerializedSongList == "null"):
+            continue
         song_dict = deserialize_song_data(SerializedSongList)
         if song_dict is None:
             raise ValueError("Failed to deserialize song data from YAML")
-        
-        for checksum, song in song_dict.items():
-            if checksum not in import_data.hash_to_song_data:
-                data = YargSongData(Hash=checksum, Difficulties=song.Difficulties)
-
-                import_data.hash_to_song_data[checksum] = data
-                
-                for instrument in InstrumentItems:
-                    register(import_data, data, instrument, song)
+        parseSongDict(song_dict, import_data)
 
     for i in range(math.ceil(len(import_data.item_name_to_id) / 2)):
         songpack = f"Song Pack {i+1}"
@@ -66,6 +62,16 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
         import_data.current_item_id += 1
 
     return import_data 
+
+def parseSongDict(song_dict: Dict[str, YargExportSongData], import_data: YargAPImportData):
+    for checksum, song in song_dict.items():
+        if checksum not in import_data.hash_to_song_data:
+            data = YargSongData(Hash=checksum, Difficulties=song.Difficulties)
+
+            import_data.hash_to_song_data[checksum] = data
+            
+            for instrument in InstrumentItems:
+                register(import_data, data, instrument, song)
    
 def register(ImportData: YargAPImportData, songData: YargSongData, instrument: InstrumentItems, exportData: YargExportSongData):
     

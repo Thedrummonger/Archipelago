@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from worlds.yayarg.yaml_scanner import collect_all_option_values
 from Utils import user_path, local_path
 import os
+import pkgutil
+import orjson
 
 @dataclass
 class YargExportSongData:
@@ -72,6 +74,10 @@ def _validate_and_convert_song_data(raw_dict: Dict[str, dict]) -> Optional[Dict[
     
     return song_dict
 
+def loadDefaultSongList():
+    raw = pkgutil.get_data(__name__, "data/DefaultSongExport.json")
+    raw_dict = orjson.loads(raw)
+    return _validate_and_convert_song_data(raw_dict)
 
 def _deserialize_from_file(file_path: str) -> Optional[Dict[str, YargExportSongData]]:
     try:
