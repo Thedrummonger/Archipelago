@@ -203,18 +203,19 @@ class yargWorld(World):
         self.SongsWithUnlockItems = [song for song in self.AssignedSongs if not song.Starting and not song.Goal]
         self.SongsWithItemLocations = [song for song in self.AssignedSongs if not song.Goal]
 
-        extra_check_amount = round(len(self.SongsWithItemLocations) * self.options.song_check_extra.value / 100)
+        extra_check_amount = ceil(len(self.SongsWithItemLocations) * self.options.song_check_extra.value / 100)
         self.SongWithExtraChecks = self.random.sample(self.SongsWithItemLocations, extra_check_amount)
         for song in self.SongWithExtraChecks:
             song.ExtraCheck = True
 
-        songPackSize = self.options.song_pack_size.value
-        if self.options.song_pack_size.value > 1:
-            SongPacksNeeded = ceil(len(self.SongsWithUnlockItems) / songPackSize) 
+        if self.options.song_pack_percentage.value > 0:
+            song_pack_amount = ceil(len(self.SongsWithUnlockItems) * self.options.song_pack_percentage.value / 100)
+            SongsInPacks = self.random.sample(self.SongsWithUnlockItems, song_pack_amount)
+            SongPacksNeeded = ceil(len(SongsInPacks) / self.options.song_pack_size.value) 
             SongPackItems = [self.item_location_data.song_pack_id_to_name[pack] for pack in range(1, SongPacksNeeded + 1)]
-            pack_pool = [pack for pack in SongPackItems for _ in range(songPackSize)]
+            pack_pool = [pack for pack in SongPackItems for _ in range(self.options.song_pack_size.value)]
             self.random.shuffle(pack_pool)
-            for i, song in enumerate(self.SongsWithUnlockItems):
+            for i, song in enumerate(SongsInPacks):
                 song.SongPack = pack_pool[i]
 
         self.SongCompletionsNeeded = ceil(len(self.SongsWithItemLocations) * (self.options.setlist_needed.value / 100))
@@ -276,9 +277,16 @@ class yargWorld(World):
 
         if totalItems < totalChecks:
             items_to_add = totalChecks - totalItems
-            self.multiworld.itempool += [self.create_item(self.get_filler_item_name()) for _ in range(items_to_add)]
+            extra_unlocks = ceil(len(unlockItems) * self.options.extra_song_unlock.value / 100)
+            extra_unlocks = min(extra_unlocks, items_to_add)
+            if extra_unlocks > 0:
+                chosen = self.random.sample(list(unlockItems), extra_unlocks)
+                self.multiworld.itempool += [self.create_item(name) for name in chosen]
+            items_to_add = items_to_add - extra_unlocks
+            if items_to_add > 0:
+                self.multiworld.itempool += [self.create_item(self.get_filler_item_name()) for _ in range(items_to_add)]
         elif totalItems > totalChecks:
-            raise OptionError(f"Not enough locations {totalChecks} to place all items {totalItems}. Reduce the number of Fame Points or increase the number of song checks.")
+            raise OptionError(f"Not enough locations {totalChecks} to place all items {totalItems}. Reduce the number of items or increase the number of song checks.")
         
                 
     def create_regions(self) -> None:

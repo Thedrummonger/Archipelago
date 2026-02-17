@@ -212,14 +212,48 @@ class SongCheckExtra(Range):
 
 class SongPackAmount(Range):
     """
-    Determines how many songs an unlock item will unlock at once.
-    If this is set to 1, you will find individual songs in the pool.
-    Otherwise, you will find "Song Pack" items that unlock multiple songs at once.
+    Determines how many songs are unlocked by each Song Pack item.
+
+    This option only has an effect if "Song Pack Percentage" is greater than 0.
+    When Song Packs are enabled, each Song Pack item will unlock this many songs
+    at once instead of unlocking songs individually.
     """
     display_name = "Song Pack Amount"
-    range_start = 1
+    range_start = 2
     range_end = 999
-    default = 1
+    default = 3
+
+class SongPackPercentage(Range):
+    """
+    Controls how many songs are grouped into Song Packs instead of being
+    unlocked individually.
+
+    0%  = All songs unlock individually.
+    >0% = That percentage of songs will be placed into Song Pack items.
+
+    Each Song Pack unlocks a number of songs equal to "Song Pack Amount".
+    Songs not selected for Song Packs will appear as individual unlocks.
+    """
+    display_name = "Song Pack Percentage"
+    range_start = 0
+    range_end = 100
+    default = 0
+
+class ExtraUnlockItems(Range):
+    """
+    Adds duplicate Song Unlock items to the item pool.
+
+    This percentage of Song Unlock items — including both individual song
+    unlocks and Song Pack unlocks — will have an additional copy added to
+    the pool.
+
+    Extra copies are only added if there is available space remaining in
+    the item pool.
+    """
+    display_name = "Extra Song Unlock Items"
+    range_start = 0
+    range_end = 100
+    default = 0
 
 class ResuseSongsAcrossInstruments(Toggle):
     """
@@ -411,7 +445,9 @@ class YargOptions(PerGameCommonOptions):
     goal_pool_plando: GoalSongPoolPlando
     goal_song_plando: GoalSongSongPlando
     song_check_extra: SongCheckExtra
+    song_pack_percentage: SongPackPercentage
     song_pack_size: SongPackAmount
+    extra_song_unlock: ExtraUnlockItems
     instrument_shuffle: InstrumentShuffle
     reuse_songs: ResuseSongsAcrossInstruments
     starting_songs: StartingSongs
