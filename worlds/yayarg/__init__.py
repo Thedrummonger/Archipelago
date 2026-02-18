@@ -192,6 +192,9 @@ class yargWorld(World):
         if self.starting_instrument:
             eligible_starting_songs = [song for song in eligible_starting_songs if self.options.song_pools.value[song.SongPool]["instrument"] == self.starting_instrument]
 
+        if self.options.starting_songs.value > len(eligible_starting_songs):
+                raise OptionError(f"No enough eligable starting songs {len(eligible_starting_songs)} to satisfy starting song requirement {self.options.starting_songs.value}")
+
         self.startingSongs = self.random.sample(eligible_starting_songs, self.options.starting_songs.value)
         for song in self.startingSongs:
             song.Starting = True

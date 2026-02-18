@@ -1,0 +1,30 @@
+YAYARG:
+  songList: ""
+  goal_pool_plando: ""
+  goal_song_plando: ""
+  starting_songs: random-range-1-10
+  song_pack_size: random-range-2-9
+  fame_point_amount: random-range-5-30
+  song_pools:
+    Guitar:
+      instrument: FiveFretGuitar
+      amount_in_pool: 40
+      random_variance: 5
+      min_difficulty: 1
+      max_difficulty: 5
+      completion_requirements:
+        reward1_req: Clear
+        reward1_diff: Expert
+        reward2_req: ThreeStar
+        reward2_diff: Expert
+    Drums:
+      instrument: ProDrums
+      amount_in_pool: 40
+      random_variance: 5
+      min_difficulty: 1
+      max_difficulty: 5
+      completion_requirements:
+        reward1_req: Clear
+        reward1_diff: Expert
+        reward2_req: ThreeStar
+        reward2_diff: Expert
