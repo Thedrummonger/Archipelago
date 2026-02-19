@@ -84,6 +84,10 @@ def loadDefaultSongList():
     raw_dict = orjson.loads(raw)
     return _validate_and_convert_song_data(raw_dict)
 
+def loadManifest():
+    raw = pkgutil.get_data(__name__, "archipelago.json")
+    return orjson.loads(raw)
+
 def _deserialize_from_file(file_path: str) -> Optional[Dict[str, YargExportSongData]]:
     try:
         with open(file_path, 'r', encoding='utf-8') as f:

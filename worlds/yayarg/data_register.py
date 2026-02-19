@@ -2,7 +2,7 @@ import math
 import re
 from typing import Dict
 from worlds.yayarg.yaml_scanner import collect_all_option_values
-from worlds.yayarg.yarg_song_data_helper import deserialize_song_data, loadDefaultSongList, YargExportSongData
+from worlds.yayarg.yarg_song_data_helper import deserialize_song_data, loadDefaultSongList, loadManifest, YargExportSongData
 from .Items import InstrumentItems, StaticItems
 from BaseClasses import ItemClassification
 
@@ -29,6 +29,8 @@ class YargAPImportData:
         self.item_name_to_classification: Dict[str, ItemClassification] = {}
 
         self.used_base_names: set[str] = set()
+
+        self.manifest = loadManifest()
         
         self.current_location_id: int = _itemIDOffsetCounter
         self.current_item_id: int = _itemIDOffsetCounter

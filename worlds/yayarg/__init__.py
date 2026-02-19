@@ -394,7 +394,8 @@ class yargWorld(World):
             "death_link": self.options.death_link.value,
             "energy_link": self.options.energy_link.value,
             "pools": self.options.song_pools.value,
-            "song_data": dict(song_data)
+            "song_data": dict(song_data),
+            "apworld_version": self.item_location_data.manifest["world_version"]
         }
     
     def extend_hint_information(self, hint_data: Dict[int, Dict[int, str]]) -> None:
