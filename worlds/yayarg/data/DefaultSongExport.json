@@ -1,156 +1,7 @@
 {
-  "hrf5Y3hx2FtRXV7CAecu8QUXJbc=": {
-    "Title": "Cowboy Tanaka by Atomic Guava",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 3,
-      "Keys": 5,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "ProKeys": 5,
-      "Vocals": 4,
-      "Harmony": 4
-    }
-  },
-  "j0SZtyXqUfnRYbTj9KZjR8NQcgA=": {
-    "Title": "Sweet Victory by Bob Kulick and David Glen Eisley",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 1,
-      "Keys": 3,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 3,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "afZgpr2jT5lFinrEKl7rfCxjYFM=": {
-    "Title": "Half Measures by Aaron Musslewhite",
-    "Difficulties": {
-      "FiveFretGuitar": 0,
-      "FiveFretBass": 0,
-      "Keys": 0,
-      "FourLaneDrums": 1,
-      "ProDrums": 1,
-      "ProKeys": 1,
-      "Vocals": 6,
-      "Harmony": 6
-    }
-  },
-  "0bUlH7KZlsJ6D95bYeENE/epToc=": {
-    "Title": "Over Again by Alex Sandra",
-    "Difficulties": {
-      "FiveFretGuitar": 2,
-      "FiveFretBass": 1,
-      "Keys": 1,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 1,
-      "Vocals": 5,
-      "Harmony": 5
-    }
-  },
-  "sEsV0qObUNILGIx92c3ioFAxV3k=": {
-    "Title": "Exeter by Another One Down!",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 4,
-      "Keys": 0,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 0,
-      "Vocals": 2,
-      "Harmony": 2
-    }
-  },
-  "fCLFEolOudhQ12WSUIPP0ZOe0w4=": {
-    "Title": "Formless Collective by A Pretext to Human Suffering",
-    "Difficulties": {
-      "FiveFretGuitar": 6,
-      "FiveFretBass": 5,
-      "FourLaneDrums": 8,
-      "ProDrums": 8,
-      "Vocals": 0,
-      "Harmony": 0
-    }
-  },
-  "st5At7aZ7235i1j0OXu7dk4Yg6o=": {
-    "Title": "Al Gore Rhythm by Blight Town",
-    "Difficulties": {
-      "FiveFretGuitar": 5,
-      "FiveFretBass": 4,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "Vocals": 5,
-      "Harmony": 5
-    }
-  },
-  "ADktHm5lc3cj5H5KMbsI5LfK8D8=": {
-    "Title": "Seasons (feat. Shiki Miyoshino) by Alohaii",
-    "Difficulties": {
-      "FiveFretGuitar": 2,
-      "FiveFretBass": 1,
-      "Keys": 1,
-      "FourLaneDrums": 0,
-      "ProDrums": 0,
-      "ProKeys": 2,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "Jq7Xfwvr37AZcn1qb5Ws3m7147w=": {
-    "Title": "They Call by Auris",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 4,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "Vocals": 2,
-      "Harmony": 2
-    }
-  },
-  "VIrEA02gA5paMhX3dsU71WHPRh4=": {
-    "Title": "All of a Sudden by Adamic",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 3,
-      "Keys": 2,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 3,
-      "Vocals": 1,
-      "Harmony": 1
-    }
-  },
-  "ZjOD90hLwlVkuM+DT3CV8QrtxFs=": {
-    "Title": "God Only Knows (feat. Kasane Teto) by Bitbreaker",
-    "Difficulties": {
-      "FiveFretGuitar": 5,
-      "FiveFretBass": 5,
-      "Keys": 4,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "ProKeys": 4,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "EDrB+AYWg2RC4zH/As2/S+7Aous=": {
-    "Title": "Stowaway Ants by Alpha Boötis",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 2,
-      "Keys": 4,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 4,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
   "TLeNxHFBaIp8BPd/U0Uqf/y0qEU=": {
     "Title": "Jenny B by Bumblefoot",
+    "Time": 124.426,
     "Difficulties": {
       "FiveFretGuitar": 7,
       "FiveFretBass": 4,
@@ -161,6 +12,7 @@
   },
   "z7a/7qFE3cCWbrGpw2uZlZLfCek=": {
     "Title": "I Don't Wanna Talk by Carter Vail",
+    "Time": 195.891,
     "Difficulties": {
       "FiveFretGuitar": 3,
       "FiveFretBass": 3,
@@ -172,92 +24,49 @@
       "Harmony": 2
     }
   },
-  "KBmeDj+YRWQsRYzCU8DHHzg2hV0=": {
-    "Title": "Pizza Rolls by Bottom Bunk",
+  "sEsV0qObUNILGIx92c3ioFAxV3k=": {
+    "Title": "Exeter by Another One Down!",
+    "Time": 247.308,
     "Difficulties": {
-      "FiveFretGuitar": 5,
-      "FiveFretBass": 1,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 4,
+      "Keys": 0,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 0,
       "Vocals": 2,
       "Harmony": 2
     }
   },
-  "Ux0pCiStS/mcy4Tz7t3DbhqDj7Y=": {
-    "Title": "322 by Creo",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 4,
-      "Keys": 3,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "ProKeys": 3,
-      "Vocals": 0
-    }
-  },
-  "HWwdzZeG1lxochhaikpQoSgRAO4=": {
-    "Title": "Better Off Worse (feat. Flower) by CircusP",
-    "Difficulties": {
-      "FiveFretGuitar": 1,
-      "FiveFretBass": 2,
-      "Keys": 3,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 3,
-      "Vocals": 6,
-      "Harmony": 6
-    }
-  },
-  "11sTEOEnDqtNnEu76ZOdrGd+xH4=": {
-    "Title": "Flight of the Bumblebee by FamilyJules",
-    "Difficulties": {
-      "FiveFretGuitar": 6,
-      "FiveFretBass": 3,
-      "FourLaneDrums": 6,
-      "ProDrums": 6
-    }
-  },
-  "5pKI95muuOeRJtJxyooox8iJR80=": {
-    "Title": "Splinter by FIG",
+  "ADktHm5lc3cj5H5KMbsI5LfK8D8=": {
+    "Title": "Seasons (feat. Shiki Miyoshino) by Alohaii",
+    "Time": 210.337,
     "Difficulties": {
       "FiveFretGuitar": 2,
-      "FiveFretBass": 0,
-      "Keys": 2,
-      "FourLaneDrums": 1,
-      "ProDrums": 1,
-      "ProKeys": 3,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "Of5pfx7Yp/LRq0Go16LGwL3ybdI=": {
-    "Title": "Boom Slayer (feat. Scott Foster Harris) by Boom Kitty",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 3,
-      "Keys": 2,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
+      "FiveFretBass": 1,
+      "Keys": 1,
+      "FourLaneDrums": 0,
+      "ProDrums": 0,
       "ProKeys": 2,
       "Vocals": 3,
       "Harmony": 3
     }
   },
-  "tNsQlMlzGcPRcZ+154ij38OwbpY=": {
-    "Title": "Song of November by Frantic Memories",
+  "fCLFEolOudhQ12WSUIPP0ZOe0w4=": {
+    "Title": "Formless Collective by A Pretext to Human Suffering",
+    "Time": 178.666,
     "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 4,
-      "Keys": 1,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 1,
-      "Vocals": 3,
-      "Harmony": 3
+      "FiveFretGuitar": 6,
+      "FiveFretBass": 5,
+      "FourLaneDrums": 8,
+      "ProDrums": 8,
+      "Vocals": 0,
+      "Harmony": 0
     }
   },
   "ZCcj0DvRqdgyXYhd2TCWTuA7+5E=": {
     "Title": "The Masquerade by Cantervice",
+    "Time": 224.16,
     "Difficulties": {
       "FiveFretGuitar": 4,
       "FiveFretBass": 4,
@@ -269,8 +78,171 @@
       "Harmony": 2
     }
   },
+  "0bUlH7KZlsJ6D95bYeENE/epToc=": {
+    "Title": "Over Again by Alex Sandra",
+    "Time": 159.389,
+    "Difficulties": {
+      "FiveFretGuitar": 2,
+      "FiveFretBass": 1,
+      "Keys": 1,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 1,
+      "Vocals": 5,
+      "Harmony": 5
+    }
+  },
+  "st5At7aZ7235i1j0OXu7dk4Yg6o=": {
+    "Title": "Al Gore Rhythm by Blight Town",
+    "Time": 145.875,
+    "Difficulties": {
+      "FiveFretGuitar": 5,
+      "FiveFretBass": 4,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "Vocals": 5,
+      "Harmony": 5
+    }
+  },
+  "I+X2CfQU73Lf16XpGGitzFHXZCw=": {
+    "Title": "Igowallah by Daniel Thrasher",
+    "Time": 174.75,
+    "Difficulties": {
+      "FiveFretGuitar": 0,
+      "FiveFretBass": 2,
+      "Keys": 0,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "ProKeys": 0,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
+  "ZjOD90hLwlVkuM+DT3CV8QrtxFs=": {
+    "Title": "God Only Knows (feat. Kasane Teto) by Bitbreaker",
+    "Time": 281.798,
+    "Difficulties": {
+      "FiveFretGuitar": 5,
+      "FiveFretBass": 5,
+      "Keys": 4,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "ProKeys": 4,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "Ux0pCiStS/mcy4Tz7t3DbhqDj7Y=": {
+    "Title": "322 by Creo",
+    "Time": 230.625,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 4,
+      "Keys": 3,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "ProKeys": 3,
+      "Vocals": 0
+    }
+  },
+  "hrf5Y3hx2FtRXV7CAecu8QUXJbc=": {
+    "Title": "Cowboy Tanaka by Atomic Guava",
+    "Time": 213.333,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 3,
+      "Keys": 5,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "ProKeys": 5,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
+  "Jq7Xfwvr37AZcn1qb5Ws3m7147w=": {
+    "Title": "They Call by Auris",
+    "Time": 217.846,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 4,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "Vocals": 2,
+      "Harmony": 2
+    }
+  },
+  "3LnlO7LrpvgEZOfIUAHrrUYlQhg=": {
+    "Title": "1nput This 2 Y0ur Spine by Camellia",
+    "Time": 318.0,
+    "Difficulties": {
+      "FiveFretGuitar": 6,
+      "FiveFretBass": 4,
+      "Keys": 6,
+      "FourLaneDrums": 6,
+      "ProDrums": 6,
+      "ProKeys": 6,
+      "Vocals": 0
+    }
+  },
+  "EDrB+AYWg2RC4zH/As2/S+7Aous=": {
+    "Title": "Stowaway Ants by Alpha Boötis",
+    "Time": 249.882,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 2,
+      "Keys": 4,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 4,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "j0SZtyXqUfnRYbTj9KZjR8NQcgA=": {
+    "Title": "Sweet Victory by Bob Kulick and David Glen Eisley",
+    "Time": 231.147,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 1,
+      "Keys": 3,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 3,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "VIrEA02gA5paMhX3dsU71WHPRh4=": {
+    "Title": "All of a Sudden by Adamic",
+    "Time": 230.625,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 3,
+      "Keys": 2,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 3,
+      "Vocals": 1,
+      "Harmony": 1
+    }
+  },
+  "Of5pfx7Yp/LRq0Go16LGwL3ybdI=": {
+    "Title": "Boom Slayer (feat. Scott Foster Harris) by Boom Kitty",
+    "Time": 204.0,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 3,
+      "Keys": 2,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 2,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
   "a3wTqwoN5aaMPqnOf33AFEziLEs=": {
     "Title": "Empires by Electric Swing Circus",
+    "Time": 196.162,
     "Difficulties": {
       "FiveFretGuitar": 2,
       "FiveFretBass": 1,
@@ -284,6 +256,7 @@
   },
   "uHtG+P/ANBcWHyhrOxGuj+hSk54=": {
     "Title": "We All Float Down Here by Four Year Strong",
+    "Time": 192.746,
     "Difficulties": {
       "FiveFretGuitar": 6,
       "FiveFretBass": 4,
@@ -293,47 +266,45 @@
       "Harmony": 2
     }
   },
-  "irgHOu3hyK2QxQ6TJ/pIeM9xUzI=": {
-    "Title": "I'm a Bug by Fries on the Side",
+  "11sTEOEnDqtNnEu76ZOdrGd+xH4=": {
+    "Title": "Flight of the Bumblebee by FamilyJules",
+    "Time": 147.804,
     "Difficulties": {
-      "FiveFretGuitar": 1,
-      "FiveFretBass": 1,
-      "Keys": 5,
-      "FourLaneDrums": 3,
-      "ProDrums": 3,
-      "ProKeys": 5,
-      "Vocals": 2,
-      "Harmony": 2
+      "FiveFretGuitar": 6,
+      "FiveFretBass": 3,
+      "FourLaneDrums": 6,
+      "ProDrums": 6
     }
   },
-  "3mSRlLiNX43onEAicuHv80QwgtE=": {
-    "Title": "Long in the Tooth by Flying Raccoon Suit",
+  "KBmeDj+YRWQsRYzCU8DHHzg2hV0=": {
+    "Title": "Pizza Rolls by Bottom Bunk",
+    "Time": 152.381,
     "Difficulties": {
       "FiveFretGuitar": 5,
-      "FiveFretBass": 3,
-      "Keys": 3,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "ProKeys": 3,
+      "FiveFretBass": 1,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
       "Vocals": 2,
       "Harmony": 2
     }
   },
-  "I+X2CfQU73Lf16XpGGitzFHXZCw=": {
-    "Title": "Igowallah by Daniel Thrasher",
+  "afZgpr2jT5lFinrEKl7rfCxjYFM=": {
+    "Title": "Half Measures by Aaron Musslewhite",
+    "Time": 263.283,
     "Difficulties": {
       "FiveFretGuitar": 0,
-      "FiveFretBass": 2,
+      "FiveFretBass": 0,
       "Keys": 0,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "ProKeys": 0,
-      "Vocals": 4,
-      "Harmony": 4
+      "FourLaneDrums": 1,
+      "ProDrums": 1,
+      "ProKeys": 1,
+      "Vocals": 6,
+      "Harmony": 6
     }
   },
   "lVwtpic8thTqOgoMy04BsFw3U4U=": {
     "Title": "Front Row Seats (To Watching Your World Burn) by FoundiT",
+    "Time": 194.594,
     "Difficulties": {
       "FiveFretGuitar": 2,
       "FiveFretBass": 2,
@@ -345,8 +316,23 @@
       "Harmony": 3
     }
   },
+  "HWwdzZeG1lxochhaikpQoSgRAO4=": {
+    "Title": "Better Off Worse (feat. Flower) by CircusP",
+    "Time": 242.982,
+    "Difficulties": {
+      "FiveFretGuitar": 1,
+      "FiveFretBass": 2,
+      "Keys": 3,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 3,
+      "Vocals": 6,
+      "Harmony": 6
+    }
+  },
   "J9ms8v02p3LWY+9LXV84sXZw+Wk=": {
     "Title": "In My Head by Halfway to Michigan",
+    "Time": 149.23,
     "Difficulties": {
       "FiveFretGuitar": 1,
       "FiveFretBass": 1,
@@ -358,6 +344,7 @@
   },
   "7ruKUAUJr3CUROS+nAKqmQyhGQs=": {
     "Title": "Avatara by Heteromorphic Zoo",
+    "Time": 224.666,
     "Difficulties": {
       "FiveFretGuitar": 2,
       "FiveFretBass": 2,
@@ -367,106 +354,11 @@
       "ProKeys": 2,
       "Vocals": 0,
       "Harmony": 0
-    }
-  },
-  "UshRc4uUp6XfcJhHhFymeish4Kc=": {
-    "Title": "106 by Frostbitt",
-    "Difficulties": {
-      "FiveFretGuitar": 5,
-      "FiveFretBass": 4,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "Vocals": 2,
-      "Harmony": 2
-    }
-  },
-  "r6Ut2gYn6D9cTmgTjSzD2JGL3T8=": {
-    "Title": "Dreamweaver by Glass Guillotine",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 3,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "Vocals": 0,
-      "Harmony": 0
-    }
-  },
-  "ppKea0CdmelRPji5ZJ3SiLp0SOU=": {
-    "Title": "Do by Garlagan",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 4,
-      "Keys": 4,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "ProKeys": 4,
-      "Vocals": 6,
-      "Harmony": 6
-    }
-  },
-  "blQ44B8AnyC7F2DrF2ZQnRKsrCU=": {
-    "Title": "Voidwalker by Inflicted",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 3,
-      "Keys": 0,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "ProKeys": 0,
-      "Vocals": 0,
-      "Harmony": 0
-    }
-  },
-  "bXlIx5+BuUALWFTvPmj47bdpoGM=": {
-    "Title": "Sadness (feat. Sapphire Noel) by Heartsick",
-    "Difficulties": {
-      "FiveFretGuitar": 2,
-      "FiveFretBass": 2,
-      "Keys": 2,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "ProKeys": 2,
-      "Vocals": 2,
-      "Harmony": 2
-    }
-  },
-  "HPSLr6c2+cpFu1T9uW694Ey94Q8=": {
-    "Title": "Nomu by Good Kid",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 2,
-      "FourLaneDrums": 3,
-      "ProDrums": 3,
-      "Vocals": 5,
-      "Harmony": 5
-    }
-  },
-  "QJwQ9AumVzsCkGLZtAXZcDRqfTc=": {
-    "Title": "Human God by Hadson",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 3,
-      "FourLaneDrums": 3,
-      "ProDrums": 3,
-      "Vocals": 1,
-      "Harmony": 1
-    }
-  },
-  "qQwaOzrYJK7RD3FXPkjv742i71Y=": {
-    "Title": "I Wish That I Could Fall (feat. GUMI) by Jamie Paige",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 5,
-      "Keys": 5,
-      "FourLaneDrums": 1,
-      "ProDrums": 1,
-      "ProKeys": 5,
-      "Vocals": 5,
-      "Harmony": 5
     }
   },
   "ST+mVcMU0nS2h+AIOmac6pErn2k=": {
     "Title": "Bedroom Community by Glass Beach",
+    "Time": 364.421,
     "Difficulties": {
       "FiveFretGuitar": 3,
       "FiveFretBass": 3,
@@ -478,21 +370,101 @@
       "Harmony": 3
     }
   },
-  "ZUVAa39Sl51wt31FrgHvWJgkL7M=": {
-    "Title": "Blue (feat. Miori Celesta) by InVerSe",
+  "tNsQlMlzGcPRcZ+154ij38OwbpY=": {
+    "Title": "Song of November by Frantic Memories",
+    "Time": 143.505,
     "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 5,
-      "Keys": 5,
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 4,
+      "Keys": 1,
       "FourLaneDrums": 4,
       "ProDrums": 4,
+      "ProKeys": 1,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "irgHOu3hyK2QxQ6TJ/pIeM9xUzI=": {
+    "Title": "I'm a Bug by Fries on the Side",
+    "Time": 156.548,
+    "Difficulties": {
+      "FiveFretGuitar": 1,
+      "FiveFretBass": 1,
+      "Keys": 5,
+      "FourLaneDrums": 3,
+      "ProDrums": 3,
       "ProKeys": 5,
+      "Vocals": 2,
+      "Harmony": 2
+    }
+  },
+  "vZJ0B5j8VgPJ3dSfPgr40zcFBnk=": {
+    "Title": "Bottleneck by Groundlift",
+    "Time": 246.414,
+    "Difficulties": {
+      "FiveFretGuitar": 5,
+      "FiveFretBass": 5,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "HPSLr6c2+cpFu1T9uW694Ey94Q8=": {
+    "Title": "Nomu by Good Kid",
+    "Time": 172.747,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 2,
+      "FourLaneDrums": 3,
+      "ProDrums": 3,
       "Vocals": 5,
       "Harmony": 5
     }
   },
+  "v1Z3NLogpN4TNtesGAtWkQRCCrA=": {
+    "Title": "Luminaire by insaneintherainmusic",
+    "Time": 370.404,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 3,
+      "Keys": 5,
+      "FourLaneDrums": 7,
+      "ProDrums": 7,
+      "ProKeys": 5
+    }
+  },
+  "5pKI95muuOeRJtJxyooox8iJR80=": {
+    "Title": "Splinter by FIG",
+    "Time": 176.0,
+    "Difficulties": {
+      "FiveFretGuitar": 2,
+      "FiveFretBass": 0,
+      "Keys": 2,
+      "FourLaneDrums": 1,
+      "ProDrums": 1,
+      "ProKeys": 3,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "3mSRlLiNX43onEAicuHv80QwgtE=": {
+    "Title": "Long in the Tooth by Flying Raccoon Suit",
+    "Time": 323.707,
+    "Difficulties": {
+      "FiveFretGuitar": 5,
+      "FiveFretBass": 3,
+      "Keys": 3,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "ProKeys": 3,
+      "Vocals": 2,
+      "Harmony": 2
+    }
+  },
   "AJQEbxfNfHNlWrMcXRdBV+F8XwE=": {
     "Title": "Plastic Boogie by King Gizzard and the Lizard Wizard",
+    "Time": 182.04,
     "Difficulties": {
       "FiveFretGuitar": 3,
       "FiveFretBass": 3,
@@ -504,41 +476,9 @@
       "Harmony": 2
     }
   },
-  "v1Z3NLogpN4TNtesGAtWkQRCCrA=": {
-    "Title": "Luminaire by insaneintherainmusic",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 3,
-      "Keys": 5,
-      "FourLaneDrums": 7,
-      "ProDrums": 7,
-      "ProKeys": 5
-    }
-  },
-  "zHMwHuQ1I/dwKY74xC5xxK1oUeU=": {
-    "Title": "Emperor Rising by Krilloan",
-    "Difficulties": {
-      "FiveFretGuitar": 5,
-      "FiveFretBass": 5,
-      "FourLaneDrums": 6,
-      "ProDrums": 6,
-      "Vocals": 4,
-      "Harmony": 4
-    }
-  },
-  "0okmP/+UcKCbCllaq8zZjzJQe+g=": {
-    "Title": "The New World Disorder by Höwler",
-    "Difficulties": {
-      "FiveFretGuitar": 7,
-      "FiveFretBass": 7,
-      "FourLaneDrums": 6,
-      "ProDrums": 6,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
   "iYjoDxqjf/XsXpckKTZ7YiZ3FHA=": {
     "Title": "John, Take Me with You by JW Francis",
+    "Time": 217.0,
     "Difficulties": {
       "FiveFretGuitar": 2,
       "FiveFretBass": 2,
@@ -548,19 +488,23 @@
       "Harmony": 2
     }
   },
-  "wD2tUt8JnZR4YvEA3b+X1u3izPE=": {
-    "Title": "Butterflies by Kingseeker",
+  "iOXAYPGDAIdPQjVrJpp+O4aJAOU=": {
+    "Title": "Eleven by Last Dinosaurs",
+    "Time": 209.828,
     "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 3,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "Vocals": 1,
-      "Harmony": 1
+      "FiveFretGuitar": 2,
+      "FiveFretBass": 2,
+      "Keys": 0,
+      "FourLaneDrums": 3,
+      "ProDrums": 3,
+      "ProKeys": 0,
+      "Vocals": 2,
+      "Harmony": 2
     }
   },
   "npyVVrpxD97FmNfunfZBOqK/SyQ=": {
     "Title": "No Nations by Jets Overhead",
+    "Time": 180.561,
     "Difficulties": {
       "FiveFretGuitar": 0,
       "FiveFretBass": 1,
@@ -572,20 +516,45 @@
       "Harmony": 1
     }
   },
-  "3LnlO7LrpvgEZOfIUAHrrUYlQhg=": {
-    "Title": "1nput This 2 Y0ur Spine by Camellia",
+  "YBcsQ0fAVanlcpvoqrCZQB+IKP4=": {
+    "Title": "Frank Scored a Video Game by Max Boras",
+    "Time": 161.2,
     "Difficulties": {
       "FiveFretGuitar": 6,
-      "FiveFretBass": 4,
-      "Keys": 6,
-      "FourLaneDrums": 6,
-      "ProDrums": 6,
-      "ProKeys": 6,
-      "Vocals": 0
+      "FiveFretBass": 5,
+      "FourLaneDrums": 5,
+      "ProDrums": 5
+    }
+  },
+  "1qo3xQEmNGjnf0Zwpev/KON7YjU=": {
+    "Title": "Don't Spook the Owl by Kidd Judo",
+    "Time": 213.974,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 3,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
+  "tyL6BsBuifpoWeJh1uhK4dinqDo=": {
+    "Title": "No Remedy by Levia",
+    "Time": 285.0,
+    "Difficulties": {
+      "FiveFretGuitar": 1,
+      "FiveFretBass": 1,
+      "Keys": 3,
+      "FourLaneDrums": 3,
+      "ProDrums": 3,
+      "ProKeys": 3,
+      "Vocals": 2,
+      "Harmony": 2
     }
   },
   "0vOTGzk1gD/iMvA8UF+K2pbxLM0=": {
     "Title": "Everybody Do the Flop by LilDeuceDeuce",
+    "Time": 146.1,
     "Difficulties": {
       "FiveFretGuitar": 4,
       "FiveFretBass": 3,
@@ -597,19 +566,242 @@
       "Harmony": 5
     }
   },
-  "vZJ0B5j8VgPJ3dSfPgr40zcFBnk=": {
-    "Title": "Bottleneck by Groundlift",
+  "qQwaOzrYJK7RD3FXPkjv742i71Y=": {
+    "Title": "I Wish That I Could Fall (feat. GUMI) by Jamie Paige",
+    "Time": 279.0,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 5,
+      "Keys": 5,
+      "FourLaneDrums": 1,
+      "ProDrums": 1,
+      "ProKeys": 5,
+      "Vocals": 5,
+      "Harmony": 5
+    }
+  },
+  "r6Ut2gYn6D9cTmgTjSzD2JGL3T8=": {
+    "Title": "Dreamweaver by Glass Guillotine",
+    "Time": 217.846,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 3,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "Vocals": 0,
+      "Harmony": 0
+    }
+  },
+  "zHMwHuQ1I/dwKY74xC5xxK1oUeU=": {
+    "Title": "Emperor Rising by Krilloan",
+    "Time": 231.924,
     "Difficulties": {
       "FiveFretGuitar": 5,
       "FiveFretBass": 5,
+      "FourLaneDrums": 6,
+      "ProDrums": 6,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
+  "wD2tUt8JnZR4YvEA3b+X1u3izPE=": {
+    "Title": "Butterflies by Kingseeker",
+    "Time": 182.118,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 3,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "Vocals": 1,
+      "Harmony": 1
+    }
+  },
+  "pS1eLwChkcHl3lVQpuiyYK0Wubw=": {
+    "Title": "Languish by Our Common Collapse",
+    "Time": 187.023,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 3,
+      "Keys": 2,
       "FourLaneDrums": 5,
       "ProDrums": 5,
+      "ProKeys": 2,
+      "Vocals": 0,
+      "Harmony": 0
+    }
+  },
+  "bXlIx5+BuUALWFTvPmj47bdpoGM=": {
+    "Title": "Sadness (feat. Sapphire Noel) by Heartsick",
+    "Time": 212.791,
+    "Difficulties": {
+      "FiveFretGuitar": 2,
+      "FiveFretBass": 2,
+      "Keys": 2,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "ProKeys": 2,
+      "Vocals": 2,
+      "Harmony": 2
+    }
+  },
+  "ppKea0CdmelRPji5ZJ3SiLp0SOU=": {
+    "Title": "Do by Garlagan",
+    "Time": 266.28,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 4,
+      "Keys": 4,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "ProKeys": 4,
+      "Vocals": 6,
+      "Harmony": 6
+    }
+  },
+  "UshRc4uUp6XfcJhHhFymeish4Kc=": {
+    "Title": "106 by Frostbitt",
+    "Time": 249.49,
+    "Difficulties": {
+      "FiveFretGuitar": 5,
+      "FiveFretBass": 4,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "Vocals": 2,
+      "Harmony": 2
+    }
+  },
+  "8tIOZLEircuP0r94Rd31UQpIveI=": {
+    "Title": "Poser by Luminism",
+    "Time": 199.783,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 3,
+      "FourLaneDrums": 3,
+      "ProDrums": 3,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
+  "i8+9Yd1Q0PKDo4AeKN4Ws+sGZ2Y=": {
+    "Title": "Cruisin' by raphaelgoulart",
+    "Time": 275.635,
+    "Difficulties": {
+      "FiveFretGuitar": 5,
+      "FiveFretBass": 3,
+      "Keys": 3,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 3
+    }
+  },
+  "blQ44B8AnyC7F2DrF2ZQnRKsrCU=": {
+    "Title": "Voidwalker by Inflicted",
+    "Time": 265.241,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 3,
+      "Keys": 0,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "ProKeys": 0,
+      "Vocals": 0,
+      "Harmony": 0
+    }
+  },
+  "a1F+n10R0glceBB9QjemKrGu0jM=": {
+    "Title": "Mass Gap by Mindiode",
+    "Time": 294.187,
+    "Difficulties": {
+      "FiveFretGuitar": 6,
+      "FiveFretBass": 6,
+      "Keys": 6,
+      "FourLaneDrums": 6,
+      "ProDrums": 6,
+      "ProKeys": 7
+    }
+  },
+  "/Vflt0KrwQ09PK3Ng8kAGxyvy4I=": {
+    "Title": "Numb the Mind by NyxTheShield",
+    "Time": 275.348,
+    "Difficulties": {
+      "FiveFretGuitar": 1,
+      "FiveFretBass": 0,
+      "Keys": 0,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 0,
+      "Vocals": 2
+    }
+  },
+  "0okmP/+UcKCbCllaq8zZjzJQe+g=": {
+    "Title": "The New World Disorder by Höwler",
+    "Time": 323.6,
+    "Difficulties": {
+      "FiveFretGuitar": 7,
+      "FiveFretBass": 7,
+      "FourLaneDrums": 6,
+      "ProDrums": 6,
       "Vocals": 3,
       "Harmony": 3
     }
   },
+  "oWg5go5zytom0rzPnoUBIizxuNE=": {
+    "Title": "Don't Look! by Prismia",
+    "Time": 198.0,
+    "Difficulties": {
+      "FiveFretGuitar": 2,
+      "FiveFretBass": 3,
+      "Keys": 6,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 6,
+      "Vocals": 1,
+      "Harmony": 1
+    }
+  },
+  "Jov5zJQn9tYtIVZ7uDkS+Oyd6Z0=": {
+    "Title": "Oopsie Daisy by JubyPhonic",
+    "Time": 188.0,
+    "Difficulties": {
+      "FiveFretGuitar": 1,
+      "FiveFretBass": 3,
+      "Keys": 2,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 2,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "ZUVAa39Sl51wt31FrgHvWJgkL7M=": {
+    "Title": "Blue (feat. Miori Celesta) by InVerSe",
+    "Time": 269.387,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 5,
+      "Keys": 5,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 5,
+      "Vocals": 5,
+      "Harmony": 5
+    }
+  },
+  "QJwQ9AumVzsCkGLZtAXZcDRqfTc=": {
+    "Title": "Human God by Hadson",
+    "Time": 210.666,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 3,
+      "FourLaneDrums": 3,
+      "ProDrums": 3,
+      "Vocals": 1,
+      "Harmony": 1
+    }
+  },
   "DgSAJPk6yEXysbukcrQcustyK3E=": {
     "Title": "Stress by Jim's Big Ego",
+    "Time": 255.191,
     "Difficulties": {
       "FiveFretGuitar": 5,
       "FiveFretBass": 5,
@@ -621,70 +813,9 @@
       "Harmony": 4
     }
   },
-  "iOXAYPGDAIdPQjVrJpp+O4aJAOU=": {
-    "Title": "Eleven by Last Dinosaurs",
-    "Difficulties": {
-      "FiveFretGuitar": 2,
-      "FiveFretBass": 2,
-      "Keys": 0,
-      "FourLaneDrums": 3,
-      "ProDrums": 3,
-      "ProKeys": 0,
-      "Vocals": 2,
-      "Harmony": 2
-    }
-  },
-  "AhX1aDSHwzo/GyR+oAB47wrQGEw=": {
-    "Title": "To Let Go by NateWantsToBattle",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 3,
-      "Keys": 1,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 1,
-      "Vocals": 4,
-      "Harmony": 4
-    }
-  },
-  "a1F+n10R0glceBB9QjemKrGu0jM=": {
-    "Title": "Mass Gap by Mindiode",
-    "Difficulties": {
-      "FiveFretGuitar": 6,
-      "FiveFretBass": 6,
-      "Keys": 6,
-      "FourLaneDrums": 6,
-      "ProDrums": 6,
-      "ProKeys": 7
-    }
-  },
-  "iCBKjXno/DMXk0qCB2QTCME83wk=": {
-    "Title": "Oxygen by Marta Vega",
-    "Difficulties": {
-      "FiveFretGuitar": 2,
-      "FiveFretBass": 1,
-      "Keys": 2,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 2,
-      "Vocals": 2,
-      "Harmony": 2
-    }
-  },
-  "/Vflt0KrwQ09PK3Ng8kAGxyvy4I=": {
-    "Title": "Numb the Mind by NyxTheShield",
-    "Difficulties": {
-      "FiveFretGuitar": 1,
-      "FiveFretBass": 0,
-      "Keys": 0,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 0,
-      "Vocals": 2
-    }
-  },
   "s+jw2pNeujlj5eFT//xfNsZlqIs=": {
     "Title": "Need 2 by Pinegrove",
+    "Time": 200.336,
     "Difficulties": {
       "FiveFretGuitar": 3,
       "FiveFretBass": 0,
@@ -696,82 +827,9 @@
       "Harmony": 1
     }
   },
-  "8tIOZLEircuP0r94Rd31UQpIveI=": {
-    "Title": "Poser by Luminism",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 3,
-      "FourLaneDrums": 3,
-      "ProDrums": 3,
-      "Vocals": 4,
-      "Harmony": 4
-    }
-  },
-  "Y03dihDpLmKP7ILn5KIv1nZaPS8=": {
-    "Title": "Fine by Lemon Demon",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 2,
-      "Keys": 2,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 2,
-      "Vocals": 4,
-      "Harmony": 4
-    }
-  },
-  "1qo3xQEmNGjnf0Zwpev/KON7YjU=": {
-    "Title": "Don't Spook the Owl by Kidd Judo",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 3,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "Vocals": 4,
-      "Harmony": 4
-    }
-  },
-  "XsJVS+Gzg+EYrWlvHgU1GIzW9vU=": {
-    "Title": "Show Ya by Nana Asteria",
-    "Difficulties": {
-      "FiveFretGuitar": 2,
-      "FiveFretBass": 0,
-      "Keys": 2,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 2,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "oWg5go5zytom0rzPnoUBIizxuNE=": {
-    "Title": "Don't Look! by Prismia",
-    "Difficulties": {
-      "FiveFretGuitar": 2,
-      "FiveFretBass": 3,
-      "Keys": 6,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 6,
-      "Vocals": 1,
-      "Harmony": 1
-    }
-  },
-  "/AXPgvsVxb5bp3Ps/GjZZslmqpM=": {
-    "Title": "The Afterparty by Portraits of Tracy",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 1,
-      "Keys": 2,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 3,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
   "eGkzYj5HtRfEy9mlqzqOHQNLa6g=": {
     "Title": "Avatar the Last Cakebender by Palette Knife",
+    "Time": 167.466,
     "Difficulties": {
       "FiveFretGuitar": 4,
       "FiveFretBass": 3,
@@ -783,93 +841,65 @@
       "Harmony": 4
     }
   },
-  "Jov5zJQn9tYtIVZ7uDkS+Oyd6Z0=": {
-    "Title": "Oopsie Daisy by JubyPhonic",
+  "tTB2yQFvEl8ISVssQL9RlWNV6aA=": {
+    "Title": "Allure by Shibito",
+    "Time": 233.655,
     "Difficulties": {
-      "FiveFretGuitar": 1,
-      "FiveFretBass": 3,
-      "Keys": 2,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 2,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "pS1eLwChkcHl3lVQpuiyYK0Wubw=": {
-    "Title": "Languish by Our Common Collapse",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 3,
-      "Keys": 2,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "ProKeys": 2,
-      "Vocals": 0,
-      "Harmony": 0
-    }
-  },
-  "YBcsQ0fAVanlcpvoqrCZQB+IKP4=": {
-    "Title": "Frank Scored a Video Game by Max Boras",
-    "Difficulties": {
-      "FiveFretGuitar": 6,
+      "FiveFretGuitar": 5,
       "FiveFretBass": 5,
-      "FourLaneDrums": 5,
-      "ProDrums": 5
-    }
-  },
-  "nXvDOlEMa0MNqeoUOghZDLT1yZU=": {
-    "Title": "It Kills Me by Roomie",
-    "Difficulties": {
-      "FiveFretGuitar": 2,
-      "FiveFretBass": 2,
-      "Keys": 1,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 2,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "tyL6BsBuifpoWeJh1uhK4dinqDo=": {
-    "Title": "No Remedy by Levia",
-    "Difficulties": {
-      "FiveFretGuitar": 1,
-      "FiveFretBass": 1,
-      "Keys": 3,
-      "FourLaneDrums": 3,
-      "ProDrums": 3,
-      "ProKeys": 3,
+      "Keys": 0,
+      "FourLaneDrums": 6,
+      "ProDrums": 6,
+      "ProKeys": 0,
       "Vocals": 2,
       "Harmony": 2
     }
   },
-  "dXvND44VS6WfkyKBi1ZcFguhsyI=": {
-    "Title": "Pixel Galaxy by Snail's House",
+  "Y03dihDpLmKP7ILn5KIv1nZaPS8=": {
+    "Title": "Fine by Lemon Demon",
+    "Time": 270.222,
     "Difficulties": {
-      "FiveFretGuitar": 6,
-      "FiveFretBass": 2,
-      "Keys": 3,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 3
-    }
-  },
-  "vfqi9m4LjtoK6llF6KBDSgevej4=": {
-    "Title": "Discipline by Nine Inch Nails",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
+      "FiveFretGuitar": 4,
       "FiveFretBass": 2,
       "Keys": 2,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 2,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
+  "GIt/1pu6nmztebCUvGqv+yJP7M0=": {
+    "Title": "The Game by RinRin",
+    "Time": 226.0,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 2,
+      "Keys": 2,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
       "ProKeys": 2,
       "Vocals": 3,
       "Harmony": 3
     }
   },
+  "5wAMzxFgwVlTbXOO24gqRKjhoM4=": {
+    "Title": "Positively Clark Street by Telethon",
+    "Time": 255.647,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 2,
+      "Keys": 2,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 2,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
   "RzNdoZ3wjdklyBXOq9mdpilwwrs=": {
     "Title": "Choked Up by See You at Rogers",
+    "Time": 190.909,
     "Difficulties": {
       "FiveFretGuitar": 3,
       "FiveFretBass": 1,
@@ -881,79 +911,9 @@
       "Harmony": 4
     }
   },
-  "GIt/1pu6nmztebCUvGqv+yJP7M0=": {
-    "Title": "The Game by RinRin",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 2,
-      "Keys": 2,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 2,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "5lprZb9/DBtG5IAVcsqt1Sr0wHk=": {
-    "Title": "Spirit by Practically People",
-    "Difficulties": {
-      "FiveFretGuitar": 2,
-      "FiveFretBass": 1,
-      "Keys": 2,
-      "FourLaneDrums": 1,
-      "ProDrums": 1,
-      "ProKeys": 2,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "pGbevnIS1lHx2nZmsSF4y1eA3EY=": {
-    "Title": "Synthespian by Prototype",
-    "Difficulties": {
-      "FiveFretGuitar": 5,
-      "FiveFretBass": 5,
-      "FourLaneDrums": 6,
-      "ProDrums": 6,
-      "Vocals": 2,
-      "Harmony": 2
-    }
-  },
-  "qUeeJV9r/M+PBJ04kWx556yCUfs=": {
-    "Title": "Bathe in Blood by Parasiticide",
-    "Difficulties": {
-      "FiveFretGuitar": 6,
-      "FiveFretBass": 2,
-      "FourLaneDrums": 6,
-      "ProDrums": 6,
-      "Vocals": 0
-    }
-  },
-  "IewNnXhyGxHgX1ATQXD9JVWEQCY=": {
-    "Title": "Salt the Wound by Surefire",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 3,
-      "Keys": 0,
-      "FourLaneDrums": 6,
-      "ProDrums": 6,
-      "ProKeys": 0,
-      "Vocals": 0,
-      "Harmony": 0
-    }
-  },
-  "i8+9Yd1Q0PKDo4AeKN4Ws+sGZ2Y=": {
-    "Title": "Cruisin' by raphaelgoulart",
-    "Difficulties": {
-      "FiveFretGuitar": 5,
-      "FiveFretBass": 3,
-      "Keys": 3,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 3
-    }
-  },
   "SMV72cG5bEBrPK6orxtVa0qme9U=": {
     "Title": "Is This What You Wanted by Scro",
+    "Time": 229.317,
     "Difficulties": {
       "FiveFretGuitar": 4,
       "FiveFretBass": 1,
@@ -965,65 +925,9 @@
       "Harmony": 5
     }
   },
-  "tTB2yQFvEl8ISVssQL9RlWNV6aA=": {
-    "Title": "Allure by Shibito",
-    "Difficulties": {
-      "FiveFretGuitar": 5,
-      "FiveFretBass": 5,
-      "Keys": 0,
-      "FourLaneDrums": 6,
-      "ProDrums": 6,
-      "ProKeys": 0,
-      "Vocals": 2,
-      "Harmony": 2
-    }
-  },
-  "/FhV5Z5Tm1IQKGBifTXesY1RInQ=": {
-    "Title": "Vehemence by Reo",
-    "Difficulties": {
-      "FiveFretGuitar": 6,
-      "FiveFretBass": 4,
-      "FourLaneDrums": 6,
-      "ProDrums": 6
-    }
-  },
-  "EDj/erCfzAFB/RU/dEd+qQQyQh4=": {
-    "Title": "Moonlight Sonata 3rd Mvt (Big Band Version) by The 8-Bit Big Band",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 5,
-      "Keys": 6,
-      "FourLaneDrums": 7,
-      "ProDrums": 7,
-      "ProKeys": 6
-    }
-  },
-  "5wAMzxFgwVlTbXOO24gqRKjhoM4=": {
-    "Title": "Positively Clark Street by Telethon",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 2,
-      "Keys": 2,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 2,
-      "Vocals": 4,
-      "Harmony": 4
-    }
-  },
-  "SHiyY2ISR3IJV7RoSPIzeRKMt70=": {
-    "Title": "Runnin Man by Stone Deep",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 3,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "Vocals": 0,
-      "Harmony": 0
-    }
-  },
   "TBzvj1rr+eSv4d0rD6CIBGidrKU=": {
     "Title": "Marlboro Mountain by Sweet Bike",
+    "Time": 191.294,
     "Difficulties": {
       "FiveFretGuitar": 3,
       "FiveFretBass": 3,
@@ -1033,122 +937,11 @@
       "ProKeys": 0,
       "Vocals": 3,
       "Harmony": 3
-    }
-  },
-  "MVDm2JfWeaK8cTofeZzepf4KFls=": {
-    "Title": "Join the Club by Tilly Louise",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 2,
-      "Keys": 3,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 3,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "7YfB9obY1pQgSLX6F5rJRk+o3pE=": {
-    "Title": "Smile for Me by The Robot's Guide to Living",
-    "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 2,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "ztc8EydMcXLR+msiWfrgNa9q300=": {
-    "Title": "Overdrive by Vessel",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 2,
-      "FourLaneDrums": 3,
-      "ProDrums": 3,
-      "Vocals": 3
-    }
-  },
-  "hYJiTAXbStdRhEd7Z78jV79a0R4=": {
-    "Title": "Queen of the Night by The Vanished People",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 4,
-      "Keys": 3,
-      "FourLaneDrums": 3,
-      "ProDrums": 3,
-      "ProKeys": 3,
-      "Vocals": 4,
-      "Harmony": 4
-    }
-  },
-  "RINav3lHEqpRKqWTThQrC2k4T6Q=": {
-    "Title": "Time by Vandalheart",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 2,
-      "Keys": 0,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 0,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "rE7caId2aAPKBYJOYxAQCtvDIqQ=": {
-    "Title": "A Visitant (feat. Victor Borba) by RO1",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 1,
-      "Keys": 6,
-      "FourLaneDrums": 5,
-      "ProDrums": 5,
-      "ProKeys": 6,
-      "Vocals": 4,
-      "Harmony": 4
-    }
-  },
-  "Y+pLOjJVEi0kv1mlZBy5kyGT23o=": {
-    "Title": "Guess I'll Never Know by TrackTribe",
-    "Difficulties": {
-      "FiveFretGuitar": 1,
-      "FiveFretBass": 0,
-      "Keys": 0,
-      "FourLaneDrums": 3,
-      "ProDrums": 3,
-      "ProKeys": 0,
-      "Vocals": 2,
-      "Harmony": 2
-    }
-  },
-  "TIdXqD7DhouwReaJOxL0rjrJvQM=": {
-    "Title": "Duvet Thief by The Covasettes",
-    "Difficulties": {
-      "FiveFretGuitar": 2,
-      "FiveFretBass": 2,
-      "Keys": 1,
-      "FourLaneDrums": 4,
-      "ProDrums": 4,
-      "ProKeys": 2,
-      "Vocals": 3,
-      "Harmony": 3
-    }
-  },
-  "D0ndkT/O5URSV0mCi4tyNaSOVMw=": {
-    "Title": "Oh, Krissy Baby! by WhyLucas",
-    "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 2,
-      "Keys": 3,
-      "FourLaneDrums": 2,
-      "ProDrums": 2,
-      "ProKeys": 3,
-      "Vocals": 4,
-      "Harmony": 4
     }
   },
   "7cMd0fFEOWopEmgV0rSvKFPPG0M=": {
     "Title": "About the Author by The Sterns",
+    "Time": 155.262,
     "Difficulties": {
       "FiveFretGuitar": 3,
       "FiveFretBass": 2,
@@ -1160,56 +953,103 @@
       "Harmony": 5
     }
   },
-  "wQbmrg2CuBH+C12T3deLc/SNt5U=": {
-    "Title": "Strangers Once Again (feat. Treb and Ofir Tabakov) by Tanger",
+  "iCBKjXno/DMXk0qCB2QTCME83wk=": {
+    "Title": "Oxygen by Marta Vega",
+    "Time": 151.343,
     "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 3,
-      "Keys": 4,
-      "FourLaneDrums": 6,
-      "ProDrums": 6,
-      "ProKeys": 6,
-      "Vocals": 5,
-      "Harmony": 5
+      "FiveFretGuitar": 2,
+      "FiveFretBass": 1,
+      "Keys": 2,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 2,
+      "Vocals": 2,
+      "Harmony": 2
     }
   },
-  "HcxrAb8hYjXPnCqkBCzWHXwvyEg=": {
-    "Title": "Participation Trophy Wife by Thanks! I Hate It",
+  "pGbevnIS1lHx2nZmsSF4y1eA3EY=": {
+    "Title": "Synthespian by Prototype",
+    "Time": 208.755,
     "Difficulties": {
-      "FiveFretGuitar": 4,
-      "FiveFretBass": 3,
+      "FiveFretGuitar": 5,
+      "FiveFretBass": 5,
+      "FourLaneDrums": 6,
+      "ProDrums": 6,
+      "Vocals": 2,
+      "Harmony": 2
+    }
+  },
+  "hYJiTAXbStdRhEd7Z78jV79a0R4=": {
+    "Title": "Queen of the Night by The Vanished People",
+    "Time": 165.333,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 4,
+      "Keys": 3,
       "FourLaneDrums": 3,
       "ProDrums": 3,
+      "ProKeys": 3,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
+  "TIdXqD7DhouwReaJOxL0rjrJvQM=": {
+    "Title": "Duvet Thief by The Covasettes",
+    "Time": 219.544,
+    "Difficulties": {
+      "FiveFretGuitar": 2,
+      "FiveFretBass": 2,
+      "Keys": 1,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 2,
       "Vocals": 3,
       "Harmony": 3
     }
   },
-  "jYaCUYL0Inmbk2RV62SKgqnoRU0=": {
-    "Title": "Circles by Thousand Thoughts",
+  "Y+pLOjJVEi0kv1mlZBy5kyGT23o=": {
+    "Title": "Guess I'll Never Know by TrackTribe",
+    "Time": 208.5,
     "Difficulties": {
-      "FiveFretGuitar": 3,
-      "FiveFretBass": 3,
+      "FiveFretGuitar": 1,
+      "FiveFretBass": 0,
       "Keys": 0,
       "FourLaneDrums": 3,
       "ProDrums": 3,
       "ProKeys": 0,
-      "Vocals": 3,
-      "Harmony": 3
+      "Vocals": 2,
+      "Harmony": 2
     }
   },
-  "myBqqS4LpONWjTRhmEqKWUCRzZA=": {
-    "Title": "Buds by Troubled Minds",
+  "Riw3yiQBPlz+nPfuWUEN5OlLPXs=": {
+    "Title": "Beverly by Used to Be Valentines",
+    "Time": 182.736,
     "Difficulties": {
       "FiveFretGuitar": 2,
-      "FiveFretBass": 1,
+      "FiveFretBass": 2,
       "FourLaneDrums": 2,
       "ProDrums": 2,
       "Vocals": 2,
       "Harmony": 2
     }
   },
+  "XsJVS+Gzg+EYrWlvHgU1GIzW9vU=": {
+    "Title": "Show Ya by Nana Asteria",
+    "Time": 167.225,
+    "Difficulties": {
+      "FiveFretGuitar": 2,
+      "FiveFretBass": 0,
+      "Keys": 2,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 2,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
   "IlYt9+34UGBr9M9qGYsMo0hfg0M=": {
     "Title": "Alibi by Vera Kay",
+    "Time": 219.428,
     "Difficulties": {
       "FiveFretGuitar": 3,
       "FiveFretBass": 3,
@@ -1221,19 +1061,281 @@
       "Harmony": 4
     }
   },
-  "Riw3yiQBPlz+nPfuWUEN5OlLPXs=": {
-    "Title": "Beverly by Used to Be Valentines",
+  "7YfB9obY1pQgSLX6F5rJRk+o3pE=": {
+    "Title": "Smile for Me by The Robot's Guide to Living",
+    "Time": 204.0,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 2,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "jYaCUYL0Inmbk2RV62SKgqnoRU0=": {
+    "Title": "Circles by Thousand Thoughts",
+    "Time": 209.651,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 3,
+      "Keys": 0,
+      "FourLaneDrums": 3,
+      "ProDrums": 3,
+      "ProKeys": 0,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "/AXPgvsVxb5bp3Ps/GjZZslmqpM=": {
+    "Title": "The Afterparty by Portraits of Tracy",
+    "Time": 217.448,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 1,
+      "Keys": 2,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 3,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "dXvND44VS6WfkyKBi1ZcFguhsyI=": {
+    "Title": "Pixel Galaxy by Snail's House",
+    "Time": 227.2,
+    "Difficulties": {
+      "FiveFretGuitar": 6,
+      "FiveFretBass": 2,
+      "Keys": 3,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 3
+    }
+  },
+  "EDj/erCfzAFB/RU/dEd+qQQyQh4=": {
+    "Title": "Moonlight Sonata 3rd Mvt (Big Band Version) by The 8-Bit Big Band",
+    "Time": 327.776,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 5,
+      "Keys": 6,
+      "FourLaneDrums": 7,
+      "ProDrums": 7,
+      "ProKeys": 6
+    }
+  },
+  "D0ndkT/O5URSV0mCi4tyNaSOVMw=": {
+    "Title": "Oh, Krissy Baby! by WhyLucas",
+    "Time": 187.397,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 2,
+      "Keys": 3,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 3,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
+  "5lprZb9/DBtG5IAVcsqt1Sr0wHk=": {
+    "Title": "Spirit by Practically People",
+    "Time": 137.094,
+    "Difficulties": {
+      "FiveFretGuitar": 2,
+      "FiveFretBass": 1,
+      "Keys": 2,
+      "FourLaneDrums": 1,
+      "ProDrums": 1,
+      "ProKeys": 2,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "HcxrAb8hYjXPnCqkBCzWHXwvyEg=": {
+    "Title": "Participation Trophy Wife by Thanks! I Hate It",
+    "Time": 194.177,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 3,
+      "FourLaneDrums": 3,
+      "ProDrums": 3,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "/FhV5Z5Tm1IQKGBifTXesY1RInQ=": {
+    "Title": "Vehemence by Reo",
+    "Time": 85.2,
+    "Difficulties": {
+      "FiveFretGuitar": 6,
+      "FiveFretBass": 4,
+      "FourLaneDrums": 6,
+      "ProDrums": 6
+    }
+  },
+  "nXvDOlEMa0MNqeoUOghZDLT1yZU=": {
+    "Title": "It Kills Me by Roomie",
+    "Time": 188.0,
     "Difficulties": {
       "FiveFretGuitar": 2,
       "FiveFretBass": 2,
+      "Keys": 1,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 2,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "rE7caId2aAPKBYJOYxAQCtvDIqQ=": {
+    "Title": "A Visitant (feat. Victor Borba) by RO1",
+    "Time": 341.007,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 1,
+      "Keys": 6,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "ProKeys": 6,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
+  "AhX1aDSHwzo/GyR+oAB47wrQGEw=": {
+    "Title": "To Let Go by NateWantsToBattle",
+    "Time": 240.0,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 3,
+      "Keys": 1,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 1,
+      "Vocals": 4,
+      "Harmony": 4
+    }
+  },
+  "SHiyY2ISR3IJV7RoSPIzeRKMt70=": {
+    "Title": "Runnin Man by Stone Deep",
+    "Time": 255.64,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 3,
+      "FourLaneDrums": 5,
+      "ProDrums": 5,
+      "Vocals": 0,
+      "Harmony": 0
+    }
+  },
+  "vfqi9m4LjtoK6llF6KBDSgevej4=": {
+    "Title": "Discipline by Nine Inch Nails",
+    "Time": 306.885,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 2,
+      "Keys": 2,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 2,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "wQbmrg2CuBH+C12T3deLc/SNt5U=": {
+    "Title": "Strangers Once Again (feat. Treb and Ofir Tabakov) by Tanger",
+    "Time": 200.526,
+    "Difficulties": {
+      "FiveFretGuitar": 4,
+      "FiveFretBass": 3,
+      "Keys": 4,
+      "FourLaneDrums": 6,
+      "ProDrums": 6,
+      "ProKeys": 6,
+      "Vocals": 5,
+      "Harmony": 5
+    }
+  },
+  "myBqqS4LpONWjTRhmEqKWUCRzZA=": {
+    "Title": "Buds by Troubled Minds",
+    "Time": 179.634,
+    "Difficulties": {
+      "FiveFretGuitar": 2,
+      "FiveFretBass": 1,
       "FourLaneDrums": 2,
       "ProDrums": 2,
       "Vocals": 2,
       "Harmony": 2
     }
   },
+  "ztc8EydMcXLR+msiWfrgNa9q300=": {
+    "Title": "Overdrive by Vessel",
+    "Time": 258.124,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 2,
+      "FourLaneDrums": 3,
+      "ProDrums": 3,
+      "Vocals": 3
+    }
+  },
+  "MVDm2JfWeaK8cTofeZzepf4KFls=": {
+    "Title": "Join the Club by Tilly Louise",
+    "Time": 147.2,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 2,
+      "Keys": 3,
+      "FourLaneDrums": 2,
+      "ProDrums": 2,
+      "ProKeys": 3,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "RINav3lHEqpRKqWTThQrC2k4T6Q=": {
+    "Title": "Time by Vandalheart",
+    "Time": 250.034,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 2,
+      "Keys": 0,
+      "FourLaneDrums": 4,
+      "ProDrums": 4,
+      "ProKeys": 0,
+      "Vocals": 3,
+      "Harmony": 3
+    }
+  },
+  "qUeeJV9r/M+PBJ04kWx556yCUfs=": {
+    "Title": "Bathe in Blood by Parasiticide",
+    "Time": 186.764,
+    "Difficulties": {
+      "FiveFretGuitar": 6,
+      "FiveFretBass": 2,
+      "FourLaneDrums": 6,
+      "ProDrums": 6,
+      "Vocals": 0
+    }
+  },
+  "IewNnXhyGxHgX1ATQXD9JVWEQCY=": {
+    "Title": "Salt the Wound by Surefire",
+    "Time": 177.606,
+    "Difficulties": {
+      "FiveFretGuitar": 3,
+      "FiveFretBass": 3,
+      "Keys": 0,
+      "FourLaneDrums": 6,
+      "ProDrums": 6,
+      "ProKeys": 0,
+      "Vocals": 0,
+      "Harmony": 0
+    }
+  },
   "ZnXfbQo+FK941qTVVhLTtp/Xh70=": {
     "Title": "Chocolate Rain (Sweet Like Chocolate Remix) by Tay Zonday",
+    "Time": 309.333,
     "Difficulties": {
       "FiveFretGuitar": 2,
       "FiveFretBass": 2,

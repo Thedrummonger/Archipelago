@@ -13,6 +13,8 @@ class SongPoolConfig:
     amount_in_pool: int
     min_difficulty: int
     max_difficulty: int
+    min_time: int
+    max_time: int
 
 
 class SongDistributionResult:
@@ -87,7 +89,9 @@ class SongDistributor:
             instrument=data["instrument"],
             amount_in_pool=data["amount_in_pool"],
             min_difficulty=data["min_difficulty"],
-            max_difficulty=data["max_difficulty"]
+            max_difficulty=data["max_difficulty"],
+            min_time=data["min_time"],
+            max_time=data["max_time"]
         ) for name, data in pools_dict.items()]
     
     def _sort_pools(self, pools: List[SongPoolConfig]) -> List[SongPoolConfig]:
@@ -248,7 +252,8 @@ class SongDistributor:
     def _song_fits_pool(self, song_hash: str, pool: SongPoolConfig) -> bool:
         song_data = self.available_songs[song_hash]
         return (pool.instrument in song_data.Difficulties
-                and pool.min_difficulty <= song_data.Difficulties[pool.instrument] <= pool.max_difficulty)
+                and pool.min_difficulty <= song_data.Difficulties[pool.instrument] <= pool.max_difficulty
+                and pool.min_time <= song_data.Time <= pool.max_time)
     
     def _find_refill_for_donor(self, donor_pool: SongPoolConfig) -> str:
         exclusion_set = set(self.exclusion_lists.get(donor_pool.name, []))

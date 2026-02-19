@@ -12,6 +12,7 @@ import orjson
 @dataclass
 class YargExportSongData:
     Title: str
+    Time: float
     Difficulties: Dict[str, int]
 
 def _find_song_data_file(filename: str) -> Optional[str]:
@@ -54,11 +55,14 @@ def _validate_and_convert_song_data(raw_dict: Dict[str, dict]) -> Optional[Dict[
             if not isinstance(data, dict):
                 print(f"  Warning: Data for checksum {checksum} is not a dictionary")
                 return None
-            if "Title" not in data or "Difficulties" not in data:
+            if "Title" not in data or "Time" not in data or "Difficulties" not in data:
                 print(f"  Warning: Missing required fields in data for checksum {checksum}")
                 return None
             if not isinstance(data["Title"], str):
                 print(f"  Warning: Title for checksum {checksum} is not a string")
+                return None
+            if not isinstance(data["Time"], (int, float)):
+                print(f"  Warning: Time for checksum {checksum} is not numeric")
                 return None
             if not isinstance(data["Difficulties"], dict):
                 print(f"  Warning: Difficulties for checksum {checksum} is not a dictionary")
@@ -66,6 +70,7 @@ def _validate_and_convert_song_data(raw_dict: Dict[str, dict]) -> Optional[Dict[
             
             song_dict[checksum] = YargExportSongData(
                 Title=data["Title"],
+                Time=float(data["Time"]),
                 Difficulties=data["Difficulties"]
             )
     except (KeyError, TypeError):

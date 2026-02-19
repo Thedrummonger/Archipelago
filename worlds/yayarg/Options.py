@@ -156,6 +156,8 @@ class SongPools(OptionDict):
             "random_variance": 5,
             "min_difficulty": 3,
             "max_difficulty": 5,
+            "min_time": 0,
+            "max_time": 3600,
             "completion_requirements": {
                 "reward1_req": "Clear",
                 "reward1_diff": "Expert",
@@ -172,6 +174,8 @@ class SongPools(OptionDict):
             "random_variance": And(int, lambda n: n >= 0),
             "min_difficulty": And(int, lambda n: n >= 0),
             "max_difficulty": And(int, lambda n: n >= 0),
+            "min_time": And(int, lambda n: n >= 0),
+            "max_time": And(int, lambda n: n >= 0),
             "completion_requirements": {
                 "reward1_req": And(str, lambda s: s in VALID_COMPLETION_REQS),
                 "reward1_diff": And(str, lambda s: s in VALID_DIFFICULTY_NAMES),
