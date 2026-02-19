@@ -12,6 +12,8 @@ YAYARG:
       random_variance: 5
       min_difficulty: 1
       max_difficulty: 5
+      min_time: 0
+      max_time: 3600
       completion_requirements:
         reward1_req: Clear
         reward1_diff: Expert
@@ -23,6 +25,8 @@ YAYARG:
       random_variance: 5
       min_difficulty: 1
       max_difficulty: 5
+      min_time: 0
+      max_time: 3600
       completion_requirements:
         reward1_req: Clear
         reward1_diff: Expert
