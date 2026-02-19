@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 from math import ceil
 from BaseClasses import CollectionState, Region, Tutorial, MultiWorld
 from worlds.AutoWorld import WebWorld, World
@@ -8,7 +8,7 @@ from .Locations import YargLocation
 from .Items import WeightedItem, StaticItems, pick_weighted_item, YargItem
 from Options import OptionError
 from .data_register import YargAPImportData, ImportAndCreateItemLocationData, nice_name, YargSongData
-from .yarg_song_data_helper import deserialize_song_data, loadDefaultSongList
+from .yarg_song_data_helper import YargExportSongData, deserialize_song_data, loadDefaultSongList
 from .song_distribution import SongDistributor
 
 class yargWebWorld(WebWorld):
@@ -136,7 +136,10 @@ class yargWorld(World):
         
         result = distributor.distribute()
         all_assignments = result.pool_assignments
-        
+
+        if self.options.max_setlist_time.value > 0:
+            self.trim_setlist_to_max_time(result.pool_assignments, user_songs, self.options.max_setlist_time.value, goalSongPlando)
+    
         # A list of AssignedSongData, each entry represents a single song, containing it's location unlock items and song pool
         for pool, assignedHashes in all_assignments.items():
             for hash in assignedHashes:
@@ -450,3 +453,57 @@ class yargWorld(World):
                 pool_inclusions[pool_name].append(song_hash)
 
         return dict(pool_inclusions), dict(pool_exclusions)
+    
+    def trim_setlist_to_max_time(self, pool_assignments: Dict[str, List[str]], user_songs: Dict[str, "YargExportSongData"], max_time: float, goalPlando: Optional[str]) -> None:
+
+        # Snapshot original pool sizes, we want to avoid removing more than like 50% of of agiven pool
+        original_pool_sizes = {pool: len(songs) for pool, songs in pool_assignments.items()}
+        removed_per_pool = {pool: 0 for pool in pool_assignments.keys()}
+
+        total_time = 0.0
+        song_count = 0
+        for songs in pool_assignments.values():
+            song_count += len(songs)
+            for song in songs:
+                total_time += float(user_songs[song].Time)
+
+        minimumNeededSongs = self.options.starting_songs + 1  # starting + goal
+
+        def pool_can_remove(pool: str) -> bool:
+            orig = original_pool_sizes.get(pool, 0)
+            if orig <= 0:
+                return False
+            return removed_per_pool[pool] < (orig / 2.0)
+
+        while total_time > max_time and song_count > minimumNeededSongs:
+            over = total_time - max_time
+
+            best_fit: Optional[Tuple[float, str, str]] = None   # (time, song, pool)
+            longest: Optional[Tuple[float, str, str]] = None    # (time, song, pool)
+
+            for pool, songs in pool_assignments.items():
+                if not pool_can_remove(pool):
+                    continue
+
+                for song in songs:
+                    if goalPlando and song == goalPlando:
+                        continue
+
+                    t = float(user_songs[song].Time)
+
+                    if longest is None or t > longest[0]:
+                        longest = (t, song, pool)
+
+                    if t >= over:
+                        if best_fit is None or t < best_fit[0]:
+                            best_fit = (t, song, pool)
+
+            if longest is None:
+                break
+
+            t_remove, song_remove, pool_remove = best_fit if best_fit is not None else longest
+
+            pool_assignments[pool_remove].remove(song_remove)
+            removed_per_pool[pool_remove] += 1
+            song_count -= 1
+            total_time -= t_remove

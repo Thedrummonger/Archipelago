@@ -266,6 +266,23 @@ class ResuseSongsAcrossInstruments(Toggle):
     """
     display_name = "Reuse Songs Across Instruments"
 
+class MaxSetlistTime(Range):
+    """
+    WARNING: This setting is experimental and may produce unstable results,
+    it should never be used in large public seeds. If set too low, 
+    generation may fail or require multiple attempts and manual YAML adjustments.
+
+    If the total duration of all selected songs (in seconds) exceeds this value,
+    songs will be removed from the seed until the total duration falls at or
+    below the specified limit.
+
+    A value of 0 disables this feature.
+    """
+    display_name = "Max Setlist Time"
+    range_start = 0
+    range_end = 86400
+    default = 0
+
 class InstrumentShuffle(Toggle):
     """
     You will need to collect an instruments item before you can play songs requiring that instrument.
@@ -454,6 +471,7 @@ class YargOptions(PerGameCommonOptions):
     extra_song_unlock: ExtraUnlockItems
     instrument_shuffle: InstrumentShuffle
     reuse_songs: ResuseSongsAcrossInstruments
+    max_setlist_time: MaxSetlistTime
     starting_songs: StartingSongs
     goal_song_item_needed: GoalSongNeedsItem
     setlist_needed: SetlistCompletionNeeded
