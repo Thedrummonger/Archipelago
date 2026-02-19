@@ -21,7 +21,6 @@ def _find_song_data_file(filename: str) -> Optional[str]:
         return None
     
     user_song_dir = os.path.join(user_path(), 'YAYARG Song Data')
-    local_song_dir = os.path.join(local_path(), 'YAYARG Song Data')
     
     os.makedirs(user_song_dir, exist_ok=True)
     file_path = os.path.join(user_song_dir, filename)
@@ -30,15 +29,6 @@ def _find_song_data_file(filename: str) -> Optional[str]:
         return file_path
     elif os.path.isfile(file_path + ".json"):
         return file_path + ".json"
-    
-    # It shouldn't exist here? but just in case.
-    if os.path.isdir(local_song_dir):
-        file_path = os.path.join(local_song_dir, filename)
-        
-        if os.path.isfile(file_path):
-            return file_path
-        elif os.path.isfile(file_path + ".json"):
-            return file_path + ".json"
     
     return None
 

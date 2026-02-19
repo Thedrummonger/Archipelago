@@ -1,7 +1,9 @@
 from collections import defaultdict
+import os
 from typing import Any, Dict, List, Optional, Tuple
 from math import ceil
 from BaseClasses import CollectionState, Region, Tutorial, MultiWorld
+from Utils import user_path
 from worlds.AutoWorld import WebWorld, World
 from .Options import YargOptions, VALID_INSTRUMENTS
 from .Locations import YargLocation
@@ -88,6 +90,8 @@ class yargWorld(World):
 
         self.famePointsNeeded: int = 0
         self.SongCompletionsNeeded: int = 0
+        
+        os.makedirs(os.path.join(user_path(), 'YAYARG Song Data'), exist_ok=True)
 
     def generate_early(self) -> None:
 
