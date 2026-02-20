@@ -1,6 +1,7 @@
 from collections import defaultdict
 import os
-from typing import Any, Dict, List, Optional, Tuple
+import re
+from typing import Any, Dict, List, Optional, TextIO, Tuple
 from math import ceil
 from BaseClasses import CollectionState, Region, Tutorial, MultiWorld
 from Utils import user_path
@@ -423,7 +424,25 @@ class yargWorld(World):
                 song_pack_hint_data[ExtraCheckID] = entry.SongPack
                 
         hint_data.update({self.player: song_pack_hint_data})
-                
+
+    def write_spoiler_header(self, spoiler_handle: TextIO) -> None:
+        selectedGoalSongName = self.item_location_data.hash_to_song_data[self.GoalSong.SongHash].unlock_items[self.GoalSong.GetInstrument(self.options.song_pools.value)]
+        spoiler_handle.write(f"Selected Goal Song: {selectedGoalSongName}\n")
+        songPacks: defaultdict[str, list[str]] = defaultdict(list)
+        for i in self.AssignedSongs:
+            if i.SongPack:
+                songname = self.item_location_data.hash_to_song_data[i.SongHash].unlock_items[i.GetInstrument(self.options.song_pools.value)]
+                songPacks[i.SongPack].append(songname)
+        if songPacks:
+            def pack_number(pack_name: str) -> int:
+                match = re.search(r"\d+", pack_name)
+                return int(match.group()) if match else 0
+            spoiler_handle.write(f"Song Packs Content:\n")
+            for pack in sorted(songPacks, key=pack_number):
+                songs = songPacks[pack]
+                spoiler_handle.write(f"Songs in {pack}\n")
+                for song in songs:
+                    spoiler_handle.write(f"- {song}\n")
     
     def CreateFillerItems(self):
         if self.options.star_power.value > 0:
