@@ -26,7 +26,7 @@
     - It is recommended to create a separate installation of **YARG** specifically for **Archipelago**. This can be done through the YARC Launcher or by using a portable YARG build.
 
 3. **Install BepInEx 5**
-    - Download the latest version of `BepInEx 5` for your OS and follow the installation instructions.
+    - Download the latest version of `BepInEx 5` for your OS and follow the [installation instructions](https://docs.bepinex.dev/articles/user_guide/installation/index.html).
     - Run the game with BepInEx installed at least once so the required folders are generated.
 
 4. **Install the YARG Archipelago Plugin**
