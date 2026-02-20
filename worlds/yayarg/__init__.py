@@ -59,7 +59,10 @@ class AssignedSongData:
         return item_location_data.hash_to_song_data[self.SongHash].completion_locations[self.GetInstrument(Pools)]
     
     def GetUnlockSongItem(self, Pools: dict[str, dict[str, Any]], item_location_data: YargAPImportData) -> str:
-        return self.SongPack if self.SongPack else item_location_data.hash_to_song_data[self.SongHash].unlock_items[self.GetInstrument(Pools)]
+        return self.SongPack if self.SongPack else self.GetSongItem(Pools, item_location_data)
+    
+    def GetSongItem(self, Pools: dict[str, dict[str, Any]], item_location_data: YargAPImportData) -> str:
+        return item_location_data.hash_to_song_data[self.SongHash].unlock_items[self.GetInstrument(Pools)]
     
 class yargWorld(World):
     """
@@ -426,13 +429,11 @@ class yargWorld(World):
         hint_data.update({self.player: song_pack_hint_data})
 
     def write_spoiler_header(self, spoiler_handle: TextIO) -> None:
-        selectedGoalSongName = self.item_location_data.hash_to_song_data[self.GoalSong.SongHash].unlock_items[self.GoalSong.GetInstrument(self.options.song_pools.value)]
-        spoiler_handle.write(f"Selected Goal Song: {selectedGoalSongName}\n")
+        spoiler_handle.write(f"Selected Goal Song: {self.GoalSong.GetSongItem(self.options.song_pools.value, self.item_location_data)}\n")
         songPacks: defaultdict[str, list[str]] = defaultdict(list)
         for i in self.AssignedSongs:
             if i.SongPack:
-                songname = self.item_location_data.hash_to_song_data[i.SongHash].unlock_items[i.GetInstrument(self.options.song_pools.value)]
-                songPacks[i.SongPack].append(songname)
+                songPacks[i.SongPack].append(i.GetSongItem(self.options.song_pools.value, self.item_location_data))
         if songPacks:
             def pack_number(pack_name: str) -> int:
                 match = re.search(r"\d+", pack_name)
