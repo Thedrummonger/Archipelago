@@ -112,7 +112,7 @@ class yargWorld(World):
 
 
         SerializedSongList = self.options.songList.value
-        print(SerializedSongList)
+        
         if (SerializedSongList == 'None' or SerializedSongList == '' or SerializedSongList == None):
             user_songs = loadDefaultSongList()
         else:
