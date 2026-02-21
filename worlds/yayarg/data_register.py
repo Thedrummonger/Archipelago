@@ -76,7 +76,9 @@ def parseSongDict(song_dict: Dict[str, YargExportSongData], import_data: YargAPI
                 register(import_data, data, instrument, song)
    
 def register(ImportData: YargAPImportData, songData: YargSongData, instrument: InstrumentItems, exportData: YargExportSongData):
-    
+    #Don't register songs for instruments they can't be played on.
+    if (instrument.name not in songData.Difficulties):
+        return
     # If one or more users have the same song with the same title but a different hash
     # (due to different instruments or difficulties) make sure the names are unique.
     baseName = f'{exportData.Title} on {instrument.nice_name}'
