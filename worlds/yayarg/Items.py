@@ -37,8 +37,6 @@ class InstrumentItems(Enum):
     FiveFretGuitar = "Five Fret Guitar"
     FiveFretBass = "Five Fret Bass"
     Keys = "Keys"
-    SixFretGuitar = "Six Fret Guitar"
-    SixFretBass = "Six Fret Bass"
     FourLaneDrums = "Four Lane Drums"
     ProDrums = "Pro Drums"
     FiveLaneDrums = "Five Lane Drums"
