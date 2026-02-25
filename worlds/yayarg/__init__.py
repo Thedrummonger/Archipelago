@@ -441,9 +441,9 @@ class yargWorld(World):
             spoiler_handle.write(f"Song Packs Content:\n")
             for pack in sorted(songPacks, key=pack_number):
                 songs = songPacks[pack]
-                spoiler_handle.write(f"Songs in {pack}\n")
+                spoiler_handle.write(f"- Songs in {pack}\n")
                 for song in songs:
-                    spoiler_handle.write(f"- {song}\n")
+                    spoiler_handle.write(f"  - {song}\n")
     
     def CreateFillerItems(self):
         if self.options.star_power.value > 0:

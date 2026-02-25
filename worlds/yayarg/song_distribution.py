@@ -202,7 +202,7 @@ class SongDistributor:
                 if not found_donor:
                     current_count = len(self.pool_assignments.get(pool.name, []))
                     raise OptionError(
-                        f"Pool '{pool.name}' ({pool.instrument}, difficulty {pool.min_difficulty}-{pool.max_difficulty}): "
+                        f"Pool '{pool.name}' ({pool.instrument}, difficulty {pool.min_difficulty}-{pool.max_difficulty}, Length {pool.min_time}-{pool.max_time}): "
                         f"Cannot fulfill request for {pool.amount_in_pool} songs. Only {current_count} songs available after backfilling. "
                         f"Please reduce amount_in_pool, expand difficulty range, or ensure more songs are available."
                     )
