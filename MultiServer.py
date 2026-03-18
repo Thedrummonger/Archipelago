@@ -24,6 +24,7 @@ import zlib
 from signal import SIGINT, SIGTERM, signal
 
 import ModuleUpdate
+from MultiServerApiLayer import start_api
 
 ModuleUpdate.update()
 
@@ -2760,10 +2761,15 @@ async def main(args: argparse.Namespace):
         for sig in [SIGINT, SIGTERM]:
             signal(sig, shutdown)
 
+    api_server = start_api(ctx)
+    
     await ctx.exit_event.wait()
     console_task.cancel()
     if ctx.shutdown_task:
         await ctx.shutdown_task
+        
+    api_server.shutdown()
+    api_server.server_close()
 
 
 client_message_processor = ClientMessageProcessor
