@@ -375,9 +375,13 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
                         await ctx.server.ws_server.wait_closed()
 
                     with db_session:
-                        # ensure the Room does not spin up again on its own, minute of safety buffer
                         room = Room.get(id=room_id)
-                        room.last_activity = Utils.utcnow() - datetime.timedelta(minutes=1, seconds=room.timeout)
+                        if room:
+                            if room.owner.int == 0:
+                                room.delete()
+                            else:
+                                # ensure the Room does not spin up again on its own, minute of safety buffer
+                                room.last_activity = Utils.utcnow() - datetime.timedelta(minutes=1, seconds=room.timeout)
                     del room
                     tear_down_logging(room_id)
                     logging.info(f"Shutting down room {room_id} on {name}.")
