@@ -10,6 +10,7 @@ STATE_QUEUED = 0
 STATE_STARTED = 1
 STATE_ERROR = -1
 
+ALLOWED_HOST_PORTS = (38281, 38282, 38283)
 
 class Slot(db.Entity):
     id = PrimaryKey(int, auto=True)

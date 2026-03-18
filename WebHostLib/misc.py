@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 from worlds.AutoWorld import AutoWorldRegister, World
 from . import app, cache
 from .markdown import render_markdown
-from .models import Seed, Room, Command, UUID, uuid4
+from .models import Seed, Room, Command, UUID, uuid4, ALLOWED_HOST_PORTS
 from Utils import title_sorted, utcnow
 
 class WebWorldTheme(StrEnum):
@@ -174,6 +174,15 @@ def new_room(seed: UUID):
     seed = Seed.get(id=seed)
     if not seed:
         abort(404)
+
+    if Room.select().count() >= len(ALLOWED_HOST_PORTS):
+        return f"""
+        <script>
+            alert("No more rooms can be created. This server is limited to {len(ALLOWED_HOST_PORTS)} rooms.");
+            history.back();
+        </script>
+        """
+    
     room = Room(seed=seed, owner=session["_id"], tracker=uuid4())
     commit()
     return redirect(url_for("host_room", room=room.id))

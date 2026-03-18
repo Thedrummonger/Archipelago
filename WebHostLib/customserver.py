@@ -25,7 +25,7 @@ from MultiServer import (
 )
 from Utils import restricted_loads, cache_argsless
 from .locker import Locker
-from .models import Command, GameDataPackage, Room, db
+from .models import Command, GameDataPackage, Room, db, ALLOWED_HOST_PORTS
 
 
 class CustomClientMessageProcessor(ClientMessageProcessor):
@@ -112,10 +112,7 @@ class WebHostContext(Context):
     def load(self, room_id: int):
         self.room_id = room_id
         room = Room.get(id=room_id)
-        if room.last_port:
-            self.port = room.last_port
-        else:
-            self.port = get_random_port()
+        self.port = room.last_port if room.last_port in ALLOWED_HOST_PORTS else None
 
         multidata = self.decompress(room.seed.multidata)
         game_data_packages = {}
@@ -179,11 +176,6 @@ class WebHostContext(Context):
         d = super(WebHostContext, self).get_save()
         d["video"] = [(tuple(playerslot), videodata) for playerslot, videodata in self.video.items()]
         return d
-
-
-def get_random_port():
-    return random.randint(49152, 65535)
-
 
 @cache_argsless
 def get_static_server_data() -> dict:
@@ -300,20 +292,38 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
                 ctx.load(room_id)
                 ctx.init_save()
                 assert ctx.server is None
-                try:
+                
+         
+                ports_to_try = list(ALLOWED_HOST_PORTS)
+                if ctx.port in ALLOWED_HOST_PORTS:
+                    ports_to_try.remove(ctx.port)
+                    ports_to_try.insert(0, ctx.port)
+
+                for port in ports_to_try:
+                    try:
+                        ctx.server = websockets.serve(
+                            functools.partial(server, ctx=ctx),
+                            ctx.host,
+                            port,
+                            ssl=get_ssl_context(),
+                            extensions=[server_per_message_deflate_factory],
+                        )
+                        await ctx.server
+                        ctx.port = port
+                        break
+                    except OSError:
+                        pass
+                else:
                     ctx.server = websockets.serve(
                         functools.partial(server, ctx=ctx),
                         ctx.host,
-                        ctx.port,
+                        0,
                         ssl=get_ssl_context(),
                         extensions=[server_per_message_deflate_factory],
                     )
                     await ctx.server
-                except OSError:  # likely port in use
-                    ctx.server = websockets.serve(
-                        functools.partial(server, ctx=ctx), ctx.host, 0, ssl=get_ssl_context())
 
-                    await ctx.server
+
                 port = 0
                 for wssocket in ctx.server.ws_server.sockets:
                     socketname = wssocket.getsockname()
