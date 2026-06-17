@@ -18,9 +18,11 @@
             <div id="base-header-popover-menu">
                 <a href="/games">supported games</a>
                 <a href="/tutorial">setup guides</a>
+                {% if session.get("is_dev") %}
                 <a href="/generate">generate game</a>
                 <a href="/uploads">host game</a>
                 <a href="/user-content">user content</a>
+                {% endif %}
             </div>
             <a href="/faq/en">f.a.q</a>
             <a href="https://discord.gg/8Z65BR2" target="_blank">discord</a>
@@ -34,9 +36,11 @@
             <a href="/games">supported games</a>
             <a href="/tutorial">setup guides</a>
             <a href="/faq/en">f.a.q.</a>
+            {% if session.get("is_dev") %}
             <a href="/generate">generate game</a>
             <a href="/uploads">host game</a>
             <a href="/user-content">user content</a>
+            {% endif %}
             <a href="https://discord.gg/8Z65BR2" target="_blank">discord</a>
         </div>
     </header>
