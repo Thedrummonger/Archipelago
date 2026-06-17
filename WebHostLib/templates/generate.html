@@ -3,7 +3,6 @@
 {% block head %}
     <title>Generate Game</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="styles/generate.css") }}" />
-    <script type="application/ecmascript" src="{{ url_for('static', filename="assets/generate.js") }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -167,6 +166,18 @@ Warning: playthrough can take a significant amount of time for larger multiworld
                                     </tr>
                                     <tr>
                                         <td>
+                                            <label for="password">Generation Password:
+                                                <span class="interactive" data-tooltip="Required to generate games on this host.">
+                                                    (?)
+                                                </span>
+                                            </label>
+                                        </td>
+                                        <td>
+                                            <input type="password" id="password" name="password" required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
                                             <label for="server_password">Server Password:
                                                 <span class="interactive" data-tooltip="Allows for issuing of server console commands from any text client or in-game client using the !admin command.">
                                                     (?)
@@ -203,10 +214,10 @@ Warning: playthrough can take a significant amount of time for larger multiworld
                         </div>
                     </div>
                     <div id="generate-form-button-row">
-                        <input id="file-input" type="file" name="file" multiple>
+                        <input id="file-input" type="file" name="file" multiple required><br><br>
+                        <button type="submit" id="generate-game-button">Upload File(s)</button>
                     </div>
                 </form>
-                <button id="generate-game-button">Upload File(s)</button>
             </div>
         </div>
     </div>

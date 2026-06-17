@@ -106,6 +106,7 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
     spoiler = ""
     files = {}
     multidata = None
+    original_filename = None
 
     # Load files.
     for file in infolist:
@@ -129,6 +130,7 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
         elif file.filename.endswith(".archipelago"):
             try:
                 multidata = zfile.open(file).read()
+                original_filename = file.filename
             except:
                 flash("Could not load multidata. File may be corrupted or incompatible.")
                 multidata = None
@@ -156,6 +158,8 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
 
     # Load multi data.
     if multidata:
+        if original_filename:
+            meta["original_filename"] = original_filename
         slots, multidata = process_multidata(multidata, files)
 
         seed = Seed(multidata=multidata, spoiler=spoiler, slots=slots, owner=owner, meta=json.dumps(meta),
@@ -171,6 +175,10 @@ def upload_zip_to_db(zfile: zipfile.ZipFile, owner=None, meta={"race": False}, s
 @app.route("/uploads", methods=["GET", "POST"])
 def uploads():
     if request.method == "POST":
+        if request.form.get("password") != app.config.get("AP_GEN_PASSWORD", "admin"):
+            flash("Invalid generation password.")
+            return redirect(url_for("uploads"))
+
         # check if the POST request has a file part.
         if "file" not in request.files:
             flash("No file part in POST request.")
@@ -189,9 +197,19 @@ def uploads():
                         except Exception as e:
                             flash(f"Could not load multidata. File may be corrupted or incompatible. ({e})")
                         else:
-                            if res is str:
+                            if type(res) is str:
                                 return res
                             elif res:
+                                if "save_file" in request.files and request.files["save_file"].filename != "":
+                                    save_file = request.files["save_file"]
+                                    save_data = save_file.read()
+                                    try:
+                                        save_data = zlib.decompress(save_data)
+                                    except zlib.error:
+                                        pass
+                                    room = Room(seed=res, owner=session["_id"], tracker=uuid.uuid4(), multisave=save_data)
+                                    commit()
+                                    return redirect(url_for("host_room", room=room.id))
                                 return redirect(url_for("view_seed", seed=res.id))
                 else:
                     uploaded_file.seek(0)  # offset from is_zipfile check
@@ -202,8 +220,19 @@ def uploads():
                     except Exception as e:
                         flash(f"Could not load multidata. File may be corrupted or incompatible. ({e})")
                     else:
-                        seed = Seed(multidata=multidata, slots=slots, owner=session["_id"])
+                        meta = {"race": False, "original_filename": uploaded_file.filename}
+                        seed = Seed(multidata=multidata, slots=slots, owner=session["_id"], meta=json.dumps(meta))
                         flush()  # place into DB and generate ids
+                        if "save_file" in request.files and request.files["save_file"].filename != "":
+                            save_file = request.files["save_file"]
+                            save_data = save_file.read()
+                            try:
+                                save_data = zlib.decompress(save_data)
+                            except zlib.error:
+                                pass
+                            room = Room(seed=seed, owner=session["_id"], tracker=uuid.uuid4(), multisave=save_data)
+                            commit()
+                            return redirect(url_for("host_room", room=room.id))
                         return redirect(url_for("view_seed", seed=seed.id))
             else:
                 flash("Not recognized file format. Awaiting a .archipelago file or .zip containing one.")
@@ -212,8 +241,12 @@ def uploads():
 
 @app.route('/user-content', methods=['GET'])
 def user_content():
-    rooms = select(room for room in Room if room.owner == session["_id"])
-    seeds = select(seed for seed in Seed if seed.owner == session["_id"])
+    if session.get("is_dev"):
+        rooms = select(room for room in Room)
+        seeds = select(seed for seed in Seed)
+    else:
+        rooms = select(room for room in Room if room.owner == session["_id"])
+        seeds = select(seed for seed in Seed if seed.owner == session["_id"])
     return render_template("userContent.html", rooms=rooms, seeds=seeds)
 
 
@@ -222,7 +255,7 @@ def disown_seed(seed):
     seed = Seed.get(id=seed)
     if not seed:
         return abort(404)
-    if seed.owner !=  session["_id"]:
+    if seed.owner != session["_id"] and not session.get("is_dev"):
         return abort(403)
     
     seed.owner = 0
@@ -235,9 +268,37 @@ def disown_room(room):
     room = Room.get(id=room)
     if not room:
         return abort(404)
-    if room.owner != session["_id"]:
+    if room.owner != session["_id"] and not session.get("is_dev"):
         return abort(403)
 
     room.owner = 0
+
+    return redirect(url_for("user_content"))
+
+
+@app.route("/delete_room/<suuid:room>", methods=["POST"])
+def delete_room(room):
+    room = Room.get(id=room)
+    if not room:
+        return abort(404)
+    if room.owner != session["_id"] and not session.get("is_dev"):
+        return abort(403)
+
+    room.delete()
+    commit()
+
+    return redirect(url_for("user_content"))
+
+
+@app.route("/delete_seed/<suuid:seed>", methods=["POST"])
+def delete_seed(seed):
+    seed = Seed.get(id=seed)
+    if not seed:
+        return abort(404)
+    if seed.owner != session["_id"] and not session.get("is_dev"):
+        return abort(403)
+
+    seed.delete()
+    commit()
 
     return redirect(url_for("user_content"))

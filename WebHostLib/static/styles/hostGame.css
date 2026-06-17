@@ -22,7 +22,7 @@
 }
 
 #host-game-form{
-    display: none;
+    display: block;
 }
 
 #host-game button{

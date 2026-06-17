@@ -1,0 +1,19 @@
+{% extends 'pageWrapper.html' %}
+
+{% block head %}
+    <title>Dev Login</title>
+{% endblock %}
+
+{% block body %}
+    {% include 'header/oceanHeader.html' %}
+    <div id="user-content-wrapper" class="markdown">
+        <div id="user-content" class="grass-island">
+            <h1>Dev Login</h1>
+            <form method="post" action="{{ url_for('devlogin') }}">
+                <label for="password">Dev Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

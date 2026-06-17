@@ -15,6 +15,7 @@ from . import app, cache
 from .markdown import render_markdown
 from .models import Seed, Room, Command, UUID, uuid4
 from Utils import title_sorted, utcnow
+from flask import flash
 
 class WebWorldTheme(StrEnum):
     DIRT = "dirt"
@@ -169,8 +170,16 @@ def view_seed(seed: UUID):
     return render_template("viewSeed.html", seed=seed, slot_count=count(seed.slots))
 
 
-@app.route('/new_room/<suuid:seed>')
+@app.route('/new_room/<suuid:seed>', methods=['POST'])
 def new_room(seed: UUID):
+    if request.form.get("password") != app.config.get("AP_GEN_PASSWORD", "admin"):
+        flash("Invalid generation password.")
+        return redirect(url_for("view_seed", seed=seed))
+        
+    if count(Room.select()) >= 3:
+        flash("Server is at max capacity (3 rooms). Please delete an existing room first.")
+        return redirect(url_for("view_seed", seed=seed))
+
     seed = Seed.get(id=seed)
     if not seed:
         abort(404)
@@ -193,7 +202,7 @@ def display_log(room: UUID) -> Union[str, Response, Tuple[str, int]]:
     room = Room.get(id=room)
     if room is None:
         return abort(404)
-    if room.owner == session["_id"]:
+    if room.owner == session["_id"] or session.get("is_dev"):
         file_path = os.path.join("logs", str(room.id) + ".txt")
         try:
             log = open(file_path, "rb")
@@ -220,7 +229,7 @@ def host_room_command(room: UUID):
     if room is None:
         return abort(404)
 
-    if room.owner == session["_id"]:
+    if room.owner == session["_id"] or session.get("is_dev"):
         cmd = request.form["cmd"]
         if cmd:
             Command(room=room, commandtext=cmd)
@@ -300,3 +309,14 @@ def get_sitemap():
             has_settings: bool = isinstance(world.web.options_page, bool) and world.web.options_page
             available_games.append({ 'title': game, 'has_settings': has_settings })
     return render_template("siteMap.html", games=available_games)
+
+@app.route('/devlogin', methods=['GET', 'POST'])
+def devlogin():
+    if request.method == 'POST':
+        if request.form.get('password') == app.config.get('AP_DEV_PASSWORD', 'admin'):
+            session['is_dev'] = True
+            flash("Dev mode enabled")
+            return redirect(url_for('user_content'))
+        else:
+            flash("Invalid password")
+    return render_template("devlogin.html")

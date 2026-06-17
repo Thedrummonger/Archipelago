@@ -10,6 +10,58 @@ from . import app, cache
 from .models import Slot, Room, Seed
 
 
+@app.route("/dl_save/<suuid:room_id>")
+def download_save(room_id):
+    room = Room.get(id=room_id)
+    if not room or not room.multisave:
+        return "Save file not found", 404
+    import zlib
+    
+    try:
+        meta = json.loads(room.seed.meta)
+        filename = meta.get("original_filename", f"AP_{app.jinja_env.filters['suuid'](room_id)}")
+    except Exception:
+        filename = f"AP_{app.jinja_env.filters['suuid'](room_id)}"
+        
+    if filename.endswith(".archipelago"):
+        filename = filename[:-12]
+    filename += ".apsave"
+    
+    return send_file(BytesIO(zlib.compress(room.multisave)), as_attachment=True, download_name=filename)
+
+@app.route("/dl_multidata/<suuid:seed_id>")
+def download_multidata(seed_id):
+    seed = Seed.get(id=seed_id)
+    if not seed or not seed.multidata:
+        return "Multidata not found", 404
+        
+    import MultiServer
+    from Utils import restricted_loads, restricted_dumps
+    import pickle
+    import zlib
+    
+    decompressed_multidata = MultiServer.Context.decompress(seed.multidata)
+    if "datapackage" in decompressed_multidata:
+        for game, game_data in decompressed_multidata["datapackage"].items():
+            if "checksum" in game_data and len(game_data) <= 2:
+                from WebHostLib.models import GameDataPackage
+                row = GameDataPackage.get(checksum=game_data["checksum"])
+                if row:
+                    try:
+                        full_game_data = pickle.loads(row.data)
+                        decompressed_multidata["datapackage"][game] = full_game_data
+                    except Exception as e:
+                        pass
+                        
+    recompressed_multidata = bytes([seed.multidata[0]]) + zlib.compress(restricted_dumps(decompressed_multidata), 9)
+
+    try:
+        meta = json.loads(seed.meta)
+        filename = meta.get("original_filename", f"AP_{app.jinja_env.filters['suuid'](seed_id)}.archipelago")
+    except Exception:
+        filename = f"AP_{app.jinja_env.filters['suuid'](seed_id)}.archipelago"
+    return send_file(BytesIO(recompressed_multidata), as_attachment=True, download_name=filename)
+
 @app.route("/dl_patch/<suuid:room_id>/<int:patch_id>")
 def download_patch(room_id, patch_id):
     patch = Slot.get(id=patch_id)

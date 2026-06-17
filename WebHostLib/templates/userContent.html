@@ -42,7 +42,7 @@
                             <th class="center">Players</th>
                             <th>Created (UTC)</th>
                             <th>Last Activity (UTC)</th>
-                            <th>Mark for deletion</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,7 +55,11 @@
                                 </td>
                                 <td>{{ room.creation_time.strftime("%Y-%m-%d %H:%M") }}</td>
                                 <td>{{ room.last_activity.strftime("%Y-%m-%d %H:%M") }}</td>
-                                <td><a href="{{ url_for("disown_room", room=room.id) }}">Delete next maintenance.</a></td>
+                                <td>
+                                    <form method="post" action="{{ url_for('delete_room', room=room.id) }}" style="display:inline;">
+                                        <a href="javascript:;" onclick="this.closest('form').submit()">Delete Now</a>
+                                    </form>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -72,7 +76,7 @@
                             <th>Seed</th>
                             <th class="center">Players</th>
                             <th>Created (UTC)</th>
-                            <th>Mark for deletion</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,7 +91,11 @@
                                     {% endif %}
                                 </td>
                                 <td>{{ seed.creation_time.strftime("%Y-%m-%d %H:%M") }}</td>
-                                <td><a href="{{ url_for("disown_seed", seed=seed.id) }}">Delete next maintenance.</a></td>
+                                <td>
+                                    <form method="post" action="{{ url_for('delete_seed', seed=seed.id) }}" style="display:inline;">
+                                        <a href="javascript:;" onclick="this.closest('form').submit()">Delete Now</a>
+                                    </form>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

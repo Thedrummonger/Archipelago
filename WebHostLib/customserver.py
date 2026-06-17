@@ -159,8 +159,14 @@ class WebHostContext(Context):
         self.saving = enabled
         if self.saving:
             with db_session:
-                savegame_data = Room.get(id=self.room_id).multisave
+                room = Room.get(id=self.room_id)
+                savegame_data = room.multisave
                 if savegame_data:
+                    try:
+                        import zlib
+                        savegame_data = zlib.decompress(savegame_data)
+                    except Exception:
+                        pass
                     self.set_save(restricted_loads(savegame_data))
             self._start_async_saving(atexit_save=False)
         asyncio.create_task(self.listen_to_db_commands())
@@ -168,6 +174,7 @@ class WebHostContext(Context):
     @db_session
     def _save(self, exit_save: bool = False) -> bool:
         room = Room.get(id=self.room_id)
+        if room is None: return False
         # Does not use Utils.restricted_dumps because we'd rather make a save than not make one
         room.multisave = pickle.dumps(self.get_save())
         # saving only occurs on activity, so we can "abuse" this information to mark this as last_activity
@@ -182,7 +189,12 @@ class WebHostContext(Context):
 
 
 def get_random_port():
-    return random.randint(49152, 65535)
+    with db_session:
+        used_ports = select(r.last_port for r in Room if r.last_port in [38381, 38382, 38383])[:]
+        available_ports = [p for p in [38381, 38382, 38383] if p not in used_ports]
+        if not available_ports:
+            raise Exception("No available ports in the range 38381-38383")
+        return random.choice(available_ports)
 
 
 @cache_argsless
@@ -335,6 +347,18 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
                     ctx.auto_shutdown = Room.get(id=room_id).timeout
                 if ctx.saving:
                     setattr(asyncio.current_task(), "save", lambda: ctx._save(True))
+                async def check_db_exists():
+                    while not ctx.exit_event.is_set():
+                        with db_session:
+                            if not Room.exists(id=room_id):
+                                ctx.logger.info("Room deleted from database. Shutting down immediately.")
+                                ctx.exit_event.set()
+                                if ctx.server and hasattr(ctx.server, "ws_server"):
+                                    ctx.server.ws_server.close()
+                                break
+                        await asyncio.sleep(5)
+                asyncio.create_task(check_db_exists())
+                
                 assert ctx.shutdown_task is None
                 ctx.shutdown_task = asyncio.create_task(auto_shutdown(ctx, []))
                 await ctx.shutdown_task
@@ -346,8 +370,7 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
             except Exception as e:
                 with db_session:
                     room = Room.get(id=room_id)
-                    room.last_port = -1
-                del room
+                    if room: room.last_port = -1
                 logger.exception(e)
                 raise
             else:
@@ -367,8 +390,7 @@ def run_server_process(name: str, ponyconfig: dict, static_server_data: dict,
                     with db_session:
                         # ensure the Room does not spin up again on its own, minute of safety buffer
                         room = Room.get(id=room_id)
-                        room.last_activity = Utils.utcnow() - datetime.timedelta(minutes=1, seconds=room.timeout)
-                    del room
+                        if room: room.last_activity = Utils.utcnow() - datetime.timedelta(minutes=1, seconds=room.timeout)
                     tear_down_logging(room_id)
                     logging.info(f"Shutting down room {room_id} on {name}.")
                 finally:

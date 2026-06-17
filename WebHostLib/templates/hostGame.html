@@ -4,7 +4,6 @@
 {% block head %}
     <title>Upload Multidata</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="styles/hostGame.css") }}" />
-    <script type="application/ecmascript" src="{{ url_for('static', filename="assets/hostGame.js") }}"></script>
 {% endblock %}
 
 {% block body %}
@@ -22,9 +21,20 @@
             <p>In addition to the zip file created by the generator, you may upload a multidata file here as well.</p>
             <div id="host-game-form-wrapper">
                 <form id="host-game-form" method="post" enctype="multipart/form-data">
-                    <input id="file-input" type="file" name="file">
+                    <div style="margin-bottom: 10px;">
+                        <label for="password">Generation Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <label for="file-input">Server File (.archipelago or .zip):</label><br>
+                        <input id="file-input" type="file" name="file" required>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <label for="save-input">Save File (.apsave) (Optional):</label><br>
+                        <input id="save-input" type="file" name="save_file" accept=".apsave">
+                    </div>
+                    <button type="submit" id="host-game-button">Upload File(s)</button>
                 </form>
-                <button id="host-game-button">Upload File</button>
             </div>
         </div>
     </div>

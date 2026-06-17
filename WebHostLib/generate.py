@@ -58,6 +58,10 @@ def get_meta(options_source: dict, race: bool = False) -> dict[str, list[str] | 
 @app.route('/generate/<race>', methods=['GET', 'POST'])
 def generate(race=False):
     if request.method == 'POST':
+        if request.form.get("password") != app.config.get("AP_GEN_PASSWORD", "admin"):
+            flash("Invalid generation password.")
+            return redirect(url_for(request.endpoint, **(request.view_args or {})))
+            
         # check if the post request has the file part
         if 'file' not in request.files:
             flash('No file part')
