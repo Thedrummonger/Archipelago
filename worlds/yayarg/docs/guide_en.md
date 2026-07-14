@@ -126,4 +126,57 @@ When run on Linux, the YAML Creator will automatically detect your **native Linu
 
 YARG itself is of course fully compatible with Linux, being a Unity application, and the Archipelago plugin runs without issue on the Linux version of BepinEX.
 
+## Item and Location Groups
 
+Below are all valid Location and Item groups that can be used with this world.
+
+### Item Groups
+
+- **Instrument** – Contains all instrument unlock items.
+- **Song Unlocks** – Contains all individual song and song pack unlock items.
+- **Individual Song Unlocks** – Contains every unlock item for an individual song.
+- **Song Pack Unlocks** – Contains every song pack unlock item.
+- **Five Fret Guitar Unlocks** – Contains individual song unlocks for Five Fret Guitar.
+- **Five Fret Bass Unlocks** – Contains individual song unlocks for Five Fret Bass.
+- **Keys Unlocks** – Contains individual song unlocks for Keys.
+- **Four Lane Drums Unlocks** – Contains individual song unlocks for Four Lane Drums.
+- **Pro Drums Unlocks** – Contains individual song unlocks for Pro Drums.
+- **Five Lane Drums Unlocks** – Contains individual song unlocks for Five Lane Drums.
+- **Pro Keys Unlocks** – Contains individual song unlocks for Pro Keys.
+- **Vocals Unlocks** – Contains individual song unlocks for Vocals.
+- **Harmony Unlocks** – Contains individual song unlocks for Harmony.
+- **Everything** – Contains every item in the YARG world.
+
+### Location Groups
+
+- **Song Reward** – Contains all Reward 1 and Reward 2 song locations.
+- **Song Reward 1** – Contains all Reward 1 song locations.
+- **Song Reward 2** – Contains all Reward 2 song locations.
+- **Five Fret Guitar Reward** – Contains all Five Fret Guitar Reward 1 and Reward 2 locations.
+- **Five Fret Guitar Reward 1** – Contains all Five Fret Guitar Reward 1 locations.
+- **Five Fret Guitar Reward 2** – Contains all Five Fret Guitar Reward 2 locations.
+- **Five Fret Bass Reward** – Contains all Five Fret Bass Reward 1 and Reward 2 locations.
+- **Five Fret Bass Reward 1** – Contains all Five Fret Bass Reward 1 locations.
+- **Five Fret Bass Reward 2** – Contains all Five Fret Bass Reward 2 locations.
+- **Keys Reward** – Contains all Keys Reward 1 and Reward 2 locations.
+- **Keys Reward 1** – Contains all Keys Reward 1 locations.
+- **Keys Reward 2** – Contains all Keys Reward 2 locations.
+- **Four Lane Drums Reward** – Contains all Four Lane Drums Reward 1 and Reward 2 locations.
+- **Four Lane Drums Reward 1** – Contains all Four Lane Drums Reward 1 locations.
+- **Four Lane Drums Reward 2** – Contains all Four Lane Drums Reward 2 locations.
+- **Pro Drums Reward** – Contains all Pro Drums Reward 1 and Reward 2 locations.
+- **Pro Drums Reward 1** – Contains all Pro Drums Reward 1 locations.
+- **Pro Drums Reward 2** – Contains all Pro Drums Reward 2 locations.
+- **Five Lane Drums Reward** – Contains all Five Lane Drums Reward 1 and Reward 2 locations.
+- **Five Lane Drums Reward 1** – Contains all Five Lane Drums Reward 1 locations.
+- **Five Lane Drums Reward 2** – Contains all Five Lane Drums Reward 2 locations.
+- **Pro Keys Reward** – Contains all Pro Keys Reward 1 and Reward 2 locations.
+- **Pro Keys Reward 1** – Contains all Pro Keys Reward 1 locations.
+- **Pro Keys Reward 2** – Contains all Pro Keys Reward 2 locations.
+- **Vocals Reward** – Contains all Vocals Reward 1 and Reward 2 locations.
+- **Vocals Reward 1** – Contains all Vocals Reward 1 locations.
+- **Vocals Reward 2** – Contains all Vocals Reward 2 locations.
+- **Harmony Reward** – Contains all Harmony Reward 1 and Reward 2 locations.
+- **Harmony Reward 1** – Contains all Harmony Reward 1 locations.
+- **Harmony Reward 2** – Contains all Harmony Reward 2 locations.
+- **Everywhere** – Contains every location in the YARG world.

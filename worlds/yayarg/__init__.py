@@ -78,6 +78,8 @@ class yargWorld(World):
     item_location_data: YargAPImportData = ImportAndCreateItemLocationData()
     location_name_to_id = item_location_data.location_name_to_id
     item_name_to_id = item_location_data.item_name_to_id
+    location_name_groups = item_location_data.location_groups
+    item_name_groups = item_location_data.item_groups
     
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
@@ -133,7 +135,7 @@ class yargWorld(World):
         
         if goalPoolPlando:
             if goalPoolPlando not in self.options.song_pools.value:
-                raise OptionError(f'Goal Pool Plando {goalSongPlando} was not a valid pool')
+                raise OptionError(f'Goal Pool Plando {goalPoolPlando} was not a valid pool')
             if self.options.song_pools.value[goalPoolPlando]["amount_in_pool"] <= 0:
                 self.options.song_pools.value[goalPoolPlando]["amount_in_pool"] = 1
 

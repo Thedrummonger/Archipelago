@@ -1,5 +1,6 @@
 import math
 import re
+from collections import defaultdict
 from typing import Dict
 from worlds.yayarg.yaml_scanner import collect_all_option_values
 from worlds.yayarg.yarg_song_data_helper import deserialize_song_data, loadDefaultSongList, loadManifest, YargExportSongData
@@ -35,6 +36,9 @@ class YargAPImportData:
         self.current_location_id: int = _itemIDOffsetCounter
         self.current_item_id: int = _itemIDOffsetCounter
 
+        self.location_groups: dict[str, set[str]] = defaultdict(set)
+        self.item_groups: dict[str, set[str]] = defaultdict(set)
+
 def nice_name(name):
     return re.sub(r'(?<=[a-z0-9])(?=[A-Z])', ' ', name)
 
@@ -62,6 +66,8 @@ def ImportAndCreateItemLocationData() -> YargAPImportData:
         import_data.item_name_to_id[songpack] = import_data.current_item_id
         import_data.item_name_to_classification[songpack] = ItemClassification.progression
         import_data.current_item_id += 1
+        import_data.item_groups['Song Unlocks'].add(songpack)
+        import_data.item_groups['Song Pack Unlocks'].add(songpack)
 
     return import_data 
 
@@ -93,6 +99,10 @@ def register(ImportData: YargAPImportData, songData: YargSongData, instrument: I
     ImportData.item_name_to_classification[baseName] = ItemClassification.progression
     ImportData.current_item_id += 1
     
+    ImportData.item_groups['Song Unlocks'].add(baseName)
+    ImportData.item_groups['Individual Song Unlocks'].add(baseName)
+    ImportData.item_groups[f'{instrument.nice_name} Unlocks'].add(baseName)
+    
     locations = [
         (songData.main_locations, 'Reward 1'),
         (songData.extra_locations, 'Reward 2'),
@@ -106,6 +116,12 @@ def register(ImportData: YargAPImportData, songData: YargSongData, instrument: I
         ImportData.location_name_to_song_data[location_name] = songData
         ImportData.location_id_to_song_data[ImportData.current_location_id] = songData
         ImportData.current_location_id += 1
+
+        if location_postfix != "Completion":
+            ImportData.location_groups[f'Song {location_postfix}'].add(location_name)
+            ImportData.location_groups['Song Reward'].add(location_name)
+            ImportData.location_groups[f'{instrument.nice_name} {location_postfix}'].add(location_name)
+            ImportData.location_groups[f'{instrument.nice_name} Reward'].add(location_name)
     return len(locations)
 
 def CreateStaticItems(import_data: YargAPImportData):
@@ -118,4 +134,5 @@ def CreateStaticItems(import_data: YargAPImportData):
         import_data.item_name_to_id[inst.nice_name] = import_data.current_item_id
         import_data.item_name_to_classification[inst.nice_name] = inst.classification
         import_data.current_item_id += 1
+        import_data.item_groups['Instrument'].add(inst.nice_name)
 
